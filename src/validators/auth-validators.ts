@@ -40,7 +40,7 @@ export const registerMerchantZodSchema = zod
     path: ["confirmPassword"],
   });
 
-export type RegisterMerchantZodSchema = zod.infer<
+export type IRegisterMerchantPayload = zod.infer<
   typeof registerMerchantZodSchema
 >;
 
@@ -52,7 +52,7 @@ export const verifyEmailZodSchema = zod.object({
     .max(6, "OTP must be at most 6 characters long"),
 });
 
-export type VerifyEmailZodSchema = zod.infer<typeof verifyEmailZodSchema>;
+export type IVerifyEmailPayload = zod.infer<typeof verifyEmailZodSchema>;
 
 export const loginUserZodSchema = zod.object({
   email: zod.email("Invalid email address"),
@@ -76,12 +76,12 @@ export const changePasswordZodSchema = zod.object({
       "New password must contain at least one special character (@, $, !, %, *, ?, &)",
     ),
 });
-export type ChangePasswordZodSchema = zod.infer<typeof changePasswordZodSchema>;
+export type IChangePasswordPayload = zod.infer<typeof changePasswordZodSchema>;
 
 export const forgotPasswordZodSchema = zod.object({
   email: zod.email("Invalid email address"),
 });
-export type ForgotPasswordZodSchema = zod.infer<typeof forgotPasswordZodSchema>;
+export type IForgotPasswordPayload = zod.infer<typeof forgotPasswordZodSchema>;
 
 export const resetPasswordZodSchema = zod.object({
   email: zod.email("Invalid email address"),
@@ -103,4 +103,4 @@ export const resetPasswordZodSchema = zod.object({
     ),
 });
 
-export type ResetPasswordZodSchema = zod.infer<typeof resetPasswordZodSchema>;
+export type IResetPasswordPayload = zod.infer<typeof resetPasswordZodSchema>;

@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+//TODO: Add more fonts and use them in the app & SEO options for the app
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

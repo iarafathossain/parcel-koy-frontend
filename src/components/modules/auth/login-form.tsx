@@ -1,6 +1,6 @@
 "use client";
 
-import { loginAction } from "@/app/(common-layout)/(auth-route-group)/login/_actions";
+import { loginAction } from "@/actions/auth-action";
 import AppField from "@/components/shared/app-field";
 import SubmitBtn from "@/components/shared/submit-btn";
 import { Alert, AlertDescription } from "@/components/ui/alert";

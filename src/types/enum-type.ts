@@ -60,3 +60,5 @@ export const PaymentProviderType = {
 } as const;
 export type PaymentProviderTypeUnion =
   (typeof PaymentProviderType)[keyof typeof PaymentProviderType];
+
+export type ModalType = "view" | "edit" | "delete" | null;

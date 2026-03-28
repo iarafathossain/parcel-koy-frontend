@@ -2,6 +2,7 @@
 
 import { getAllAdminsAction } from "@/actions/admin-action";
 import { getAllHubsAction } from "@/actions/hub-action";
+import CommonModal from "@/components/shared/modal/common-modal";
 import DataTable from "@/components/shared/table/data-table";
 import {
   DataTableFilterConfig,
@@ -11,6 +12,7 @@ import {
 import { constants } from "@/constants";
 import { parsePositiveInt } from "@/helpers/parse-positive-int";
 import { PaginationMeta } from "@/types/api-type";
+import { ModalType } from "@/types/enum-type";
 import { IHub } from "@/types/hub-type";
 import { IAdmin } from "@/types/user-type";
 import { useQuery } from "@tanstack/react-query";
@@ -24,6 +26,9 @@ import {
   useTransition,
 } from "react";
 import { adminColumns } from "./admin-columns";
+import DeleteAdmin from "./delete-admin";
+import EditAdmin from "./edit-admin";
+import ViewAdmin from "./view-admin";
 
 interface AdminTableProps {
   initialQueryString: string;
@@ -34,6 +39,9 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isSortingTransitionPending, startSortingTransition] = useTransition();
+
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<IAdmin | null>(null);
 
   const queryStringFromUrl = useMemo(
     () => searchParams.toString(),
@@ -331,51 +339,89 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
   const handleView = (admin: IAdmin) => {
     // Implement view logic here
     console.log("View admin:", admin);
+    setSelectedAdmin(admin);
+    setActiveModal("view");
   };
 
   const handleEdit = (admin: IAdmin) => {
     // Implement edit logic here
     console.log("Edit admin:", admin);
+    setSelectedAdmin(admin);
+    setActiveModal("edit");
+    console.log("Admin's role:", admin.user.role);
   };
 
   const handleDelete = (admin: IAdmin) => {
     // Implement delete logic here
     console.log("Delete admin:", admin);
+    setSelectedAdmin(admin);
+    setActiveModal("delete");
+  };
+
+  const closeModal = () => {
+    setActiveModal(null);
+    setTimeout(() => setSelectedAdmin(null), 200);
   };
 
   return (
-    <DataTable
-      data={admins}
-      columns={adminColumns}
-      actions={{
-        onView: handleView,
-        onEdit: handleEdit,
-        onDelete: handleDelete,
-      }}
-      isLoading={isLoading || isFetching || isSortingTransitionPending}
-      emptyMessage="No admins found!"
-      sorting={{
-        state: optimisticSortingState,
-        onSortingChange: handleSortingChange,
-      }}
-      pagination={{
-        state: optimisticPaginationState,
-        onPaginationChange: handlePaginationChange,
-      }}
-      search={{
-        initialValue: searchTermFromUrl,
-        placeholder: "Search admin by name, email...",
-        debounceMs: 700,
-        onDebouncedChange: handleDebouncedSearchChange,
-      }}
-      filters={{
-        configs: filterConfigs,
-        values: filterValues,
-        onFilterChange: handleFilterChange,
-        onClearAll: clearAllFilters,
-      }}
-      meta={meta}
-    />
+    <>
+      <DataTable
+        data={admins}
+        columns={adminColumns}
+        actions={{
+          onView: handleView,
+          onEdit: handleEdit,
+          onDelete: handleDelete,
+        }}
+        isLoading={isLoading || isFetching || isSortingTransitionPending}
+        emptyMessage="No admins found!"
+        sorting={{
+          state: optimisticSortingState,
+          onSortingChange: handleSortingChange,
+        }}
+        pagination={{
+          state: optimisticPaginationState,
+          onPaginationChange: handlePaginationChange,
+        }}
+        search={{
+          initialValue: searchTermFromUrl,
+          placeholder: "Search admin by name, email...",
+          debounceMs: 700,
+          onDebouncedChange: handleDebouncedSearchChange,
+        }}
+        filters={{
+          configs: filterConfigs,
+          values: filterValues,
+          onFilterChange: handleFilterChange,
+          onClearAll: clearAllFilters,
+        }}
+        meta={meta}
+      />
+
+      <CommonModal
+        isOpen={activeModal !== null}
+        onClose={closeModal}
+        title={
+          activeModal === "view"
+            ? "View Admin Details"
+            : activeModal === "edit"
+              ? "Edit Admin"
+              : "Delete Admin"
+        }
+      >
+        {activeModal === "view" && selectedAdmin && (
+          <ViewAdmin admin={selectedAdmin} />
+        )}
+
+        {activeModal === "edit" && selectedAdmin && (
+          <EditAdmin admin={selectedAdmin} />
+        )}
+
+        {activeModal === "delete" && selectedAdmin && (
+          <DeleteAdmin admin={selectedAdmin} onClose={closeModal} />
+        )}
+      </CommonModal>
+    </>
   );
 };
 

@@ -1,55 +1,25 @@
 import { env } from "@/env";
-import { authServices } from "@/services/auth-service";
 import { APIResponse } from "@/types/api-type";
 import axios from "axios";
-import { cookies, headers } from "next/headers";
-import { isTokenExpiringSoon } from "../token-utils";
-
-const tryRefreshToken = async (
-  accessToken: string,
-  refreshToken: string,
-): Promise<void> => {
-  if (!isTokenExpiringSoon(accessToken)) {
-    return;
-  }
-
-  const requestHeaders = await headers();
-
-  if (requestHeaders.get("x-token-refreshed") === "1") {
-    return; // avoid multiple refresh attempts in the same request cycle
-  }
-
-  try {
-    await authServices.isNewTokenWithRefreshTokenGenerated(refreshToken);
-  } catch (error) {
-    console.error("Error refreshing token:", error);
-  }
-};
+import { cookies } from "next/headers";
 
 const axiosInstance = async () => {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get("access_token")?.value;
-  const refreshToken = cookieStore.get("refresh_token")?.value;
 
-  if (accessToken && refreshToken) {
-    await tryRefreshToken(accessToken, refreshToken);
-  }
-
+  // Format all Next.js server cookies into a standard Cookie header string
   const cookieHeader = cookieStore
     .getAll()
     .map((cookie) => `${cookie.name}=${cookie.value}`)
     .join("; ");
 
-  const instance = axios.create({
+  return axios.create({
     baseURL: env.NEXT_PUBLIC_API_BASE_URL,
     timeout: 30000,
     headers: {
       "Content-Type": "application/json",
-      Cookie: cookieHeader,
+      Cookie: cookieHeader, // Automatically attaches to every request
     },
   });
-
-  return instance;
 };
 
 export interface APIRequestOptions {
@@ -61,17 +31,12 @@ const httpGet = async <TData>(
   endPoint: string,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  try {
-    const instance = await axiosInstance();
-    const response = await instance.get<APIResponse<TData>>(endPoint, {
-      params: options?.params,
-      headers: options?.headers,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const instance = await axiosInstance();
+  const response = await instance.get<APIResponse<TData>>(endPoint, {
+    params: options?.params,
+    headers: options?.headers,
+  });
+  return response.data;
 };
 
 const httpPost = async <TData>(
@@ -79,17 +44,12 @@ const httpPost = async <TData>(
   data: unknown,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  try {
-    const instance = await axiosInstance();
-    const response = await instance.post<APIResponse<TData>>(endPoint, data, {
-      params: options?.params,
-      headers: options?.headers,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const instance = await axiosInstance();
+  const response = await instance.post<APIResponse<TData>>(endPoint, data, {
+    params: options?.params,
+    headers: options?.headers,
+  });
+  return response.data;
 };
 
 const httpPut = async <TData>(
@@ -97,17 +57,12 @@ const httpPut = async <TData>(
   data: unknown,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  try {
-    const instance = await axiosInstance();
-    const response = await instance.put<APIResponse<TData>>(endPoint, data, {
-      params: options?.params,
-      headers: options?.headers,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const instance = await axiosInstance();
+  const response = await instance.put<APIResponse<TData>>(endPoint, data, {
+    params: options?.params,
+    headers: options?.headers,
+  });
+  return response.data;
 };
 
 const httpPatch = async <TData>(
@@ -115,34 +70,24 @@ const httpPatch = async <TData>(
   data: unknown,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  try {
-    const instance = await axiosInstance();
-    const response = await instance.patch<APIResponse<TData>>(endPoint, data, {
-      params: options?.params,
-      headers: options?.headers,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const instance = await axiosInstance();
+  const response = await instance.patch<APIResponse<TData>>(endPoint, data, {
+    params: options?.params,
+    headers: options?.headers,
+  });
+  return response.data;
 };
 
 const httpDelete = async <TData>(
   endPoint: string,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  try {
-    const instance = await axiosInstance();
-    const response = await instance.delete<APIResponse<TData>>(endPoint, {
-      params: options?.params,
-      headers: options?.headers,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const instance = await axiosInstance();
+  const response = await instance.delete<APIResponse<TData>>(endPoint, {
+    params: options?.params,
+    headers: options?.headers,
+  });
+  return response.data;
 };
 
 export const httpClient = {

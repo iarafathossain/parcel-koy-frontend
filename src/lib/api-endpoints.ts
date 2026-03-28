@@ -20,6 +20,10 @@ export const API = {
     CREATE_RIDER: `${BASE_URL}/api/v1/users/create-rider`,
   },
 
+  ADMINS: {
+    GET_ALL: `${BASE_URL}/api/v1/admins`,
+  },
+
   ZONES: {
     BASE: `${BASE_URL}/api/v1/zones`,
     BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/zones/${slug}`,
@@ -31,10 +35,7 @@ export const API = {
   },
 
   HUBS: {
-    BASE: `${BASE_URL}/api/v1/hubs`,
-    BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/hubs/${slug}`,
-    CASH_COLLECTIONS: (hubId: string) =>
-      `${BASE_URL}/api/v1/hubs/${hubId}/cash-collections`,
+    GET_ALL: `${BASE_URL}/api/v1/hubs`,
   },
 
   CATEGORIES: {

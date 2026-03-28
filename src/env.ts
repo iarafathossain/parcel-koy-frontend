@@ -6,7 +6,7 @@ export const env = createEnv({
     NEXT_PUBLIC_API_BASE_URL: z.url(),
   },
   server: {
-    ACCESS_TOKEN_EXPIRES_IN: z.string().transform((val) => parseInt(val, 10)),
+    ACCESS_TOKEN_EXPIRES_IN: z.string(),
     ACCESS_TOKEN_SECRET: z.string(),
     REFRESH_TOKEN_SECRET: z.string(),
   },

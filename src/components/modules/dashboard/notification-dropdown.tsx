@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +13,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "date-fns";
 import { Bell, Calendar, CheckCircle, Clock, UserPlus } from "lucide-react";
+import { useSyncExternalStore } from "react";
 
 interface Notification {
   id: string;
@@ -75,7 +78,14 @@ const getNotificationIcon = (type: Notification["type"]) => {
   }
 };
 
+const emptySubscribe = () => () => {};
+
 const NotificationDropdown = () => {
+  const isHydrated = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
   const unreadCount = MOCK_NOTIFICATIONS.filter((n) => !n.read).length;
   return (
     <DropdownMenu>
@@ -126,9 +136,13 @@ const NotificationDropdown = () => {
                   </p>
 
                   <p className="text-xs text-muted-foreground">
-                    {formatDistanceToNow(notification.timestamp, {
-                      addSuffix: true,
-                    })}
+                    {
+                      isHydrated
+                        ? formatDistanceToNow(notification.timestamp, {
+                            addSuffix: true,
+                          })
+                        : "Loading..." /* Or just an empty string "" */
+                    }
                   </p>
                 </div>
               </DropdownMenuItem>

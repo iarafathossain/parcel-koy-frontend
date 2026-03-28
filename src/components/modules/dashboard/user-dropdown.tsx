@@ -1,5 +1,6 @@
 "use client";
 
+import { logoutAction } from "@/actions/auth-action";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -57,7 +58,9 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onClick={() => {}}
+          onClick={async () => {
+            await logoutAction();
+          }}
           className="cursor-pointer text-red-600 flex items-center"
         >
           <LogOut className="mr-2 h-4 w-4" />

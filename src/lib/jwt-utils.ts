@@ -1,13 +1,15 @@
 import { catchError } from "@/helpers/catch-error";
-import jwt from "jsonwebtoken";
+import { decodeJwt, jwtVerify } from "jose";
 
-const verifyToken = (token: string, secret: string) => {
+// NOTE: verification with jose is asynchronous
+const verifyToken = async (token: string, secret: string) => {
   try {
-    const decoded = jwt.verify(token, secret) as jwt.JwtPayload;
+    const encodedSecret = new TextEncoder().encode(secret);
+    const { payload } = await jwtVerify(token, encodedSecret);
 
     return {
       success: true,
-      data: decoded,
+      data: payload,
     };
   } catch (error) {
     return {
@@ -17,9 +19,10 @@ const verifyToken = (token: string, secret: string) => {
   }
 };
 
+// Decoding doesn't require the secret and is synchronous
 const decodeToken = (token: string) => {
   try {
-    const decoded = jwt.decode(token) as jwt.JwtPayload;
+    const decoded = decodeJwt(token);
     return {
       success: true,
       data: decoded,

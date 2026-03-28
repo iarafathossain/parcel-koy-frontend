@@ -1,6 +1,5 @@
 import { env } from "@/env";
 import { catchError } from "@/helpers/catch-error";
-import jwt from "jsonwebtoken";
 import { setCookie } from "./cookie-utils";
 
 export const parseDurationToSecond = (duration: string): number => {
@@ -27,11 +26,25 @@ export const parseDurationToSecond = (duration: string): number => {
   return Math.max(0, Math.floor(value * unitToSeconds[unit]));
 };
 
-const getTokenSecondsRemaining = (token: string): number => {
+export const getTokenSecondsRemaining = (token: string): number => {
   if (!token) return 0;
 
   try {
-    const decodedToken = jwt.decode(token) as jwt.JwtPayload;
+    const payloadBase64 = token.split(".")[1];
+    if (!payloadBase64) return 0;
+
+    // Fix base64url encoding to standard base64
+    const base64 = payloadBase64.replace(/-/g, "+").replace(/_/g, "/");
+
+    // Decode the payload
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join(""),
+    );
+
+    const decodedToken = JSON.parse(jsonPayload);
 
     if (!decodedToken || !decodedToken.exp) return 0;
 

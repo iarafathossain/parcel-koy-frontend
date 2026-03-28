@@ -1,43 +1,27 @@
 import { API } from "@/lib/api-endpoints";
-import { setTokenInCookie } from "@/lib/token-utils";
 
 export const authServices = {
-  isNewTokenWithRefreshTokenGenerated: async (
-    refreshToken: string,
-  ): Promise<boolean> => {
+  // Renamed for clarity, and now accepts both tokens
+  refreshTokens: async (refreshToken: string, sessionToken: string) => {
     try {
       const response = await fetch(API.AUTH.REFRESH_TOKENS, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Cookie: `refresh_token=${refreshToken}`,
+          // Pass BOTH tokens so the backend can validate the session and the refresh token
+          Cookie: `refresh_token=${refreshToken}; better-auth.session_token=${sessionToken}`,
         },
       });
 
       if (!response.ok) {
-        return false;
+        return null;
       }
 
-      const data = await response.json();
-
-      const { newAccessToken, newRefreshToken, newSessionToken } = data;
-
-      if (newAccessToken) {
-        await setTokenInCookie("access_token", newAccessToken);
-      }
-
-      if (newRefreshToken) {
-        await setTokenInCookie("refresh_token", newRefreshToken);
-      }
-
-      if (newSessionToken) {
-        await setTokenInCookie("better-auth.session_token", newSessionToken);
-      }
-
-      return true;
+      // Return the payload so proxy.ts can set the cookies on the NextResponse
+      return await response.json();
     } catch (error) {
       console.error("Error refreshing token:", error);
-      return false;
+      return null;
     }
   },
 };

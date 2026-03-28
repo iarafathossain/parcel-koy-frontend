@@ -9,7 +9,11 @@ import {
   isValidRedirectPathForRole,
 } from "@/lib/auth-utils";
 import { httpClient } from "@/lib/axios/http-client";
-import { setTokenInCookie } from "@/lib/token-utils";
+import {
+  getTokenSecondsRemaining,
+  parseDurationToSecond,
+  setTokenInCookie,
+} from "@/lib/token-utils";
 import { APIErrorResponse } from "@/types/api-type";
 import { ILoginResponse } from "@/types/auth-type";
 import { RoleType } from "@/types/enum-type";
@@ -38,15 +42,19 @@ const getValidationErrorResponse = (payload: ILoginUserPayload) => {
 };
 
 const setLoginCookies = async (
-  token: string,
+  sessionToken: string,
   accessToken: string,
   refreshToken: string,
 ) => {
+  const refreshTokenMaxAgeInSeconds = getTokenSecondsRemaining(refreshToken);
+
   await Promise.all([
     setTokenInCookie(
       "better-auth.session_token",
-      token,
-      env.ACCESS_TOKEN_EXPIRES_IN,
+      sessionToken,
+      refreshTokenMaxAgeInSeconds > 0
+        ? refreshTokenMaxAgeInSeconds
+        : parseDurationToSecond(env.ACCESS_TOKEN_EXPIRES_IN),
     ),
     setTokenInCookie("access_token", accessToken),
     setTokenInCookie("refresh_token", refreshToken),
@@ -127,4 +135,39 @@ export const loginAction = async (
         catchError(error, "An unexpected error occurred. Please try again."),
     };
   }
+};
+
+import { cookies } from "next/headers";
+
+export const logoutAction = async () => {
+  try {
+    const cookieStore = await cookies();
+    const sessionToken = cookieStore.get("better-auth.session_token")?.value;
+
+    // 1. Invalidate session on the backend (if we have a session token)
+    if (sessionToken) {
+      await fetch(API.AUTH.LOGOUT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      });
+    }
+
+    // 2. Clear all auth cookies from the browser
+    cookieStore.delete("access_token");
+    cookieStore.delete("refresh_token");
+    cookieStore.delete("better-auth.session_token");
+  } catch (error) {
+    console.error("Logout failed:", error);
+    // Even if the backend request fails, we still want to clear local cookies
+    const cookieStore = await cookies();
+    cookieStore.delete("access_token");
+    cookieStore.delete("refresh_token");
+    cookieStore.delete("better-auth.session_token");
+  }
+
+  // 3. Redirect the user to the login page
+  redirect("/login");
 };

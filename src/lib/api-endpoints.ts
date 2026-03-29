@@ -31,8 +31,7 @@ export const API = {
   },
 
   AREAS: {
-    BASE: `${BASE_URL}/api/v1/areas`,
-    BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/areas/${slug}`,
+    GET_ALL_AREAS: `${BASE_URL}/api/v1/areas`,
   },
 
   HUBS: {
@@ -40,43 +39,29 @@ export const API = {
   },
 
   CATEGORIES: {
-    BASE: `${BASE_URL}/api/v1/categories`,
-    BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/categories/${slug}`,
+    GET_ALL_CATEGORIES: `${BASE_URL}/api/v1/categories`,
   },
 
-  SERVICES: {
-    BASE: `${BASE_URL}/api/v1/services`,
-    BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/services/${slug}`,
+  SPEEDS: {
+    GET_ALL_SPEEDS: `${BASE_URL}/api/v1/speeds`,
   },
 
   METHODS: {
-    BASE: `${BASE_URL}/api/v1/methods`,
-    BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/methods/${slug}`,
+    GET_ALL_METHODS: `${BASE_URL}/api/v1/methods`,
+    GET_ALL_PICKUP_METHODS: `${BASE_URL}/api/v1/methods/?type=PICKUP`,
+    GET_ALL_DELIVERY_METHODS: `${BASE_URL}/api/v1/methods/?type=DELIVERY`,
   },
 
   PRICING: {
-    BASE: `${BASE_URL}/api/v1/pricing`,
-    RULES: `${BASE_URL}/api/v1/pricing-rules`,
-    BY_ID: (id: string) => `${BASE_URL}/api/v1/pricing-rules/${id}`,
+    GET_ALL_PRICING: `${BASE_URL}/api/v1/pricing`,
   },
 
   PARCELS: {
-    BASE: `${BASE_URL}/api/v1/parcels`,
-    BY_ID: (id: string) => `${BASE_URL}/api/v1/parcels/${id}`,
-    STATUS: (id: string) => `${BASE_URL}/api/v1/parcels/status/${id}`,
-    RIDER_STATUS: (id: string) =>
-      `${BASE_URL}/api/v1/parcels/rider-status/${id}`,
-    TRACK: (trackingId: string) =>
-      `${BASE_URL}/api/v1/parcels/tracking/${trackingId}`,
-    CANCEL: (id: string) => `${BASE_URL}/api/v1/parcels/cancel/${id}`,
-    DELIVERY_OTP: (id: string) =>
-      `${BASE_URL}/api/v1/parcels/delivery-otp/${id}`,
-    VERIFY_DELIVERY: (id: string) =>
-      `${BASE_URL}/api/v1/parcels/verify-delivery/${id}`,
+    CREATE_PARCEL: `${BASE_URL}/api/v1/parcels`,
   },
 
   NOTES: {
-    BASE: `${BASE_URL}/api/v1/notes`,
+    GET_ALL_NOTES: `${BASE_URL}/api/v1/notes`,
     BY_ID: (id: string) => `${BASE_URL}/api/v1/notes/${id}`,
   },
 

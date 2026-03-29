@@ -1,6 +1,6 @@
 import { getDefaultDashboardRoute } from "@/lib/auth-utils";
+import { getCurrentUser } from "@/lib/current-user";
 import { getNavItemsByRole } from "@/lib/nav-items";
-import { userServices } from "@/services/user-service";
 import { NavSection } from "@/types/dashboard-type";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,10 @@ import NavItems from "./nav-items";
 import UserLabel from "./user-label";
 
 const DashboardSidebar = async () => {
-  const userInfo = await userServices.getUserInfo();
+  const userInfo = await getCurrentUser();
+  if (!userInfo) {
+    return null;
+  }
   const navItems: NavSection[] = getNavItemsByRole(userInfo.role);
   const dashboardHome = getDefaultDashboardRoute(userInfo.role);
   return (

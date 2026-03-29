@@ -1,7 +1,13 @@
 import { API } from "@/lib/api-endpoints";
+import { httpClient } from "@/lib/axios/http-client";
+import { ILoginResponse } from "@/types/auth-type";
+import { IUser } from "@/types/user-type";
+import {
+  IRegisterMerchantPayload,
+  IVerifyEmailPayload,
+} from "@/validators/auth-validators";
 
 export const authServices = {
-  // Renamed for clarity, and now accepts both tokens
   refreshTokens: async (refreshToken: string, sessionToken: string) => {
     try {
       const response = await fetch(API.AUTH.REFRESH_TOKENS, {
@@ -22,6 +28,38 @@ export const authServices = {
     } catch (error) {
       console.error("Error refreshing token:", error);
       return null;
+    }
+  },
+  registerMerchant: async (payload: IRegisterMerchantPayload) => {
+    try {
+      const response = await httpClient.post<{ user: IUser }>(
+        API.AUTH.REGISTER,
+        payload,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Registration failed");
+      }
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  verifyEmail: async (payload: IVerifyEmailPayload) => {
+    try {
+      const response = await httpClient.post<ILoginResponse>(
+        API.AUTH.VERIFY_EMAIL,
+        payload,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Email verification failed");
+      }
+
+      return response;
+    } catch (error) {
+      throw error;
     }
   },
 };

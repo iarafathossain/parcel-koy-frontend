@@ -58,7 +58,14 @@ const AppField = ({
       </Label>
 
       {isSelect ? (
-        <AreaSelection placeholder={placeholder} />
+        <AreaSelection
+          placeholder={placeholder}
+          value={field.state.value}
+          onChange={field.handleChange}
+          onBlur={field.handleBlur}
+          id={field.name}
+          hasError={hasError}
+        />
       ) : (
         <div className="relative">
           {prepend && (
@@ -101,17 +108,17 @@ const AppField = ({
               {append}
             </div>
           )}
-
-          {hasError && (
-            <p
-              id={`${field.name}-error`}
-              role="alert"
-              className="mt-1 text-sm text-destructive"
-            >
-              {firstError}
-            </p>
-          )}
         </div>
+      )}
+
+      {hasError && (
+        <p
+          id={`${field.name}-error`}
+          role="alert"
+          className="mt-1 text-sm text-destructive"
+        >
+          {firstError}
+        </p>
       )}
     </Field>
   );

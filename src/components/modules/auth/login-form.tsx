@@ -23,11 +23,14 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: ILoginUserPayload) =>
@@ -44,6 +47,12 @@ const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const result = (await mutateAsync(value)) as any;
+
+        // redirect to verify-email page if email is not verified
+        if (result?.message === "Email not verified") {
+          router.push(`/verify-email?email=${value.email}`);
+          return;
+        }
 
         if (!result.success) {
           setServerError(result.message || "Login failed. Please try again.");

@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getCurrentUser } from "@/lib/current-user";
 import QueryProvider from "@/providers/query-provider";
@@ -49,6 +50,7 @@ export default async function RootLayout({
             </QueryProvider>
           </TooltipProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -12,7 +12,7 @@ const LoginPage = async ({ searchParams }: LoginParams) => {
   const redirectTo = params.redirectTo;
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-start justify-center mt-5">
       <LoginForm redirectTo={redirectTo} />
     </div>
   );

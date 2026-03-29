@@ -19,6 +19,8 @@ import { ILoginResponse } from "@/types/auth-type";
 import { RoleType } from "@/types/enum-type";
 import {
   ILoginUserPayload,
+  IRegisterMerchantPayload,
+  IVerifyEmailPayload,
   loginUserZodSchema,
 } from "@/validators/auth-validators";
 import { redirect } from "next/navigation";
@@ -137,6 +139,7 @@ export const loginAction = async (
   }
 };
 
+import { authServices } from "@/services/auth-service";
 import { cookies } from "next/headers";
 
 export const logoutAction = async () => {
@@ -170,4 +173,29 @@ export const logoutAction = async () => {
 
   // 3. Redirect the user to the login page
   redirect("/login");
+};
+
+export const registerMerchantAction = async (
+  payload: IRegisterMerchantPayload,
+) => {
+  try {
+    return await authServices.registerMerchant(payload);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const verifyEmailAction = async (payload: IVerifyEmailPayload) => {
+  try {
+    const response = await authServices.verifyEmail(payload);
+
+    if (response.success && response.data) {
+      const { sessionToken, accessToken, refreshToken } = response.data;
+      await setLoginCookies(sessionToken, accessToken, refreshToken);
+    }
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };

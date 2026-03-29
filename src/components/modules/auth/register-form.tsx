@@ -1,22 +1,26 @@
 "use client";
 
+import { registerMerchantAction } from "@/actions/auth-action";
 import AppField from "@/components/shared/app-field";
 import SubmitBtn from "@/components/shared/submit-btn";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldSet } from "@/components/ui/field";
+import { catchError } from "@/helpers/catch-error";
+import { getDefaultDashboardRoute } from "@/lib/auth-utils";
 import { registerMerchantZodSchema } from "@/validators/auth-validators";
 import { useForm } from "@tanstack/react-form";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
 
-  const [isPending, setIsPending] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm({
     defaultValues: {
@@ -30,9 +34,36 @@ const RegisterForm = () => {
       originAreaId: "",
     },
     onSubmit: async ({ value }) => {
-      console.log("Form submitted with values:", value);
+      setLoading(true);
+      const toastId = toast.loading("Registering merchant...");
+      try {
+        const { success, message, data } = await registerMerchantAction(value);
+
+        if (!success) {
+          toast.error(message || "Failed to register merchant.");
+        } else {
+          toast.success("Merchant registered successfully.");
+
+          const role = data?.user?.role;
+          if (!role) {
+            toast.error("User role is missing. Please login again.");
+            return;
+          }
+
+          form.reset();
+
+          const defaultDashboardRoute = getDefaultDashboardRoute(role);
+          window.location.href = defaultDashboardRoute;
+        }
+      } catch (error: unknown) {
+        toast.error(catchError(error));
+      } finally {
+        setLoading(false);
+        toast.dismiss(toastId);
+      }
     },
   });
+
   return (
     <Card className="w-full max-w-md mx-auto shadow-md">
       <CardHeader>
@@ -169,7 +200,27 @@ const RegisterForm = () => {
             <form.Field
               name="confirmPassword"
               validators={{
-                onChange: registerMerchantZodSchema.shape.confirmPassword,
+                onChangeListenTo: ["password"],
+                onChange: ({ value, fieldApi }) => {
+                  const requiredError =
+                    registerMerchantZodSchema.shape.confirmPassword.safeParse(
+                      value,
+                    );
+
+                  if (!requiredError.success) {
+                    return (
+                      requiredError.error.issues[0]?.message ||
+                      "Confirm password is required"
+                    );
+                  }
+
+                  const password = fieldApi.form.getFieldValue("password");
+                  if (value !== password) {
+                    return "Confirm password must match password";
+                  }
+
+                  return undefined;
+                },
               }}
             >
               {(field) => (
@@ -203,7 +254,7 @@ const RegisterForm = () => {
             </form.Field>
 
             <div>
-              <SubmitBtn isPending={isPending}>Sign Up</SubmitBtn>
+              <SubmitBtn isPending={loading}>Sign Up</SubmitBtn>
               <p className="text-center">
                 By clicking Sign Up you are agreeing with our{" "}
                 <Link

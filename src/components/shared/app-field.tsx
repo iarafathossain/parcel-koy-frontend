@@ -6,17 +6,19 @@ import type { AnyFieldApi } from "@tanstack/react-form";
 import { ReactNode } from "react";
 
 import AreaSelection from "./area-selection";
+import GenderSelection from "./gender-selection";
 
 type AppFieldProps = {
   field: AnyFieldApi;
   label: string;
-  type?: "text" | "email" | "password";
+  type?: "text" | "email" | "password" | "number";
   placeholder?: string;
   append?: ReactNode;
   prepend?: ReactNode;
   className?: string;
   disabled?: boolean;
   isSelect?: boolean;
+  selectType?: "area" | "gender";
 };
 
 const getErrorMessage = (error: unknown): string => {
@@ -41,6 +43,7 @@ const AppField = ({
   className,
   disabled = false,
   isSelect = false,
+  selectType = "area",
 }: AppFieldProps) => {
   const firstError =
     field.state.meta.isTouched && field.state.meta.errors.length > 0
@@ -58,14 +61,31 @@ const AppField = ({
       </Label>
 
       {isSelect ? (
-        <AreaSelection
-          placeholder={placeholder}
-          value={field.state.value}
-          onChange={field.handleChange}
-          onBlur={field.handleBlur}
-          id={field.name}
-          hasError={hasError}
-        />
+        <>
+          {/* render area selection */}
+          {selectType === "area" && (
+            <AreaSelection
+              placeholder={placeholder}
+              value={field.state.value}
+              onChange={field.handleChange}
+              onBlur={field.handleBlur}
+              id={field.name}
+              hasError={hasError}
+            />
+          )}
+
+          {/* render gender selection */}
+          {selectType === "gender" && (
+            <GenderSelection
+              placeholder={placeholder}
+              value={field.state.value}
+              onChange={field.handleChange}
+              onBlur={field.handleBlur}
+              id={field.name}
+              hasError={hasError}
+            />
+          )}
+        </>
       ) : (
         <div className="relative">
           {prepend && (

@@ -1,0 +1,41 @@
+import { Gender } from "@/types/enum-type";
+import * as zod from "zod";
+
+export const updateMerchantProfileZodSchema = zod
+  .object({
+    merchantId: zod.uuid("Merchant ID must be a valid UUID").optional(),
+    name: zod.string().min(1, "Name cannot be empty").optional(),
+    image: zod.string().url("Invalid image URL").optional(),
+    contactNumber: zod
+      .string()
+      .regex(/^[0-9]{10,15}$/, "Contact number must be 10-15 digits")
+      .optional(),
+    gender: zod.enum([Gender.MALE, Gender.FEMALE, Gender.OTHER]).optional(),
+    businessName: zod
+      .string()
+      .min(1, "Business name cannot be empty")
+      .optional(),
+    pickupAddress: zod
+      .string()
+      .min(1, "Pickup address cannot be empty")
+      .optional(),
+    originAreaId: zod.uuid("Origin Area ID must be a valid UUID").optional(),
+  })
+  .refine(
+    (data) =>
+      data.name !== undefined ||
+      data.image !== undefined ||
+      data.contactNumber !== undefined ||
+      data.gender !== undefined ||
+      data.businessName !== undefined ||
+      data.pickupAddress !== undefined ||
+      data.originAreaId !== undefined,
+    {
+      message:
+        "At least one field is required: name, image, contactNumber, gender, businessName, pickupAddress, or originAreaId",
+    },
+  );
+
+export type UpdateMerchantProfilePayload = zod.infer<
+  typeof updateMerchantProfileZodSchema
+>;

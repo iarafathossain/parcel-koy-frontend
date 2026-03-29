@@ -22,6 +22,7 @@ export const API = {
 
   ADMINS: {
     GET_ALL: `${BASE_URL}/api/v1/admins`,
+    UPDATE_PROFILE: `${BASE_URL}/api/v1/admins/profile`,
   },
 
   ZONES: {
@@ -81,7 +82,7 @@ export const API = {
 
   RIDERS: {
     BASE: `${BASE_URL}/api/v1/riders`,
-    PROFILE: `${BASE_URL}/api/v1/riders/profile`,
+    UPDATE_PROFILE: `${BASE_URL}/api/v1/riders/profile`,
     UPDATE_HUB: (id: string) => `${BASE_URL}/api/v1/riders/${id}/hub`,
     SOFT_DELETE: (id: string) => `${BASE_URL}/api/v1/riders/soft-delete/${id}`,
     CASH_HANDOVER: (riderId: string) =>
@@ -89,7 +90,7 @@ export const API = {
   },
 
   MERCHANTS: {
-    PROFILE: `${BASE_URL}/api/v1/merchants/profile`,
+    UPDATE_PROFILE: `${BASE_URL}/api/v1/merchants/profile`,
   },
 
   PAYOUTS: {

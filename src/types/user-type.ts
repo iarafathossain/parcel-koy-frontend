@@ -16,6 +16,9 @@ export interface IUser {
   deletedAt: string | null;
   createdAt: string;
   updatedAt: string;
+  riderProfile?: IRider;
+  merchantProfile?: IMerchant;
+  adminProfile?: IAdmin;
 }
 
 export interface IAdmin {
@@ -27,4 +30,34 @@ export interface IAdmin {
   updatedAt: string;
   user: IUser;
   managedHubs: IHub[];
+}
+
+export interface IMerchant {
+  id: string;
+  userId: string;
+  businessName: string;
+  pickupAddress: string;
+  originArea: {
+    id: string;
+    name: string;
+  };
+  averageRating: number;
+  balance: string;
+  creditLimit: string;
+  createdAt: string;
+  updatedAt: string;
+  user: IUser;
+}
+
+export interface IRider {
+  id: string;
+  userId: string;
+  presentAddress: string | null;
+  permanentAddress: string | null;
+  age: number;
+  cashInHand: string;
+  hubId: string | null;
+  createdAt: string;
+  updatedAt: string;
+  user: IUser;
 }

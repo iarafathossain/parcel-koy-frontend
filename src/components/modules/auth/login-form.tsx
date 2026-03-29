@@ -25,6 +25,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -51,6 +52,13 @@ const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
         // redirect to verify-email page if email is not verified
         if (result?.message === "Email not verified") {
           router.push(`/verify-email?email=${value.email}`);
+          return;
+        }
+
+        // redirect to forgot-password page if needPasswordChange flag is true
+        if (result?.message === "needPasswordChange flag is true.") {
+          router.push(`/forgot-password?email=${value.email}`);
+          toast.error("Your password has expired. Please reset your password.");
           return;
         }
 
@@ -135,7 +143,14 @@ const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
 
             {serverError && (
               <Alert variant={"destructive"}>
-                <AlertDescription>{serverError}</AlertDescription>
+                {serverError === "read ECONNRESET" ? (
+                  <AlertDescription>
+                    Network error: Please check your internet connection and try
+                    again.
+                  </AlertDescription>
+                ) : (
+                  <AlertDescription>{serverError}</AlertDescription>
+                )}
               </Alert>
             )}
 

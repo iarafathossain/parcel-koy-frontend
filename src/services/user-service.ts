@@ -1,6 +1,7 @@
 import { catchError } from "@/helpers/catch-error";
 import { API } from "@/lib/api-endpoints";
 import { httpClient } from "@/lib/axios/http-client";
+import { IUser } from "@/types/user-type";
 import { UpdateAdminProfilePayload } from "@/validators/admin-validator";
 import { UpdateMerchantProfilePayload } from "@/validators/merchant-validator";
 import { UpdateRiderProfilePayload } from "@/validators/rider-validator";
@@ -31,7 +32,7 @@ export const userServices = {
 
       const { data } = await response.json();
 
-      return data;
+      return data as IUser;
     } catch (error) {
       console.error("Error fetching user info:", error);
       return null;

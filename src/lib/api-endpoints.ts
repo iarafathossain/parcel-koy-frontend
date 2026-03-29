@@ -91,6 +91,8 @@ export const API = {
 
   MERCHANTS: {
     UPDATE_PROFILE: `${BASE_URL}/api/v1/merchants/profile`,
+    GET_ALL_PARCELS_BY_MERCHANT: (merchantId: string) =>
+      `${BASE_URL}/api/v1/merchants/${merchantId}/parcels`,
   },
 
   PAYOUTS: {

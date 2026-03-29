@@ -1,4 +1,4 @@
-import { IUser } from "@/types/user-type";
+import { IJwtPayload } from "@/types/auth-type";
 import { cookies } from "next/headers";
 import { jwtUtils } from "./jwt-utils";
 
@@ -15,7 +15,7 @@ export const getCurrentUser = async () => {
     const decoded = jwtUtils.decodeToken(accessToken);
 
     if (decoded.success && decoded.data) {
-      return decoded.data as unknown as IUser;
+      return decoded.data as unknown as IJwtPayload;
     }
 
     return null;

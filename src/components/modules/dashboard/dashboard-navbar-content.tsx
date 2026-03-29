@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { IUserInfo } from "@/types/auth-type";
+import { IJwtPayload } from "@/types/auth-type";
 import { NavSection } from "@/types/dashboard-type";
 import { Menu } from "lucide-react";
 import Link from "next/link";
@@ -17,7 +17,7 @@ import NavItems from "./nav-items";
 import UserLabel from "./user-label";
 
 interface DashboardNavbarContentProps {
-  userInfo: IUserInfo;
+  userInfo: IJwtPayload;
   navItems: NavSection[];
   dashboardHome: string;
 }

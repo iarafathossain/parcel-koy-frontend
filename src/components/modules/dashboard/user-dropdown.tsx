@@ -10,12 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IUserInfo } from "@/types/auth-type";
+import { IJwtPayload } from "@/types/auth-type";
 import { Key, LogOut, User } from "lucide-react";
 import Link from "next/link";
 
 interface UserDropdownProps {
-  userInfo: IUserInfo;
+  userInfo: IJwtPayload;
 }
 
 const UserDropdown = ({ userInfo }: UserDropdownProps) => {

@@ -1,10 +1,11 @@
-export interface IArea {
+export type ISpeed = {
   id: string;
   name: string;
   slug: string;
+  description: string;
+  baseFee: string;
+  slaHours: number;
   isActive: boolean;
-  zoneId: string;
-  hubId: string | null;
   createdAt: string;
   updatedAt: string;
-}
+};

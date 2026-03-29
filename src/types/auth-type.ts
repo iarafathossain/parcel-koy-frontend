@@ -1,3 +1,4 @@
+import { UserStatusType } from "@/types/enum-type";
 import { RoleType } from "./enum-type";
 
 export interface ILoginResponse {
@@ -10,15 +11,20 @@ export interface ILoginResponse {
     name: string;
     role: RoleType;
     image: string;
-    status: string;
+    status: UserStatusType;
     isDeleted: boolean;
     emailVerified: boolean;
   };
 }
 
-export interface IUserInfo {
-  id: string;
-  name: string;
+export interface IJwtPayload {
+  userId: string;
   email: string;
   role: RoleType;
+  name: string;
+  status: UserStatusType;
+  isDeleted: boolean;
+  emailVerified: boolean;
+  iat?: number;
+  exp?: number;
 }

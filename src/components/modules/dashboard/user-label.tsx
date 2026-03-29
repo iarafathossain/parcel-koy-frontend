@@ -1,9 +1,9 @@
 "use client";
 
-import { IUserInfo } from "@/types/auth-type";
+import { IJwtPayload } from "@/types/auth-type";
 
 interface UserLabelPros {
-  userInfo: IUserInfo;
+  userInfo: IJwtPayload;
 }
 
 const UserLabel = ({ userInfo }: UserLabelPros) => {

@@ -25,6 +25,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import DataLoading from "../data-loading";
 import DataTableFilters, {
   DataTableFilterConfig,
   DataTableFilterValue,
@@ -158,14 +159,7 @@ const DataTable = <TData,>({
   });
   return (
     <div className="relative">
-      {isLoading && (
-        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-            <span className="text-sm text-muted-foreground">Loading...</span>
-          </div>
-        </div>
-      )}
+      {isLoading && <DataLoading />}
 
       {(search || filters || toolbarAction) && (
         <div className="mb-4 flex flex-wrap items-start gap-3">

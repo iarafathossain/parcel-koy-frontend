@@ -1,10 +1,10 @@
-export interface IArea {
+export type ICategory = {
   id: string;
   name: string;
   slug: string;
+  baseWeight: number;
+  baseFee: string;
   isActive: boolean;
-  zoneId: string;
-  hubId: string | null;
   createdAt: string;
   updatedAt: string;
-}
+};

@@ -1,9 +1,10 @@
 "use client";
 
-import { verifyEmailAction } from "@/actions/auth-action";
+import { resetPasswordAction } from "@/actions/auth-action";
 import AppField from "@/components/shared/app-field";
 import SubmitBtn from "@/components/shared/submit-btn";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -14,13 +15,13 @@ import {
 } from "@/components/ui/card";
 import { FieldSet } from "@/components/ui/field";
 import { catchError } from "@/helpers/catch-error";
-import { getDefaultDashboardRoute } from "@/lib/auth-utils";
 import {
-  IVerifyEmailPayload,
-  verifyEmailZodSchema,
+  IResetPasswordPayload,
+  resetPasswordZodSchema,
 } from "@/validators/auth-validators";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -33,7 +34,7 @@ const formatCountdown = (seconds: number) => {
   return `${minute}:${second}`;
 };
 
-const VerifyEmailForm = ({
+const ResetPasswordForm = ({
   initialEmail,
   otpDurationInSeconds,
 }: {
@@ -41,6 +42,7 @@ const VerifyEmailForm = ({
   otpDurationInSeconds: number;
 }) => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [serverSuccess, setServerSuccess] = useState<string | null>(null);
   const [secondsLeft, setSecondsLeft] = useState<number>(otpDurationInSeconds);
@@ -70,13 +72,15 @@ const VerifyEmailForm = ({
   }, [otpDurationInSeconds]);
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (payload: IVerifyEmailPayload) => verifyEmailAction(payload),
+    mutationFn: (payload: IResetPasswordPayload) =>
+      resetPasswordAction(payload),
   });
 
   const form = useForm({
     defaultValues: {
       email: initialEmail || "",
       otp: "",
+      newPassword: "",
     },
     onSubmit: async ({ value }) => {
       setServerError(null);
@@ -86,24 +90,18 @@ const VerifyEmailForm = ({
         const result = await mutateAsync(value);
 
         if (!result.success) {
-          setServerError(result.message || "Failed to verify email.");
+          setServerError(result.message || "Failed to reset password.");
           return;
         }
 
-        setServerSuccess(result.message || "Email verified successfully.");
+        setServerSuccess(result.message || "Password reset successful.");
         form.reset({
           email: value.email,
           otp: "",
+          newPassword: "",
         });
 
-        const role = result.data?.user?.role;
-        if (!role) {
-          router.push("/login");
-          return;
-        }
-
-        const targetRoute = getDefaultDashboardRoute(role);
-        router.push(targetRoute);
+        router.push("/login");
       } catch (error: unknown) {
         setServerError(
           catchError(error, "An unexpected error occurred. Please try again."),
@@ -115,23 +113,16 @@ const VerifyEmailForm = ({
   return (
     <Card className="w-full max-w-md mx-auto shadow-md">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">Verify Your Email</CardTitle>
+        <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
         <CardDescription>
-          Enter your email and 6-digit OTP to activate your ParcelKoy account.
-          <p className="text-sm text-primary my-3">
-            We just sent a verification code to your email({initialEmail}).
-            Please check your inbox for the 6 digit OTP.
-          </p>
+          Enter your email, OTP, and set a new secure password.
           {secondsLeft > 0 ? (
-            <p className="text-sm text-foreground/80">
-              OTP expires in{" "}
-              <span className="font-semibold">
-                {formatCountdown(secondsLeft)}
-              </span>
+            <p className="mt-3 text-sm text-foreground/80">
+              OTP expires in <span className="font-semibold">{formatCountdown(secondsLeft)}</span>
             </p>
           ) : (
-            <p className="text-sm text-destructive">
-              OTP has expired. Please request a new OTP.
+            <p className="mt-3 text-sm text-destructive">
+              OTP has expired. Request a new OTP from Forgot Password.
             </p>
           )}
         </CardDescription>
@@ -149,7 +140,7 @@ const VerifyEmailForm = ({
           >
             <form.Field
               name="email"
-              validators={{ onChange: verifyEmailZodSchema.shape.email }}
+              validators={{ onChange: resetPasswordZodSchema.shape.email }}
             >
               {(field) => (
                 <AppField
@@ -163,7 +154,7 @@ const VerifyEmailForm = ({
 
             <form.Field
               name="otp"
-              validators={{ onChange: verifyEmailZodSchema.shape.otp }}
+              validators={{ onChange: resetPasswordZodSchema.shape.otp }}
             >
               {(field) => (
                 <AppField
@@ -175,6 +166,33 @@ const VerifyEmailForm = ({
               )}
             </form.Field>
 
+            <form.Field
+              name="newPassword"
+              validators={{
+                onChange: resetPasswordZodSchema.shape.newPassword,
+              }}
+            >
+              {(field) => (
+                <AppField
+                  field={field}
+                  label="New Password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter new password"
+                  append={
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                      type="button"
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </Button>
+                  }
+                />
+              )}
+            </form.Field>
+
             {serverError && (
               <Alert variant="destructive">
                 <AlertDescription>{serverError}</AlertDescription>
@@ -182,7 +200,7 @@ const VerifyEmailForm = ({
             )}
 
             {serverSuccess && (
-              <Alert variant={"default"}>
+              <Alert>
                 <AlertDescription>{serverSuccess}</AlertDescription>
               </Alert>
             )}
@@ -193,10 +211,10 @@ const VerifyEmailForm = ({
               {([canSubmit, isSubmitting]) => (
                 <SubmitBtn
                   isPending={isSubmitting || isPending}
-                  pendingLabel="Verifying..."
+                  pendingLabel="Resetting..."
                   disabled={!canSubmit || isSubmitting}
                 >
-                  Verify Email
+                  Reset Password
                 </SubmitBtn>
               )}
             </form.Subscribe>
@@ -217,4 +235,4 @@ const VerifyEmailForm = ({
   );
 };
 
-export default VerifyEmailForm;
+export default ResetPasswordForm;

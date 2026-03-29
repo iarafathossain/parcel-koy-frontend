@@ -60,12 +60,12 @@ export const merchantNavItems: NavSection[] = [
     items: [
       {
         title: "Create Parcel",
-        href: "/merchant/dashboard/create-parcel",
+        href: "/merchant/create-parcel",
         icon: "Package",
       },
       {
         title: "My Parcels",
-        href: "/merchant/dashboard/my-parcels",
+        href: "/merchant/my-parcels",
         icon: "Package",
       },
       {
@@ -80,17 +80,17 @@ export const merchantNavItems: NavSection[] = [
     items: [
       {
         title: "Payment History",
-        href: "/merchant/dashboard/my-payments",
+        href: "/merchant/my-payments",
         icon: "CreditCard",
       },
       {
         title: "Request Payout",
-        href: "/merchant/dashboard/payment-request",
+        href: "/merchant/payment-request",
         icon: "Wallet",
       },
       {
         title: "Connect Stripe",
-        href: "/merchant/dashboard/connect-stripe",
+        href: "/merchant/connect-stripe",
         icon: "Link",
       },
     ],

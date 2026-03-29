@@ -22,7 +22,7 @@ export const commonProtectedRoutes: RouteConfig = {
 
 export const merchantProtectedRoutes: RouteConfig = {
   exact: [],
-  pattern: [/^\/merchant\/dashboard/], // Matches any route that starts with /merchant/dashboard
+  pattern: [/^\/merchant/], // Matches any route that starts with /merchant
 };
 
 export const adminProtectedRoutes: RouteConfig = {
@@ -72,7 +72,7 @@ export const getDefaultDashboardRoute = (role: RoleType): string => {
     case "ADMIN":
       return "/admin/dashboard";
     case "MERCHANT":
-      return "/merchant/dashboard";
+      return "/merchant";
     case "RIDER":
       return "/rider/dashboard";
     default:

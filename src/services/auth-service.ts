@@ -3,7 +3,9 @@ import { httpClient } from "@/lib/axios/http-client";
 import { ILoginResponse } from "@/types/auth-type";
 import { IUser } from "@/types/user-type";
 import {
+  IForgotPasswordPayload,
   IRegisterMerchantPayload,
+  IResetPasswordPayload,
   IVerifyEmailPayload,
 } from "@/validators/auth-validators";
 
@@ -55,6 +57,38 @@ export const authServices = {
 
       if (!response.success) {
         throw new Error(response.message || "Email verification failed");
+      }
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  forgotPassword: async (payload: IForgotPasswordPayload) => {
+    try {
+      const response = await httpClient.post<null>(
+        API.AUTH.FORGOT_PASSWORD,
+        payload,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to send OTP");
+      }
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  resetPassword: async (payload: IResetPasswordPayload) => {
+    try {
+      const response = await httpClient.post<null>(
+        API.AUTH.RESET_PASSWORD,
+        payload,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to reset password");
       }
 
       return response;

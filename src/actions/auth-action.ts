@@ -18,8 +18,10 @@ import { APIErrorResponse } from "@/types/api-type";
 import { ILoginResponse } from "@/types/auth-type";
 import { RoleType } from "@/types/enum-type";
 import {
+  IForgotPasswordPayload,
   ILoginUserPayload,
   IRegisterMerchantPayload,
+  IResetPasswordPayload,
   IVerifyEmailPayload,
   loginUserZodSchema,
 } from "@/validators/auth-validators";
@@ -195,6 +197,22 @@ export const verifyEmailAction = async (payload: IVerifyEmailPayload) => {
     }
 
     return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const forgotPasswordAction = async (payload: IForgotPasswordPayload) => {
+  try {
+    return await authServices.forgotPassword(payload);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPasswordAction = async (payload: IResetPasswordPayload) => {
+  try {
+    return await authServices.resetPassword(payload);
   } catch (error) {
     throw error;
   }

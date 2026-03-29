@@ -2,6 +2,18 @@ import { NavSection } from "@/types/dashboard-type";
 import { RoleType } from "@/types/enum-type";
 import { getDefaultDashboardRoute } from "./auth-utils";
 
+export interface PublicNavItem {
+  title: string;
+  href: string;
+}
+
+export const publicNavbarItems: PublicNavItem[] = [
+  { title: "Pricing", href: "/pricing" },
+  { title: "Coverage", href: "/coverage" },
+  { title: "About Us", href: "/about-us" },
+  { title: "Contact", href: "/contact" },
+];
+
 export const getCommonNavItems = (role: RoleType): NavSection[] => {
   const defaultDashboard = getDefaultDashboardRoute(role);
 

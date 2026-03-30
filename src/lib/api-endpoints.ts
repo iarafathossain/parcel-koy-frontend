@@ -31,13 +31,9 @@ export const API = {
   },
 
   ZONES: {
-    // method=GET
     GET_ALL_ZONES: `${BASE_URL}/api/v1/zones`,
-    // method=POST
     CREATE_A_ZONE: `${BASE_URL}/api/v1/zones`,
-    // method=patch
     UPDATE_ZONE_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/zones/${slug}`,
-    // method=delete
     DELETE_ZONE_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/zones/${slug}`,
   },
 
@@ -46,7 +42,17 @@ export const API = {
   },
 
   HUBS: {
+    // method=GET
     GET_ALL: `${BASE_URL}/api/v1/hubs`,
+    // method=POST
+    CREATE_A_HUB: `${BASE_URL}/api/v1/hubs`,
+    // method=patch
+    UPDATE_HUB_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/hubs/${slug}`,
+    //method=delete
+    DELETE_HUB_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/hubs/${slug}`,
+    //method=get
+    COLLECT_CASH: (hubId: string) =>
+      `${BASE_URL}/api/v1/hubs/${hubId}/cash-collections?date=today`,
   },
 
   CATEGORIES: {

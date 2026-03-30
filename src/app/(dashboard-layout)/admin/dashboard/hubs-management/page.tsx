@@ -1,3 +1,4 @@
+import HubTable from "@/components/modules/admin/hub-management/hub-table";
 import { formattedQueryString } from "@/helpers/formatted-query-string";
 import { hubServices } from "@/services/hub-service";
 import {
@@ -14,16 +15,16 @@ const HubManagementPage = async ({
   const searchObject = await searchParams;
   const queryString = formattedQueryString(searchObject);
 
-  console.log("Search string:", queryString);
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["hubs"],
-    queryFn: hubServices.getAllHubs,
+    queryKey: ["hubs", queryString],
+    queryFn: () => hubServices.getAllHubs(queryString),
   });
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div>Hub Management Page - Under Construction</div>
+      <HubTable initialQueryString={queryString} />
     </HydrationBoundary>
   );
 };

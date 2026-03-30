@@ -80,7 +80,15 @@ export const API = {
   },
 
   PRICING: {
+    // method=GET
     GET_ALL_PRICING: `${BASE_URL}/api/v1/pricing`,
+    // method=POST
+    CREATE_A_PRICING: `${BASE_URL}/api/v1/pricing`,
+    // method=PATCH
+    UPDATE_PRICING_BY_ID: (id: string) => `${BASE_URL}/api/v1/pricing/${id}`,
+    // method=DELETE
+    DELETE_PRICING_BY_ID: (id: string) => `${BASE_URL}/api/v1/pricing/${id}`,
+    // method=POST
     GET_DELIVERY_CHARGE: `${BASE_URL}/api/v1/pricing/delivery-charge`,
   },
 

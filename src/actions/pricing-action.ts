@@ -2,11 +2,44 @@
 
 import { catchError } from "@/helpers/catch-error";
 import { pricingServices } from "@/services/pricing-service";
-import { GetDeliveryChargePayload } from "@/validators/pricing-validator";
+import {
+  CreatePricingRulePayload,
+  GetDeliveryChargePayload,
+  UpdatePricingRulePayload,
+} from "@/validators/pricing-validator";
 
-export const getAllPricingAction = async () => {
+export const getAllPricingAction = async (queryString: string) => {
   try {
-    return await pricingServices.getAllPricing();
+    return await pricingServices.getAllPricing(queryString);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
+export const createPricingRuleAction = async (
+  payload: CreatePricingRulePayload,
+) => {
+  try {
+    return await pricingServices.createPricingRule(payload);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
+export const updatePricingByIdAction = async (
+  id: string,
+  payload: UpdatePricingRulePayload,
+) => {
+  try {
+    return await pricingServices.updatePricingById(id, payload);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
+export const deletePricingByIdAction = async (id: string) => {
+  try {
+    return await pricingServices.deletePricingById(id);
   } catch (error) {
     throw new Error(catchError(error));
   }

@@ -151,7 +151,7 @@ export const adminNavItems: NavSection[] = [
       },
       {
         title: "Delivery Speeds",
-        href: "/admin/dashboard/services-management",
+        href: "/admin/dashboard/speeds-management",
         icon: "Zap",
       },
       {
@@ -161,7 +161,7 @@ export const adminNavItems: NavSection[] = [
       },
       {
         title: "Pricing Rules",
-        href: "/admin/dashboard/pricing-rules-management",
+        href: "/admin/dashboard/pricing-management",
         icon: "DollarSign",
       },
     ],

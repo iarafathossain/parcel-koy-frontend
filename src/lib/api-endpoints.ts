@@ -62,6 +62,9 @@ export const API = {
 
   SPEEDS: {
     GET_ALL_SPEEDS: `${BASE_URL}/api/v1/speeds`,
+    CREATE_A_SPEED: `${BASE_URL}/api/v1/speeds`,
+    UPDATE_SPEED_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/speeds/${slug}`,
+    DELETE_SPEED_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/speeds/${slug}`,
   },
 
   METHODS: {

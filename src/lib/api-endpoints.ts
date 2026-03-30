@@ -87,7 +87,7 @@ export const API = {
   },
 
   PAYMENT: {
-    STRIPE_ONBOARD: `${BASE_URL}/api/v1/payment-accounts/stripe-connect/onboard`,
+    CONNECT_STRIPE_ONBOARD: `${BASE_URL}/api/v1/payment-accounts/stripe-connect/onboard`,
     STRIPE_VERIFY: `${BASE_URL}/api/v1/payment-accounts/stripe-connect/verify`,
     CLEAR_DUE: `${BASE_URL}/api/v1/payment-accounts/clear-due/checkout`,
   },
@@ -95,5 +95,8 @@ export const API = {
   CASH_COLLECTION: {
     COLLECT: (riderId: string) =>
       `${BASE_URL}/api/v1/cash-collections/collect/${riderId}`,
+  },
+  STATS: {
+    GET_STATS: `${BASE_URL}/api/v1/stats`,
   },
 };

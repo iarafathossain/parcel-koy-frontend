@@ -88,11 +88,6 @@ export const merchantNavItems: NavSection[] = [
         href: "/merchant/payment-request",
         icon: "Wallet",
       },
-      {
-        title: "Connect Stripe",
-        href: "/merchant/connect-stripe",
-        icon: "Link",
-      },
     ],
   },
 ];

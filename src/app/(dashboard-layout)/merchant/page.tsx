@@ -1,5 +1,7 @@
+import MerchantDashboard from "@/components/modules/merchant/dashboard/merchant-dashboard";
+
 const MerchantDashboardPage = () => {
-  return <h3>Welcome to Merchant Dashboard Page</h3>;
-}
+  return <MerchantDashboard />;
+};
 
 export default MerchantDashboardPage;

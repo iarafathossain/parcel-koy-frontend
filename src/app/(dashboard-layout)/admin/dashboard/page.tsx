@@ -1,5 +1,7 @@
+import AdminDashboard from "@/components/modules/admin/dashboard/admin-dashboard";
+
 const AdminDashboardPage = () => {
-  return <h3>Welcome to Admin Dashboard Page</h3>;
-}
+  return <AdminDashboard />;
+};
 
 export default AdminDashboardPage;

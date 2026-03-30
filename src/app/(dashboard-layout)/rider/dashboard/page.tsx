@@ -1,5 +1,7 @@
+import RiderDashboard from "@/components/modules/rider/dashboard/rider-dashboard";
+
 const RiderDashboardPage = () => {
-  return <h3>Welcome to Rider Dashboard Page</h3>;
-}
+  return <RiderDashboard />;
+};
 
 export default RiderDashboardPage;

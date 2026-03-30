@@ -1,5 +1,6 @@
 import { getDeliveryChargeAction } from "@/actions/pricing-action";
-import { getUserInfoAction } from "@/actions/user-action"; // Adjust the import path as needed
+import { getUserInfoAction } from "@/actions/user-action";
+import { formatPrice } from "@/helpers/format-price";
 import { parseNumber } from "@/helpers/parse-number";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -102,7 +103,7 @@ const DeliveryChargeDisplay = ({
           </span>
         ) : (
           <span className="text-xl font-bold tracking-tight">
-            ৳{chargeData?.data?.price || 0}
+            {formatPrice(Number(chargeData?.data?.price || 0))}
           </span>
         )}
       </div>

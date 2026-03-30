@@ -10,6 +10,7 @@ import {
   DataTableFilterValue,
   DataTableFilterValues,
 } from "@/components/shared/table/data-table-filters";
+import { Button } from "@/components/ui/button";
 import { constants } from "@/constants";
 import { parsePositiveInt } from "@/helpers/parse-positive-int";
 import { useUser } from "@/hooks/use-user";
@@ -18,6 +19,7 @@ import { ModalType, Role, UserStatus } from "@/types/enum-type";
 import { IRider } from "@/types/user-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PaginationState, SortingState } from "@tanstack/react-table";
+import { Plus } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   useCallback,
@@ -27,6 +29,7 @@ import {
   useTransition,
 } from "react";
 import { toast } from "sonner";
+import CreateRider from "./create-rider";
 import DeleteRider from "./delete-rider";
 import EditRider from "./edit-rider";
 import { riderColumns } from "./rider-columns";
@@ -45,7 +48,7 @@ const RiderTable = ({ initialQueryString }: RiderTableProps) => {
   const searchParams = useSearchParams();
   const [isSortingTransitionPending, startSortingTransition] = useTransition();
 
-  const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const [activeModal, setActiveModal] = useState<ModalType | "create">(null);
   const [selectedRider, setSelectedRider] = useState<IRider | null>(null);
 
   const queryStringFromUrl = useMemo(
@@ -440,6 +443,14 @@ const RiderTable = ({ initialQueryString }: RiderTableProps) => {
           onFilterChange: handleFilterChange,
           onClearAll: clearAllFilters,
         }}
+        toolbarAction={
+          canManageRiderActions ? (
+            <Button type="button" onClick={() => setActiveModal("create")}>
+              <Plus className="mr-2 h-4 w-4" />
+              Create Rider
+            </Button>
+          ) : undefined
+        }
         meta={meta}
       />
 
@@ -447,13 +458,17 @@ const RiderTable = ({ initialQueryString }: RiderTableProps) => {
         isOpen={activeModal !== null}
         onClose={closeModal}
         title={
-          activeModal === "view"
-            ? "View Rider Details"
-            : activeModal === "edit"
-              ? "Edit Rider"
-              : "Delete Rider"
+          activeModal === "create"
+            ? "Create Rider"
+            : activeModal === "view"
+              ? "View Rider Details"
+              : activeModal === "edit"
+                ? "Edit Rider"
+                : "Delete Rider"
         }
       >
+        {activeModal === "create" && <CreateRider onSuccess={closeModal} />}
+
         {activeModal === "view" && selectedRider && (
           <ViewRider rider={selectedRider} />
         )}

@@ -9,6 +9,7 @@ import AreaSelection from "./area-selection";
 import CategorySelection from "./category-selection";
 import DeliveryMethodSelection from "./delivery-method-selection";
 import GenderSelection from "./gender-selection";
+import HubSelection from "./hub-selection";
 import PickupMethodSelection from "./pickup-method-selection";
 import SpeedSelection from "./speed-selection";
 
@@ -25,6 +26,7 @@ type AppFieldProps = {
   selectType?:
     | "area"
     | "gender"
+    | "hub"
     | "category"
     | "speed"
     | "pickupMethod"
@@ -90,6 +92,17 @@ const AppField = ({
           {/* render gender selection */}
           {selectType === "gender" && (
             <GenderSelection
+              placeholder={placeholder}
+              value={field.state.value}
+              onChange={field.handleChange}
+              onBlur={field.handleBlur}
+              id={field.name}
+              hasError={hasError}
+            />
+          )}
+
+          {selectType === "hub" && (
+            <HubSelection
               placeholder={placeholder}
               value={field.state.value}
               onChange={field.handleChange}

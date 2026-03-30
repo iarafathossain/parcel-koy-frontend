@@ -2,8 +2,23 @@ import { catchError } from "@/helpers/catch-error";
 import { API } from "@/lib/api-endpoints";
 import { httpClient } from "@/lib/axios/http-client";
 import { IRider } from "@/types/user-type";
+import { CreateRiderPayload } from "@/validators/rider-validator";
 
 export const riderServices = {
+  createRider: async (payload: CreateRiderPayload) => {
+    try {
+      const response = await httpClient.post(API.USERS.CREATE_RIDER, payload);
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to create rider");
+      }
+
+      return response;
+    } catch (error) {
+      throw new Error(catchError(error));
+    }
+  },
+
   getAllRiders: async (queryString: string) => {
     try {
       const response = await httpClient.get<IRider[]>(

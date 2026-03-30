@@ -69,6 +69,12 @@ export const API = {
 
   METHODS: {
     GET_ALL_METHODS: `${BASE_URL}/api/v1/methods`,
+    CREATE_A_METHOD: `${BASE_URL}/api/v1/methods`,
+    UPDATE_METHOD_BY_SLUG: (slug: string) =>
+      `${BASE_URL}/api/v1/methods/${slug}`,
+    DELETE_METHOD_BY_SLUG: (slug: string) =>
+      `${BASE_URL}/api/v1/methods/${slug}`,
+
     GET_ALL_PICKUP_METHODS: `${BASE_URL}/api/v1/methods/?type=PICKUP`,
     GET_ALL_DELIVERY_METHODS: `${BASE_URL}/api/v1/methods/?type=DELIVERY`,
   },

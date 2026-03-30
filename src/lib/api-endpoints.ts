@@ -31,8 +31,14 @@ export const API = {
   },
 
   ZONES: {
-    BASE: `${BASE_URL}/api/v1/zones`,
-    BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/zones/${slug}`,
+    // method=GET
+    GET_ALL_ZONES: `${BASE_URL}/api/v1/zones`,
+    // method=POST
+    CREATE_A_ZONE: `${BASE_URL}/api/v1/zones`,
+    // method=patch
+    UPDATE_ZONE_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/zones/${slug}`,
+    // method=delete
+    DELETE_ZONE_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/zones/${slug}`,
   },
 
   AREAS: {

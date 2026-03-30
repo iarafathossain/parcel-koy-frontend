@@ -81,7 +81,9 @@ export const API = {
   },
 
   MERCHANTS: {
+    GET_ALL_MERCHANTS: `${BASE_URL}/api/v1/merchants`,
     UPDATE_PROFILE: `${BASE_URL}/api/v1/merchants/profile`,
+    SOFT_DELETE: (id: string) => `${BASE_URL}/api/v1/merchants/${id}`,
     GET_ALL_PARCELS_BY_MERCHANT: (merchantId: string) =>
       `${BASE_URL}/api/v1/merchants/${merchantId}/parcels`,
   },

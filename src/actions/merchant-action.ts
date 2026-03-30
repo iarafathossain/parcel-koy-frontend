@@ -3,6 +3,22 @@
 import { catchError } from "@/helpers/catch-error";
 import { merchantServices } from "@/services/merchant-service";
 
+export const getAllMerchantsAction = async (queryString: string) => {
+  try {
+    return await merchantServices.getAllMerchants(queryString);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
+export const softDeleteMerchantAction = async (merchantId: string) => {
+  try {
+    return await merchantServices.softDeleteMerchant(merchantId);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
 export const getAllMerchantParcelsAction = async (
   merchantId: string,
   queryString: string,

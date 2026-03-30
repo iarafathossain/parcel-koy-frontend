@@ -1,7 +1,7 @@
 "use client";
 
-import { getAllAreasAction } from "@/actions/area-action";
-import { IArea } from "@/types/area-type";
+import { getAllPickupMethodsAction } from "@/actions/method-action";
+import { IMethod } from "@/types/method-type";
 import { useQuery } from "@tanstack/react-query";
 import {
   Select,
@@ -11,33 +11,33 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 
-interface AreaSelectionProps {
+interface PickupMethodSelectionProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
   id?: string;
   hasError?: boolean;
-  label?: string;
 }
 
-const AreaSelection = ({
+const PickupMethodSelection = ({
   placeholder,
   value,
   onChange,
   onBlur,
   id,
   hasError = false,
-  label = "Origin Area",
-}: AreaSelectionProps) => {
-  const { data: areaResults } = useQuery({
-    queryKey: ["areas"],
-    queryFn: () => getAllAreasAction(),
+}: PickupMethodSelectionProps) => {
+  const { data: pickupMethodsResult } = useQuery({
+    queryKey: ["pickup-methods"],
+    queryFn: () => getAllPickupMethodsAction(),
   });
 
-  const areas: IArea[] = (areaResults?.data as IArea[]) || [];
+  const pickupMethods: IMethod[] =
+    (pickupMethodsResult?.data as IMethod[]) || [];
+
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger
@@ -50,10 +50,10 @@ const AreaSelection = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>{label}</SelectLabel>
-          {areas.map((area) => (
-            <SelectItem key={area.id} value={area.id}>
-              {area.name}
+          <SelectLabel>Pickup Method</SelectLabel>
+          {pickupMethods.map((method) => (
+            <SelectItem key={method.id} value={method.id}>
+              {method.name}
             </SelectItem>
           ))}
         </SelectGroup>
@@ -62,4 +62,4 @@ const AreaSelection = ({
   );
 };
 
-export default AreaSelection;
+export default PickupMethodSelection;

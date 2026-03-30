@@ -5,6 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 interface CommonModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface CommonModalProps {
   title: string;
   description?: string;
   children: React.ReactNode;
+  className?: string;
 }
 
 const CommonModal = ({
@@ -20,10 +22,11 @@ const CommonModal = ({
   title,
   description,
   children,
+  className,
 }: CommonModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md md:max-w-xl">
+      <DialogContent className={cn("max-w-md md:max-w-xl min-w-sm", className)}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription className={description ? undefined : "sr-only"}>

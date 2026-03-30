@@ -6,7 +6,11 @@ import type { AnyFieldApi } from "@tanstack/react-form";
 import { ReactNode } from "react";
 
 import AreaSelection from "./area-selection";
+import CategorySelection from "./category-selection";
+import DeliveryMethodSelection from "./delivery-method-selection";
 import GenderSelection from "./gender-selection";
+import PickupMethodSelection from "./pickup-method-selection";
+import SpeedSelection from "./speed-selection";
 
 type AppFieldProps = {
   field: AnyFieldApi;
@@ -18,7 +22,14 @@ type AppFieldProps = {
   className?: string;
   disabled?: boolean;
   isSelect?: boolean;
-  selectType?: "area" | "gender";
+  selectType?:
+    | "area"
+    | "gender"
+    | "category"
+    | "speed"
+    | "pickupMethod"
+    | "deliveryMethod";
+  selectLabel?: string;
 };
 
 const getErrorMessage = (error: unknown): string => {
@@ -44,6 +55,7 @@ const AppField = ({
   disabled = false,
   isSelect = false,
   selectType = "area",
+  selectLabel,
 }: AppFieldProps) => {
   const firstError =
     field.state.meta.isTouched && field.state.meta.errors.length > 0
@@ -71,12 +83,57 @@ const AppField = ({
               onBlur={field.handleBlur}
               id={field.name}
               hasError={hasError}
+              label={selectLabel}
             />
           )}
 
           {/* render gender selection */}
           {selectType === "gender" && (
             <GenderSelection
+              placeholder={placeholder}
+              value={field.state.value}
+              onChange={field.handleChange}
+              onBlur={field.handleBlur}
+              id={field.name}
+              hasError={hasError}
+            />
+          )}
+
+          {selectType === "category" && (
+            <CategorySelection
+              placeholder={placeholder}
+              value={field.state.value}
+              onChange={field.handleChange}
+              onBlur={field.handleBlur}
+              id={field.name}
+              hasError={hasError}
+            />
+          )}
+
+          {selectType === "speed" && (
+            <SpeedSelection
+              placeholder={placeholder}
+              value={field.state.value}
+              onChange={field.handleChange}
+              onBlur={field.handleBlur}
+              id={field.name}
+              hasError={hasError}
+            />
+          )}
+
+          {selectType === "pickupMethod" && (
+            <PickupMethodSelection
+              placeholder={placeholder}
+              value={field.state.value}
+              onChange={field.handleChange}
+              onBlur={field.handleBlur}
+              id={field.name}
+              hasError={hasError}
+            />
+          )}
+
+          {selectType === "deliveryMethod" && (
+            <DeliveryMethodSelection
               placeholder={placeholder}
               value={field.state.value}
               onChange={field.handleChange}

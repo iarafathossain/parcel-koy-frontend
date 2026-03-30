@@ -1,8 +1,5 @@
 "use client";
 
-import { getAllAreasAction } from "@/actions/area-action";
-import { IArea } from "@/types/area-type";
-import { useQuery } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -11,33 +8,35 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
+import { ISpeed } from "@/types/speed-type";
+import { useQuery } from "@tanstack/react-query";
+import { getAllSpeedsAction } from "../../actions/speed-action";
 
-interface AreaSelectionProps {
+interface SpeedSelectionProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
   id?: string;
   hasError?: boolean;
-  label?: string;
 }
 
-const AreaSelection = ({
+const SpeedSelection = ({
   placeholder,
   value,
   onChange,
   onBlur,
   id,
   hasError = false,
-  label = "Origin Area",
-}: AreaSelectionProps) => {
-  const { data: areaResults } = useQuery({
-    queryKey: ["areas"],
-    queryFn: () => getAllAreasAction(),
+}: SpeedSelectionProps) => {
+  const { data: speedsResult } = useQuery({
+    queryKey: ["speeds"],
+    queryFn: () => getAllSpeedsAction(),
   });
 
-  const areas: IArea[] = (areaResults?.data as IArea[]) || [];
+  const speeds: ISpeed[] = (speedsResult?.data as ISpeed[]) || [];
+
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger
@@ -50,10 +49,10 @@ const AreaSelection = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>{label}</SelectLabel>
-          {areas.map((area) => (
-            <SelectItem key={area.id} value={area.id}>
-              {area.name}
+          <SelectLabel>Speed</SelectLabel>
+          {speeds.map((speed) => (
+            <SelectItem key={speed.id} value={speed.id}>
+              {speed.name}
             </SelectItem>
           ))}
         </SelectGroup>
@@ -62,4 +61,4 @@ const AreaSelection = ({
   );
 };
 
-export default AreaSelection;
+export default SpeedSelection;

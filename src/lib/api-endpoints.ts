@@ -54,6 +54,7 @@ export const API = {
 
   PRICING: {
     GET_ALL_PRICING: `${BASE_URL}/api/v1/pricing`,
+    GET_DELIVERY_CHARGE: `${BASE_URL}/api/v1/pricing/delivery-charge`,
   },
 
   PARCELS: {

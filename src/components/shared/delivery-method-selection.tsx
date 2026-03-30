@@ -1,8 +1,6 @@
 "use client";
 
-import { getAllAreasAction } from "@/actions/area-action";
-import { IArea } from "@/types/area-type";
-import { useQuery } from "@tanstack/react-query";
+import { getAllDeliveryMethodsAction } from "@/actions/method-action";
 import {
   Select,
   SelectContent,
@@ -11,33 +9,35 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
+import { IMethod } from "@/types/method-type";
+import { useQuery } from "@tanstack/react-query";
 
-interface AreaSelectionProps {
+interface DeliveryMethodSelectionProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
   id?: string;
   hasError?: boolean;
-  label?: string;
 }
 
-const AreaSelection = ({
+const DeliveryMethodSelection = ({
   placeholder,
   value,
   onChange,
   onBlur,
   id,
   hasError = false,
-  label = "Origin Area",
-}: AreaSelectionProps) => {
-  const { data: areaResults } = useQuery({
-    queryKey: ["areas"],
-    queryFn: () => getAllAreasAction(),
+}: DeliveryMethodSelectionProps) => {
+  const { data: deliveryMethodsResult } = useQuery({
+    queryKey: ["delivery-methods"],
+    queryFn: () => getAllDeliveryMethodsAction(),
   });
 
-  const areas: IArea[] = (areaResults?.data as IArea[]) || [];
+  const deliveryMethods: IMethod[] =
+    (deliveryMethodsResult?.data as IMethod[]) || [];
+
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger
@@ -50,10 +50,10 @@ const AreaSelection = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>{label}</SelectLabel>
-          {areas.map((area) => (
-            <SelectItem key={area.id} value={area.id}>
-              {area.name}
+          <SelectLabel>Delivery Method</SelectLabel>
+          {deliveryMethods.map((method) => (
+            <SelectItem key={method.id} value={method.id}>
+              {method.name}
             </SelectItem>
           ))}
         </SelectGroup>
@@ -62,4 +62,4 @@ const AreaSelection = ({
   );
 };
 
-export default AreaSelection;
+export default DeliveryMethodSelection;

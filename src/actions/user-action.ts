@@ -16,6 +16,14 @@ export const updateAdminProfileAction = async (
   }
 };
 
+export const getUserInfoAction = async () => {
+  try {
+    return await userServices.getUserInfo();
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
 export const updateMerchantProfileAction = async (
   payload: UpdateMerchantProfilePayload,
 ) => {

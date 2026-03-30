@@ -1,21 +1,34 @@
 "use client";
 
 import { getAllPickupMethodsAction } from "@/actions/method-action";
+import CommonModal from "@/components/shared/modal/common-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { IMethod } from "@/types/method-type";
 import { useQuery } from "@tanstack/react-query";
 import { Package, Truck } from "lucide-react";
+import { useState } from "react";
+
+import CreateParcelRequestForm from "./create-parcel-request-form";
 
 const CreateParcelMethodCards = () => {
+  const [selectedPickupMethod, setSelectedPickupMethod] =
+    useState<IMethod | null>(null);
+
   const { data: pickupMethodsResponse } = useQuery({
     queryKey: ["pickup-methods"],
     queryFn: () => getAllPickupMethodsAction(),
   });
 
-  const pickupMethods = pickupMethodsResponse?.data || [];
+  const pickupMethods: IMethod[] =
+    (pickupMethodsResponse?.data as IMethod[]) || [];
   const orderedPickupMethods = [pickupMethods[1], pickupMethods[0]].filter(
     Boolean,
   );
+
+  const closeModal = () => {
+    setSelectedPickupMethod(null);
+  };
 
   return (
     <section className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -29,8 +42,9 @@ const CreateParcelMethodCards = () => {
           orderedPickupMethods.map((method) => (
             <Card
               key={method.id}
+              onClick={() => setSelectedPickupMethod(method)}
               className={cn(
-                "h-80 flex flex-col items-center justify-center transition-colors shadow-2xl",
+                "h-80 flex flex-col items-center justify-center transition-colors shadow-2xl hover:shadow-2xl/50 cursor-pointer",
                 method.slug === "regular-pickup"
                   ? "border-lime-600/60 bg-lime-300/45 hover:bg-lime-300/60 dark:border-lime-500/70 dark:bg-lime-900/35 dark:hover:bg-lime-900/50"
                   : "border-amber-600/60 bg-amber-300/45 hover:bg-amber-300/60 dark:border-amber-500/70 dark:bg-amber-900/35 dark:hover:bg-amber-900/50",
@@ -61,6 +75,21 @@ const CreateParcelMethodCards = () => {
           </p>
         )}
       </div>
+
+      <CommonModal
+        isOpen={selectedPickupMethod !== null}
+        onClose={closeModal}
+        title={selectedPickupMethod?.name || "Make pickup request"}
+        description="Fill in the parcel details to submit a pickup request."
+      >
+        {selectedPickupMethod && (
+          <CreateParcelRequestForm
+            initialPickupMethodId={selectedPickupMethod.id}
+            initialPickupMethodSlug={selectedPickupMethod.slug}
+            onSuccess={closeModal}
+          />
+        )}
+      </CommonModal>
     </section>
   );
 };

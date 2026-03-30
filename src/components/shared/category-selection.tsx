@@ -1,8 +1,5 @@
 "use client";
 
-import { getAllAreasAction } from "@/actions/area-action";
-import { IArea } from "@/types/area-type";
-import { useQuery } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -11,33 +8,35 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
+import { ICategory } from "@/types/category-type";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCategoriesAction } from "../../actions/category-action";
 
-interface AreaSelectionProps {
+interface CategorySelectionProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
   id?: string;
   hasError?: boolean;
-  label?: string;
 }
 
-const AreaSelection = ({
+const CategorySelection = ({
   placeholder,
   value,
   onChange,
   onBlur,
   id,
   hasError = false,
-  label = "Origin Area",
-}: AreaSelectionProps) => {
-  const { data: areaResults } = useQuery({
-    queryKey: ["areas"],
-    queryFn: () => getAllAreasAction(),
+}: CategorySelectionProps) => {
+  const { data: categoriesResult } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getAllCategoriesAction(),
   });
 
-  const areas: IArea[] = (areaResults?.data as IArea[]) || [];
+  const categories: ICategory[] = (categoriesResult?.data as ICategory[]) || [];
+
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger
@@ -50,10 +49,10 @@ const AreaSelection = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>{label}</SelectLabel>
-          {areas.map((area) => (
-            <SelectItem key={area.id} value={area.id}>
-              {area.name}
+          <SelectLabel>Category</SelectLabel>
+          {categories.map((category) => (
+            <SelectItem key={category.id} value={category.id}>
+              {category.name}
             </SelectItem>
           ))}
         </SelectGroup>
@@ -62,4 +61,4 @@ const AreaSelection = ({
   );
 };
 
-export default AreaSelection;
+export default CategorySelection;

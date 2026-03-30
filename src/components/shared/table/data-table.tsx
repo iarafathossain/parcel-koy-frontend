@@ -40,6 +40,9 @@ interface DataTableActions<TData> {
   onDelete?: (data: TData) => void;
   onStatusAction?: (data: TData) => void;
   getStatusActionLabel?: (data: TData) => string | undefined;
+  viewLabel?: string;
+  editLabel?: string;
+  deleteLabel?: string;
 }
 
 interface DataTableProps<TData> {
@@ -107,10 +110,10 @@ const DataTable = <TData,>({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => actions.onView(rowData)}>
-                    View
+                    {actions.viewLabel || "View"}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => actions.onEdit(rowData)}>
-                    Edit
+                    {actions.editLabel || "Edit"}
                   </DropdownMenuItem>
                   {actions.onStatusAction &&
                     actions.getStatusActionLabel &&
@@ -133,7 +136,7 @@ const DataTable = <TData,>({
                     <DropdownMenuItem
                       onClick={() => actions.onDelete?.(rowData)}
                     >
-                      Delete
+                      {actions.deleteLabel || "Delete"}
                     </DropdownMenuItem>
                   )}
                 </DropdownMenuContent>

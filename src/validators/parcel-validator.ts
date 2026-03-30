@@ -1,4 +1,39 @@
+import { ParcelStatus, ParcelStatusType } from "@/types/enum-type";
 import * as zod from "zod";
+
+export const ALLOWED_TRANSITIONS = {
+  [ParcelStatus.REQUESTED]: [
+    ParcelStatus.PICKUP_RIDER_ASSIGNED,
+    ParcelStatus.CANCELLED,
+  ],
+  [ParcelStatus.PICKUP_RIDER_ASSIGNED]: [
+    ParcelStatus.PICKED_UP,
+    ParcelStatus.PICKUP_FAILED,
+    ParcelStatus.CANCELLED,
+  ],
+  [ParcelStatus.PICKED_UP]: [ParcelStatus.RECEIVED_AT_ORIGIN_HUB],
+  [ParcelStatus.RECEIVED_AT_ORIGIN_HUB]: [ParcelStatus.IN_TRANSIT],
+  [ParcelStatus.IN_TRANSIT]: [
+    ParcelStatus.RECEIVED_AT_DESTINATION_HUB,
+    ParcelStatus.ON_HOLD,
+  ],
+  [ParcelStatus.ON_HOLD]: [ParcelStatus.IN_TRANSIT],
+  [ParcelStatus.RECEIVED_AT_DESTINATION_HUB]: [ParcelStatus.OUT_FOR_DELIVERY],
+  [ParcelStatus.OUT_FOR_DELIVERY]: [
+    ParcelStatus.DELIVERED,
+    ParcelStatus.PARTIAL_DELIVERY,
+    ParcelStatus.DELIVERY_FAILED,
+  ],
+  [ParcelStatus.DELIVERY_FAILED]: [
+    ParcelStatus.OUT_FOR_DELIVERY,
+    ParcelStatus.RETURNED_TO_MERCHANT,
+  ],
+  [ParcelStatus.DELIVERED]: [],
+  [ParcelStatus.CANCELLED]: [],
+  [ParcelStatus.RETURNED_TO_MERCHANT]: [],
+  [ParcelStatus.PICKUP_FAILED]: [],
+  [ParcelStatus.PARTIAL_DELIVERY]: [],
+} as const satisfies Record<ParcelStatusType, readonly ParcelStatusType[]>;
 
 export const createParcelZodSchema = zod.object({
   categoryId: zod.string().uuid("Invalid Category ID"),
@@ -21,3 +56,31 @@ export const createParcelZodSchema = zod.object({
 });
 
 export type CreateParcelPayload = zod.infer<typeof createParcelZodSchema>;
+
+export const updateParcelStatusByAdminZodSchema = zod.object({
+  status: zod.enum(
+    [
+      ParcelStatus.PICKED_UP,
+      ParcelStatus.IN_TRANSIT,
+      ParcelStatus.OUT_FOR_DELIVERY,
+      ParcelStatus.DELIVERED,
+      ParcelStatus.PICKUP_FAILED,
+      ParcelStatus.DELIVERY_FAILED,
+      ParcelStatus.CANCELLED,
+      ParcelStatus.ON_HOLD,
+      ParcelStatus.PARTIAL_DELIVERY,
+      ParcelStatus.PICKUP_RIDER_ASSIGNED,
+      ParcelStatus.RECEIVED_AT_DESTINATION_HUB,
+      ParcelStatus.RECEIVED_AT_ORIGIN_HUB,
+      ParcelStatus.REQUESTED,
+      ParcelStatus.RETURNED_TO_MERCHANT,
+    ],
+    "Invalid parcel status selected",
+  ),
+  pickupRiderId: zod.string().uuid("Invalid Pickup Rider ID").optional(),
+  deliveryRiderId: zod.string().uuid("Invalid Delivery Rider ID").optional(),
+});
+
+export type UpdateParcelStatusByAdminPayload = zod.infer<
+  typeof updateParcelStatusByAdminZodSchema
+>;

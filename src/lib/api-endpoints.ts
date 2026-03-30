@@ -64,6 +64,9 @@ export const API = {
 
   PARCELS: {
     CREATE_PARCEL: `${BASE_URL}/api/v1/parcels`,
+    GET_ALL_PARCELS: `${BASE_URL}/api/v1/parcels`,
+    UPDATE_PARCEL_STATUS: (id: string) =>
+      `${BASE_URL}/api/v1/parcels/status/${id}`,
   },
 
   NOTES: {
@@ -72,11 +75,8 @@ export const API = {
   },
 
   RIDERS: {
-    // METHOD=GET
     GET_ALL_RIDERS: `${BASE_URL}/api/v1/riders`,
-    // METHOD=PATCH
     UPDATE_PROFILE: `${BASE_URL}/api/v1/riders/profile`,
-    // METHOD=PATCH
     SOFT_DELETE: (id: string) => `${BASE_URL}/api/v1/riders/${id}`,
     GET_ALL_PARCELS_BY_RIDER: (riderId: string) =>
       `${BASE_URL}/api/v1/riders/${riderId}/parcels`,

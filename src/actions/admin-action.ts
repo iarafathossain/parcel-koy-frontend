@@ -2,10 +2,19 @@
 
 import { catchError } from "@/helpers/catch-error";
 import { adminServices } from "@/services/admin-service";
+import { CreateAdminPayload } from "@/validators/admin-validator";
 import {
   IActivateUserPayload,
   IBlockUserPayload,
 } from "@/validators/auth-validators";
+
+export const createAdminAction = async (payload: CreateAdminPayload) => {
+  try {
+    return await adminServices.createAdmin(payload);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
 
 export const getAllAdminsAction = async (queryString: string) => {
   try {

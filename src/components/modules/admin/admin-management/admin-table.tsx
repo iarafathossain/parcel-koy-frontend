@@ -14,6 +14,7 @@ import {
   DataTableFilterValue,
   DataTableFilterValues,
 } from "@/components/shared/table/data-table-filters";
+import { Button } from "@/components/ui/button";
 import { constants } from "@/constants";
 import { parsePositiveInt } from "@/helpers/parse-positive-int";
 import { useUser } from "@/hooks/use-user";
@@ -23,6 +24,7 @@ import { IHub } from "@/types/hub-type";
 import { IAdmin } from "@/types/user-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PaginationState, SortingState } from "@tanstack/react-table";
+import { Plus } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   useCallback,
@@ -33,6 +35,7 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { adminColumns } from "./admin-columns";
+import CreateAdmin from "./create-admin";
 import DeleteAdmin from "./delete-admin";
 import EditAdmin from "./edit-admin";
 import ViewAdmin from "./view-admin";
@@ -50,7 +53,7 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
   const searchParams = useSearchParams();
   const [isSortingTransitionPending, startSortingTransition] = useTransition();
 
-  const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const [activeModal, setActiveModal] = useState<ModalType | "create">(null);
   const [selectedAdmin, setSelectedAdmin] = useState<IAdmin | null>(null);
 
   const queryStringFromUrl = useMemo(
@@ -215,7 +218,7 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
 
   const { data: hubsResponse } = useQuery({
     queryKey: ["hubs"],
-    queryFn: () => getAllHubsAction(),
+    queryFn: () => getAllHubsAction(queryString),
   });
 
   const { data: currentUserResponse } = useQuery({
@@ -481,6 +484,14 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
           onFilterChange: handleFilterChange,
           onClearAll: clearAllFilters,
         }}
+        toolbarAction={
+          canManageAdminStatus ? (
+            <Button type="button" onClick={() => setActiveModal("create")}>
+              <Plus className="mr-2 h-4 w-4" />
+              Create Admin
+            </Button>
+          ) : undefined
+        }
         meta={meta}
       />
 
@@ -488,13 +499,17 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
         isOpen={activeModal !== null}
         onClose={closeModal}
         title={
-          activeModal === "view"
-            ? "View Admin Details"
-            : activeModal === "edit"
-              ? "Edit Admin"
-              : "Delete Admin"
+          activeModal === "create"
+            ? "Create Admin"
+            : activeModal === "view"
+              ? "View Admin Details"
+              : activeModal === "edit"
+                ? "Edit Admin"
+                : "Delete Admin"
         }
       >
+        {activeModal === "create" && <CreateAdmin onSuccess={closeModal} />}
+
         {activeModal === "view" && selectedAdmin && (
           <ViewAdmin admin={selectedAdmin} />
         )}

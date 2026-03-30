@@ -2,12 +2,27 @@ import { catchError } from "@/helpers/catch-error";
 import { API } from "@/lib/api-endpoints";
 import { httpClient } from "@/lib/axios/http-client";
 import { IAdmin } from "@/types/user-type";
+import { CreateAdminPayload } from "@/validators/admin-validator";
 import {
   IActivateUserPayload,
   IBlockUserPayload,
 } from "@/validators/auth-validators";
 
 export const adminServices = {
+  createAdmin: async (payload: CreateAdminPayload) => {
+    try {
+      const response = await httpClient.post(API.USERS.CREATE_ADMIN, payload);
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to create admin");
+      }
+
+      return response;
+    } catch (error) {
+      throw new Error(catchError(error));
+    }
+  },
+
   getAllAdmins: async (queryString: string) => {
     try {
       const response = await httpClient.get<IAdmin[]>(

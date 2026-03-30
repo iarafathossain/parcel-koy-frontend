@@ -1,7 +1,12 @@
 "use client";
 
-import { getAllAdminsAction } from "@/actions/admin-action";
+import {
+  activateUserAction,
+  blockUserAction,
+  getAllAdminsAction,
+} from "@/actions/admin-action";
 import { getAllHubsAction } from "@/actions/hub-action";
+import { getUserInfoAction } from "@/actions/user-action";
 import CommonModal from "@/components/shared/modal/common-modal";
 import DataTable from "@/components/shared/table/data-table";
 import {
@@ -11,11 +16,12 @@ import {
 } from "@/components/shared/table/data-table-filters";
 import { constants } from "@/constants";
 import { parsePositiveInt } from "@/helpers/parse-positive-int";
+import { useUser } from "@/hooks/use-user";
 import { PaginationMeta } from "@/types/api-type";
-import { ModalType } from "@/types/enum-type";
+import { ModalType, Role, UserStatus } from "@/types/enum-type";
 import { IHub } from "@/types/hub-type";
 import { IAdmin } from "@/types/user-type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -25,6 +31,7 @@ import {
   useState,
   useTransition,
 } from "react";
+import { toast } from "sonner";
 import { adminColumns } from "./admin-columns";
 import DeleteAdmin from "./delete-admin";
 import EditAdmin from "./edit-admin";
@@ -35,6 +42,9 @@ interface AdminTableProps {
 }
 
 const AdminTable = ({ initialQueryString }: AdminTableProps) => {
+  const { user } = useUser();
+
+  const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -208,6 +218,13 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
     queryFn: () => getAllHubsAction(),
   });
 
+  const { data: currentUserResponse } = useQuery({
+    queryKey: ["current-user"],
+    queryFn: () => getUserInfoAction(),
+  });
+
+  const effectiveUser = user ?? currentUserResponse;
+
   const admins = adminDataResponse?.data || [];
   const hubs = useMemo<IHub[]>(() => {
     return hubsResponse?.data ?? [];
@@ -337,26 +354,86 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
   }, [updateUrlAndRefresh]);
 
   const handleView = (admin: IAdmin) => {
-    // Implement view logic here
-    console.log("View admin:", admin);
     setSelectedAdmin(admin);
     setActiveModal("view");
   };
 
   const handleEdit = (admin: IAdmin) => {
-    // Implement edit logic here
-    console.log("Edit admin:", admin);
     setSelectedAdmin(admin);
     setActiveModal("edit");
-    console.log("Admin's role:", admin.user.role);
   };
 
   const handleDelete = (admin: IAdmin) => {
-    // Implement delete logic here
-    console.log("Delete admin:", admin);
     setSelectedAdmin(admin);
     setActiveModal("delete");
   };
+
+  const { mutateAsync: mutateUserStatus, isPending: isUpdatingUserStatus } =
+    useMutation({
+      mutationFn: async ({
+        userId,
+        action,
+      }: {
+        userId: string;
+        action: "BLOCK" | "ACTIVE";
+      }) => {
+        if (action === "BLOCK") {
+          return await blockUserAction({ userId });
+        }
+
+        return await activateUserAction({ userId });
+      },
+    });
+
+  const handleStatusAction = async (admin: IAdmin) => {
+    const userStatus = admin.user.status;
+    const action = userStatus === UserStatus.ACTIVE ? "BLOCK" : "ACTIVE";
+    const pendingMessage =
+      action === "BLOCK" ? "Blocking user..." : "Activating user...";
+
+    const toastId = toast.loading(pendingMessage);
+
+    try {
+      if (!admin.user.id) {
+        toast.error("User information is missing. Please log in again.");
+        return;
+      }
+      const result = await mutateUserStatus({ userId: admin.user.id, action });
+
+      if (!result.success) {
+        toast.error(result.message || "Failed to update user status.");
+        return;
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ["admins"] });
+      toast.success(
+        result.message ||
+          (action === "BLOCK"
+            ? "User blocked successfully."
+            : "User activated successfully."),
+      );
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Unexpected error";
+      toast.error(message);
+    } finally {
+      toast.dismiss(toastId);
+    }
+  };
+
+  const getStatusActionLabel = (admin: IAdmin) => {
+    if (admin.user.status === UserStatus.ACTIVE) {
+      return "Block User";
+    }
+
+    if (admin.user.status === UserStatus.BLOCKED) {
+      return "Active User";
+    }
+
+    return undefined;
+  };
+
+  const canManageAdminStatus = effectiveUser?.role === Role.SUPER_ADMIN;
 
   const closeModal = () => {
     setActiveModal(null);
@@ -371,9 +448,18 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
         actions={{
           onView: handleView,
           onEdit: handleEdit,
-          onDelete: handleDelete,
+          onDelete: canManageAdminStatus ? handleDelete : undefined,
+          onStatusAction: canManageAdminStatus ? handleStatusAction : undefined,
+          getStatusActionLabel: canManageAdminStatus
+            ? getStatusActionLabel
+            : undefined,
         }}
-        isLoading={isLoading || isFetching || isSortingTransitionPending}
+        isLoading={
+          isLoading ||
+          isFetching ||
+          isSortingTransitionPending ||
+          isUpdatingUserStatus
+        }
         emptyMessage="No admins found!"
         sorting={{
           state: optimisticSortingState,

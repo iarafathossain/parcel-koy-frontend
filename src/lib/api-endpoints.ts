@@ -13,6 +13,8 @@ export const API = {
     RESET_PASSWORD: `${BASE_URL}/api/v1/auth/reset-password/`,
     CHANGE_PASSWORD: `${BASE_URL}/api/v1/auth/change-password/`,
     REFRESH_TOKENS: `${BASE_URL}/api/v1/auth/refresh-tokens/`,
+    ACTIVE_USER: `${BASE_URL}/api/v1/auth/activate`,
+    BLOCK_USER: `${BASE_URL}/api/v1/auth/block`,
   },
 
   USERS: {
@@ -23,6 +25,9 @@ export const API = {
   ADMINS: {
     GET_ALL: `${BASE_URL}/api/v1/admins`,
     UPDATE_PROFILE: `${BASE_URL}/api/v1/admins/profile`,
+    SOFT_DELETE: (id: string) => `${BASE_URL}/api/v1/admins/${id}`,
+    PERMANENT_DELETE: (id: string) =>
+      `${BASE_URL}/api/v1/admins/${id}/permanent`,
   },
 
   ZONES: {

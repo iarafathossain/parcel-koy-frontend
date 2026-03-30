@@ -72,12 +72,14 @@ export const API = {
   },
 
   RIDERS: {
-    BASE: `${BASE_URL}/api/v1/riders`,
+    // METHOD=GET
+    GET_ALL_RIDERS: `${BASE_URL}/api/v1/riders`,
+    // METHOD=PATCH
     UPDATE_PROFILE: `${BASE_URL}/api/v1/riders/profile`,
-    UPDATE_HUB: (id: string) => `${BASE_URL}/api/v1/riders/${id}/hub`,
-    SOFT_DELETE: (id: string) => `${BASE_URL}/api/v1/riders/soft-delete/${id}`,
-    CASH_HANDOVER: (riderId: string) =>
-      `${BASE_URL}/api/v1/riders/my-cash-handovers?riderId=${riderId}`,
+    // METHOD=PATCH
+    SOFT_DELETE: (id: string) => `${BASE_URL}/api/v1/riders/${id}`,
+    GET_ALL_PARCELS_BY_RIDER: (riderId: string) =>
+      `${BASE_URL}/api/v1/riders/${riderId}/parcels`,
   },
 
   MERCHANTS: {

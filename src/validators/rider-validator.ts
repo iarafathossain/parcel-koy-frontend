@@ -36,6 +36,18 @@ export const updateRiderProfileZodSchema = zod
     },
   );
 
+export const updateRiderHubZodSchema = zod.object({
+  hubId: zod.uuid("Hub ID must be a valid UUID"),
+});
+
+export const getSingleRiderByEmailZodSchema = zod.object({
+  email: zod.email("Invalid email address"),
+});
+
 export type UpdateRiderProfilePayload = zod.infer<
   typeof updateRiderProfileZodSchema
+>;
+export type UpdateRiderHubPayload = zod.infer<typeof updateRiderHubZodSchema>;
+export type GetSingleRiderByEmailPayload = zod.infer<
+  typeof getSingleRiderByEmailZodSchema
 >;

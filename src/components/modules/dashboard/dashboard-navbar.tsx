@@ -1,7 +1,7 @@
 import { ThemeSwitch } from "@/components/shared/theme-switch";
 import { Input } from "@/components/ui/input";
 import { getDefaultDashboardRoute } from "@/lib/auth-utils";
-import { getCurrentUser } from "@/lib/current-user";
+import { getCurrentUserFromToken } from "@/lib/current-user";
 import { getNavItemsByRole } from "@/lib/nav-items";
 import { NavSection } from "@/types/dashboard-type";
 import { Search } from "lucide-react";
@@ -10,7 +10,7 @@ import NotificationDropdown from "./notification-dropdown";
 import UserDropdown from "./user-dropdown";
 
 const DashboardNavbar = async () => {
-  const userInfo = await getCurrentUser();
+  const userInfo = await getCurrentUserFromToken();
   if (!userInfo) {
     return null;
   }

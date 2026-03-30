@@ -12,8 +12,8 @@ import { catchError } from "@/helpers/catch-error";
 import { parseNumber } from "@/helpers/parse-number";
 import { cn } from "@/lib/utils";
 import {
-  CreateParcelPayload,
-  createParcelZodSchema,
+    CreateParcelPayload,
+    createParcelZodSchema,
 } from "@/validators/parcel-validator";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
@@ -154,7 +154,6 @@ const CreateParcelRequestForm = ({
             values={values}
             pickupMethodId={initialPickupMethodId}
             requiresPickupLocation={requiresPickupLocation}
-            defaultOriginAreaId="019d2ae7-d164-772a-91ce-59e29071e07b"
           />
         )}
       </form.Subscribe>

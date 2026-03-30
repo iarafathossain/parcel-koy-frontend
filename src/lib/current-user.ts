@@ -2,7 +2,7 @@ import { IJwtPayload } from "@/types/auth-type";
 import { cookies } from "next/headers";
 import { jwtUtils } from "./jwt-utils";
 
-export const getCurrentUser = async () => {
+export const getCurrentUserFromToken = async () => {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("access_token")?.value;

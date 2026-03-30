@@ -1,5 +1,5 @@
 import { getDeliveryChargeAction } from "@/actions/pricing-action";
-import { formatPrice } from "@/helpers/format-price";
+import { getUserInfoAction } from "@/actions/user-action"; // Adjust the import path as needed
 import { parseNumber } from "@/helpers/parse-number";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -15,40 +15,47 @@ type DeliveryChargeDisplayProps = {
   };
   pickupMethodId: string;
   requiresPickupLocation: boolean;
-  defaultOriginAreaId?: string;
+  // Removed defaultOriginAreaId from props
 };
 
 const DeliveryChargeDisplay = ({
   values,
   pickupMethodId,
   requiresPickupLocation,
-  defaultOriginAreaId,
 }: DeliveryChargeDisplayProps) => {
   const parsedWeight = parseNumber(values.declaredWeight, "Declared weight");
 
-  // 1. Check if we have a valid origin ONLY if the method requires it
-  const hasValidOrigin = requiresPickupLocation
-    ? Boolean(values.originAreaId)
-    : true; // Automatically pass the check for regular-pickup
+  // 1. Fetch user info to get the merchant's default origin area
+  const { data: userInfo, isLoading: isUserLoading } = useQuery({
+    queryKey: ["user-info"],
+    queryFn: () => getUserInfoAction(),
+    staleTime: 1000 * 60 * 5,
+  });
 
-  // 2. Determine which ID to send to the backend (if any)
-  const finalOriginAreaId = requiresPickupLocation
+  // Safely extract the default area ID
+  const defaultOriginAreaId = userInfo?.merchantProfile?.originArea?.id || "";
+
+  // 2. Determine the correct origin area to use
+  const activeOriginAreaId = requiresPickupLocation
     ? values.originAreaId
     : defaultOriginAreaId;
 
-  // 3. Now the boolean logic won't block regular pickups
+  // 3. Check if we have a valid origin (either from the form or from the user profile)
+  const hasValidOrigin = Boolean(activeOriginAreaId);
+
+  // 4. Ensure ALL required fields are present before querying the price
   const hasRequiredFields = Boolean(
     values.categoryId &&
     values.destinationAreaId &&
     values.speedId &&
     values.deliveryMethodId &&
-    hasValidOrigin && // <-- This is the crucial fix
+    hasValidOrigin &&
     parsedWeight.value !== null,
   );
 
   const {
     data: chargeData,
-    isLoading,
+    isLoading: isChargeLoading,
     isError,
   } = useQuery({
     queryKey: [
@@ -58,7 +65,7 @@ const DeliveryChargeDisplay = ({
       values.speedId,
       values.deliveryMethodId,
       pickupMethodId,
-      finalOriginAreaId, // Keeps the query key stable
+      activeOriginAreaId,
       parsedWeight.value,
     ],
     queryFn: () =>
@@ -69,16 +76,16 @@ const DeliveryChargeDisplay = ({
         deliveryMethodId: values.deliveryMethodId,
         pickupMethodId: pickupMethodId,
         weight: parsedWeight.value as number,
-        // 4. Only attach the originAreaId to the payload if it actually exists
-        ...(finalOriginAreaId ? { originAreaId: finalOriginAreaId } : {}),
+        originAreaId: activeOriginAreaId,
       }),
     enabled: hasRequiredFields,
   });
 
+  // If we don't have all fields yet, just hide the component
   if (!hasRequiredFields) return null;
 
   return (
-    <div className="flex items-center justify-between rounded-lg border bg-muted/40 p-2">
+    <div className="mt-6 flex items-center justify-between rounded-lg border bg-muted/40 p-4">
       <div className="text-sm font-medium text-muted-foreground flex flex-col">
         <span> Delivery Charge based on declared weight</span>
         <span>
@@ -87,7 +94,7 @@ const DeliveryChargeDisplay = ({
         </span>
       </div>
       <div className="text-right">
-        {isLoading ? (
+        {isChargeLoading || isUserLoading ? (
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         ) : isError ? (
           <span className="text-sm font-medium text-destructive">
@@ -95,7 +102,7 @@ const DeliveryChargeDisplay = ({
           </span>
         ) : (
           <span className="text-xl font-bold tracking-tight">
-            {formatPrice(Number(chargeData?.data?.price || 0))}
+            ৳{chargeData?.data?.price || 0}
           </span>
         )}
       </div>

@@ -39,20 +39,16 @@ export const API = {
 
   AREAS: {
     GET_ALL_AREAS: `${BASE_URL}/api/v1/areas`,
+    CREATE_A_AREA: `${BASE_URL}/api/v1/areas`,
+    UPDATE_AREA_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/areas/${slug}`,
+    DELETE_AREA_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/areas/${slug}`,
   },
 
   HUBS: {
-    // method=GET
     GET_ALL: `${BASE_URL}/api/v1/hubs`,
-    // method=POST
     CREATE_A_HUB: `${BASE_URL}/api/v1/hubs`,
-    // method=patch
     UPDATE_HUB_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/hubs/${slug}`,
-    //method=delete
     DELETE_HUB_BY_SLUG: (slug: string) => `${BASE_URL}/api/v1/hubs/${slug}`,
-    //method=get
-    COLLECT_CASH: (hubId: string) =>
-      `${BASE_URL}/api/v1/hubs/${hubId}/cash-collections?date=today`,
   },
 
   CATEGORIES: {

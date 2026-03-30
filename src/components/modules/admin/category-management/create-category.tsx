@@ -1,0 +1,145 @@
+"use client";
+
+import { createCategoryAction } from "@/actions/category-action";
+import SubmitBtn from "@/components/shared/submit-btn";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { catchError } from "@/helpers/catch-error";
+import { createCategoryZodSchema } from "@/validators/category-validator";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { toast } from "sonner";
+
+interface CreateCategoryProps {
+  onSuccess?: () => void;
+}
+
+const CreateCategory = ({ onSuccess }: CreateCategoryProps) => {
+  const [name, setName] = useState<string>("");
+  const [baseWeight, setBaseWeight] = useState<string>("");
+  const [baseFee, setBaseFee] = useState<string>("");
+  const [isActive, setIsActive] = useState<boolean>(true);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: createCategoryAction,
+  });
+
+  const handleSubmit = async () => {
+    setServerError(null);
+
+    const payload = {
+      name: name.trim(),
+      baseWeight: parseSingleNumber(baseWeight),
+      baseFee: baseFee ? parseSingleNumber(baseFee) : undefined,
+      isActive,
+    };
+
+    const parsed = createCategoryZodSchema.safeParse(payload);
+    if (!parsed.success) {
+      const message = parsed.error.issues[0]?.message || "Invalid payload";
+      setServerError(message);
+      toast.error(message);
+      return;
+    }
+
+    const toastId = toast.loading("Creating category...");
+
+    try {
+      const result = await mutateAsync(parsed.data);
+
+      if (!result.success) {
+        const message = result.message || "Failed to create category";
+        setServerError(message);
+        toast.error(message);
+        return;
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ["categories"] });
+      toast.success(result.message || "Category created successfully.");
+      onSuccess?.();
+    } catch (error: unknown) {
+      const message = catchError(
+        error,
+        "An unexpected error occurred. Please try again.",
+      );
+      setServerError(message);
+      toast.error(message);
+    } finally {
+      toast.dismiss(toastId);
+    }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSubmit();
+  };
+
+  return (
+    <form onSubmit={handleFormSubmit} className="space-y-4">
+      {serverError && (
+        <Alert variant="destructive">
+          <AlertDescription>{serverError}</AlertDescription>
+        </Alert>
+      )}
+
+      <Card className="p-4 space-y-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="category-name">Category Name</Label>
+          <Input
+            id="category-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter category name"
+            disabled={isPending}
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="category-base-weight">Base Weight (kg)</Label>
+          <Input
+            id="category-base-weight"
+            type="number"
+            value={baseWeight}
+            onChange={(e) => setBaseWeight(e.target.value)}
+            placeholder="e.g., 1"
+            step="0.01"
+            min="0"
+            disabled={isPending}
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="category-base-fee">Base Fee (Optional)</Label>
+          <Input
+            id="category-base-fee"
+            type="number"
+            value={baseFee}
+            onChange={(e) => setBaseFee(e.target.value)}
+            placeholder="e.g., 50"
+            step="0.01"
+            min="0"
+            disabled={isPending}
+          />
+        </div>
+
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <Checkbox
+            checked={isActive}
+            onCheckedChange={(checked) => setIsActive(checked === true)}
+            disabled={isPending}
+          />
+          Active Category
+        </label>
+
+        <SubmitBtn isPending={isPending}>Create Category</SubmitBtn>
+      </Card>
+    </form>
+  );
+};
+
+export default CreateCategory;

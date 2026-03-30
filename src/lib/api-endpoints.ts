@@ -53,6 +53,11 @@ export const API = {
 
   CATEGORIES: {
     GET_ALL_CATEGORIES: `${BASE_URL}/api/v1/categories`,
+    CREATE_A_CATEGORY: `${BASE_URL}/api/v1/categories`,
+    UPDATE_CATEGORY_BY_SLUG: (slug: string) =>
+      `${BASE_URL}/api/v1/categories/${slug}`,
+    DELETE_CATEGORY_BY_SLUG: (slug: string) =>
+      `${BASE_URL}/api/v1/categories/${slug}`,
   },
 
   SPEEDS: {

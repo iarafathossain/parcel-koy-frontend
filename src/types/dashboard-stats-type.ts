@@ -132,6 +132,19 @@ export type DashboardData =
   | RiderDashboardData
   | AdminDashboardData;
 
+export const isMerchantDashboardData = (
+  data: DashboardData,
+): data is MerchantDashboardData => data.role === "MERCHANT";
+
+export const isRiderDashboardData = (
+  data: DashboardData,
+): data is RiderDashboardData => data.role === "RIDER";
+
+export const isAdminDashboardData = (
+  data: DashboardData,
+): data is AdminDashboardData =>
+  data.role === "ADMIN" || data.role === "SUPER_ADMIN";
+
 export interface DashboardStatsResponse {
   success: boolean;
   message: string;

@@ -79,14 +79,9 @@ export const merchantNavItems: NavSection[] = [
     title: "Payments",
     items: [
       {
-        title: "Payment History",
+        title: "My Payouts",
         href: "/merchant/my-payments",
-        icon: "CreditCard",
-      },
-      {
-        title: "Request Payout",
-        href: "/merchant/payment-request",
-        icon: "Wallet",
+        icon: "Link",
       },
     ],
   },

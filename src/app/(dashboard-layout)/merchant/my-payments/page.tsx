@@ -1,5 +1,7 @@
+import PayoutWrapper from "@/components/modules/merchant/my-payments/payout-wrapper";
+
 const MyPaymentsPage = () => {
-  return <h3>Welcome to My Payments Page</h3>;
-}
+  return <PayoutWrapper />;
+};
 
 export default MyPaymentsPage;

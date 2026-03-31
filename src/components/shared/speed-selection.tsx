@@ -9,8 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { formattedQueryString } from "@/helpers/formatted-query-string";
 import { ISpeed } from "@/types/speed-type";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { getAllSpeedsAction } from "../../actions/speed-action";
 
 interface SpeedSelectionProps {
@@ -30,9 +32,15 @@ const SpeedSelection = ({
   id,
   hasError = false,
 }: SpeedSelectionProps) => {
+  const searchObject = useSearchParams() as unknown as {
+    [key: string]: string | undefined | string[];
+  };
+
+  const queryString = formattedQueryString(searchObject);
+
   const { data: speedsResult } = useQuery({
     queryKey: ["speeds"],
-    queryFn: () => getAllSpeedsAction(),
+    queryFn: () => getAllSpeedsAction(queryString),
   });
 
   const speeds: ISpeed[] = (speedsResult?.data as ISpeed[]) || [];

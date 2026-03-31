@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  getUserInfoAction,
-  updateMerchantProfileAction,
-} from "@/actions/user-action";
+import { updateMerchantProfileAction } from "@/actions/user-action";
 import AppField from "@/components/shared/app-field";
 import SubmitBtn from "@/components/shared/submit-btn";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -16,7 +13,7 @@ import {
   updateMerchantProfileZodSchema,
 } from "@/validators/merchant-validator";
 import { useForm } from "@tanstack/react-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface EditMerchantProps {
@@ -29,11 +26,6 @@ const EditMerchant = ({ merchant, onSuccess }: EditMerchantProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [serverSuccess, setServerSuccess] = useState<string | null>(null);
   const queryClient = useQueryClient();
-
-  const { data: currentUserResponse } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => getUserInfoAction(),
-  });
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: UpdateMerchantProfilePayload) =>
@@ -53,8 +45,7 @@ const EditMerchant = ({ merchant, onSuccess }: EditMerchantProps) => {
       setServerError(null);
       setServerSuccess(null);
 
-      const merchantIdFromContext =
-        user?.merchantProfile?.id ?? currentUserResponse?.merchantProfile?.id;
+      const merchantIdFromContext = user?.merchantProfile?.id;
       const merchantId = merchant.id || merchantIdFromContext;
 
       if (!merchantId) {

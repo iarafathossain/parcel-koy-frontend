@@ -6,7 +6,6 @@ import {
   getAllAdminsAction,
 } from "@/actions/admin-action";
 import { getAllHubsAction } from "@/actions/hub-action";
-import { getUserInfoAction } from "@/actions/user-action";
 import CommonModal from "@/components/shared/modal/common-modal";
 import DataTable from "@/components/shared/table/data-table";
 import {
@@ -221,13 +220,6 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
     queryFn: () => getAllHubsAction(queryString),
   });
 
-  const { data: currentUserResponse } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => getUserInfoAction(),
-  });
-
-  const effectiveUser = user ?? currentUserResponse;
-
   const admins = adminDataResponse?.data || [];
   const hubs = useMemo<IHub[]>(() => {
     return hubsResponse?.data ?? [];
@@ -436,7 +428,7 @@ const AdminTable = ({ initialQueryString }: AdminTableProps) => {
     return undefined;
   };
 
-  const canManageAdminStatus = effectiveUser?.role === Role.SUPER_ADMIN;
+  const canManageAdminStatus = user?.role === Role.SUPER_ADMIN;
 
   const closeModal = () => {
     setActiveModal(null);

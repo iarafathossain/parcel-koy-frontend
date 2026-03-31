@@ -1,14 +1,13 @@
 "use client";
 
 import { softDeleteMerchantAction } from "@/actions/merchant-action";
-import { getUserInfoAction } from "@/actions/user-action";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { catchError } from "@/helpers/catch-error";
 import { useUser } from "@/hooks/use-user";
 import { IMerchant } from "@/types/user-type";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -22,11 +21,6 @@ const DeleteMerchant = ({ merchant, onClose }: DeleteMerchantProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const { data: currentUserResponse } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => getUserInfoAction(),
-  });
-
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (merchantId: string) => {
       return await softDeleteMerchantAction(merchantId);
@@ -36,8 +30,7 @@ const DeleteMerchant = ({ merchant, onClose }: DeleteMerchantProps) => {
   const handleDelete = async () => {
     setServerError(null);
 
-    const merchantIdFromContext =
-      user?.merchantProfile?.id ?? currentUserResponse?.merchantProfile?.id;
+    const merchantIdFromContext = user?.merchantProfile?.id;
     const merchantId = merchant.id || merchantIdFromContext;
 
     if (!merchantId) {

@@ -14,20 +14,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useUser } from "@/hooks/use-user";
 import { Role, RoleType } from "@/types/enum-type";
-import { IUser } from "@/types/user-type";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-
-interface MyProfileViewProps {
-  user: IUser | null;
-}
 
 const getRoleLabel = (role: RoleType): string => {
   return role.toLowerCase().replace("_", " ");
 };
 
-const MyProfileView = ({ user }: MyProfileViewProps) => {
+const MyProfileView = () => {
+  const { user } = useUser();
   const router = useRouter();
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 

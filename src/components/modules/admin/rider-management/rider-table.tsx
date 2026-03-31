@@ -2,7 +2,6 @@
 
 import { activateUserAction, blockUserAction } from "@/actions/admin-action";
 import { getAllRidersAction } from "@/actions/rider-action";
-import { getUserInfoAction } from "@/actions/user-action";
 import CommonModal from "@/components/shared/modal/common-modal";
 import DataTable from "@/components/shared/table/data-table";
 import {
@@ -202,13 +201,6 @@ const RiderTable = ({ initialQueryString }: RiderTableProps) => {
     queryFn: () => getAllRidersAction(queryString),
   });
 
-  const { data: currentUserResponse } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => getUserInfoAction(),
-  });
-
-  const effectiveUser = user ?? currentUserResponse;
-
   const riders = ridersDataResponse?.data || [];
   const meta: PaginationMeta | undefined = ridersDataResponse?.meta;
 
@@ -392,8 +384,7 @@ const RiderTable = ({ initialQueryString }: RiderTableProps) => {
   };
 
   const canManageRiderActions =
-    effectiveUser?.role === Role.ADMIN ||
-    effectiveUser?.role === Role.SUPER_ADMIN;
+    user?.role === Role.ADMIN || user?.role === Role.SUPER_ADMIN;
 
   const closeModal = () => {
     setActiveModal(null);

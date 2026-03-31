@@ -1,8 +1,10 @@
 "use client";
 
 import { getAllAreasAction } from "@/actions/area-action";
+import { formattedQueryString } from "@/helpers/formatted-query-string";
 import { IArea } from "@/types/area-type";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -32,9 +34,15 @@ const AreaSelection = ({
   hasError = false,
   label = "Origin Area",
 }: AreaSelectionProps) => {
+  const searchObject = useSearchParams() as unknown as {
+    [key: string]: string | undefined | string[];
+  };
+
+  const queryString = formattedQueryString(searchObject);
+
   const { data: areaResults } = useQuery({
     queryKey: ["areas"],
-    queryFn: () => getAllAreasAction(),
+    queryFn: () => getAllAreasAction(queryString),
   });
 
   const areas: IArea[] = (areaResults?.data as IArea[]) || [];

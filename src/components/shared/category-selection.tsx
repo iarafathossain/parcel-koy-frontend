@@ -9,8 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { formattedQueryString } from "@/helpers/formatted-query-string";
 import { ICategory } from "@/types/category-type";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { getAllCategoriesAction } from "../../actions/category-action";
 
 interface CategorySelectionProps {
@@ -30,9 +32,15 @@ const CategorySelection = ({
   id,
   hasError = false,
 }: CategorySelectionProps) => {
+  const searchObject = useSearchParams() as unknown as {
+    [key: string]: string | undefined | string[];
+  };
+
+  const queryString = formattedQueryString(searchObject);
+
   const { data: categoriesResult } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => getAllCategoriesAction(),
+    queryFn: () => getAllCategoriesAction(queryString),
   });
 
   const categories: ICategory[] = (categoriesResult?.data as ICategory[]) || [];

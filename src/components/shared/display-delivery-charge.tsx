@@ -1,7 +1,7 @@
 import { getDeliveryChargeAction } from "@/actions/pricing-action";
-import { getUserInfoAction } from "@/actions/user-action";
 import { formatPrice } from "@/helpers/format-price";
 import { parseNumber } from "@/helpers/parse-number";
+import { useUser } from "@/hooks/use-user";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
@@ -26,15 +26,10 @@ const DeliveryChargeDisplay = ({
 }: DeliveryChargeDisplayProps) => {
   const parsedWeight = parseNumber(values.declaredWeight, "Declared weight");
 
-  // 1. Fetch user info to get the merchant's default origin area
-  const { data: userInfo, isLoading: isUserLoading } = useQuery({
-    queryKey: ["user-info"],
-    queryFn: () => getUserInfoAction(),
-    staleTime: 1000 * 60 * 5,
-  });
+  const { user } = useUser();
 
   // Safely extract the default area ID
-  const defaultOriginAreaId = userInfo?.merchantProfile?.originArea?.id || "";
+  const defaultOriginAreaId = user?.merchantProfile?.originArea?.id || "";
 
   // 2. Determine the correct origin area to use
   const activeOriginAreaId = requiresPickupLocation
@@ -95,7 +90,7 @@ const DeliveryChargeDisplay = ({
         </span>
       </div>
       <div className="text-right">
-        {isChargeLoading || isUserLoading ? (
+        {isChargeLoading ? (
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         ) : isError ? (
           <span className="text-sm font-medium text-destructive">

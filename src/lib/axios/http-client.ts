@@ -1,3 +1,5 @@
+import "server-only";
+
 import { env } from "@/env";
 import { APIResponse } from "@/types/api-type";
 import axios from "axios";

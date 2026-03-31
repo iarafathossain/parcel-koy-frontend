@@ -2,7 +2,6 @@
 
 import { activateUserAction, blockUserAction } from "@/actions/admin-action";
 import { getAllMerchantsAction } from "@/actions/merchant-action";
-import { getUserInfoAction } from "@/actions/user-action";
 import CommonModal from "@/components/shared/modal/common-modal";
 import DataTable from "@/components/shared/table/data-table";
 import {
@@ -201,13 +200,6 @@ const MerchantTable = ({ initialQueryString }: MerchantTableProps) => {
     queryFn: () => getAllMerchantsAction(queryString),
   });
 
-  const { data: currentUserResponse } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => getUserInfoAction(),
-  });
-
-  const effectiveUser = user ?? currentUserResponse;
-
   const merchants = merchantsDataResponse?.data || [];
   const meta: PaginationMeta | undefined = merchantsDataResponse?.meta;
 
@@ -394,8 +386,7 @@ const MerchantTable = ({ initialQueryString }: MerchantTableProps) => {
   };
 
   const canManageMerchantActions =
-    effectiveUser?.role === Role.ADMIN ||
-    effectiveUser?.role === Role.SUPER_ADMIN;
+    user?.role === Role.ADMIN || user?.role === Role.SUPER_ADMIN;
 
   const closeModal = () => {
     setActiveModal(null);

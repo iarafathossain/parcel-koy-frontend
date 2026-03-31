@@ -9,6 +9,7 @@ import {
 } from "@/components/shared/table/data-table-filters";
 import { constants } from "@/constants";
 import { parsePositiveInt } from "@/helpers/parse-positive-int";
+import { useUser } from "@/hooks/use-user";
 import { PaginationMeta } from "@/types/api-type";
 import { IParcel } from "@/types/parcel-type";
 import { useQuery } from "@tanstack/react-query";
@@ -24,14 +25,15 @@ import {
 import { parcelColumns } from "./parcel-columns";
 
 interface MerchantParcelsTableProps {
-  merchantId: string;
   initialQueryString: string;
 }
 
 const MerchantParcelsTable = ({
-  merchantId,
   initialQueryString,
 }: MerchantParcelsTableProps) => {
+  const { user } = useUser();
+  const merchantId = user?.merchantProfile?.id;
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -199,7 +201,7 @@ const MerchantParcelsTable = ({
     isFetching,
   } = useQuery({
     queryKey: ["parcels", merchantId, queryString],
-    queryFn: () => getAllMerchantParcelsAction(merchantId, queryString),
+    queryFn: () => getAllMerchantParcelsAction(merchantId!, queryString),
   });
 
   const parcels = parcelDataResponse?.data || [];

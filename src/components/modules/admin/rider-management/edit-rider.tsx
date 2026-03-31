@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  getUserInfoAction,
-  updateRiderProfileAction,
-} from "@/actions/user-action";
+import { updateRiderProfileAction } from "@/actions/user-action";
 import AppField from "@/components/shared/app-field";
 import SubmitBtn from "@/components/shared/submit-btn";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -16,7 +13,7 @@ import {
   updateRiderProfileZodSchema,
 } from "@/validators/rider-validator";
 import { useForm } from "@tanstack/react-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface EditRiderProps {
@@ -29,11 +26,6 @@ const EditRider = ({ rider, onSuccess }: EditRiderProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [serverSuccess, setServerSuccess] = useState<string | null>(null);
   const queryClient = useQueryClient();
-
-  const { data: currentUserResponse } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => getUserInfoAction(),
-  });
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: UpdateRiderProfilePayload) =>
@@ -53,8 +45,7 @@ const EditRider = ({ rider, onSuccess }: EditRiderProps) => {
       setServerError(null);
       setServerSuccess(null);
 
-      const riderIdFromContext =
-        user?.riderProfile?.id ?? currentUserResponse?.riderProfile?.id;
+      const riderIdFromContext = user?.riderProfile?.id;
       const riderId = rider.id || riderIdFromContext;
 
       if (!riderId) {

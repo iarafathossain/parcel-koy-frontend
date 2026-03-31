@@ -1,14 +1,13 @@
 "use client";
 
 import { softDeleteRiderAction } from "@/actions/rider-action";
-import { getUserInfoAction } from "@/actions/user-action";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { catchError } from "@/helpers/catch-error";
 import { useUser } from "@/hooks/use-user";
 import { IRider } from "@/types/user-type";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -22,11 +21,6 @@ const DeleteRider = ({ rider, onClose }: DeleteRiderProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const { data: currentUserResponse } = useQuery({
-    queryKey: ["current-user"],
-    queryFn: () => getUserInfoAction(),
-  });
-
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (riderId: string) => {
       return await softDeleteRiderAction(riderId);
@@ -36,8 +30,7 @@ const DeleteRider = ({ rider, onClose }: DeleteRiderProps) => {
   const handleDelete = async () => {
     setServerError(null);
 
-    const riderIdFromContext =
-      user?.riderProfile?.id ?? currentUserResponse?.riderProfile?.id;
+    const riderIdFromContext = user?.riderProfile?.id;
     const riderId = rider.id || riderIdFromContext;
 
     if (!riderId) {

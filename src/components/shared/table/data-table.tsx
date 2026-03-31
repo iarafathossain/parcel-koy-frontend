@@ -48,7 +48,7 @@ interface DataTableActions<TData> {
 interface DataTableProps<TData> {
   data: TData[];
   columns: ColumnDef<TData>[];
-  actions: DataTableActions<TData>;
+  actions?: DataTableActions<TData>;
   emptyMessage?: string;
   isLoading?: boolean;
   sorting?: {

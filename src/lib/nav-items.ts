@@ -191,29 +191,14 @@ export const riderNavItems: NavSection[] = [
     title: "Delivery Operations",
     items: [
       {
-        title: "My Deliveries",
-        href: "/rider/dashboard/my-deliveries",
+        title: "My Assigned Parcels",
+        href: "/rider/dashboard/assigned-parcels",
         icon: "Package",
       },
       {
-        title: "Active Route",
-        href: "/rider/dashboard/active-route",
-        icon: "Route",
-      },
-    ],
-  },
-  {
-    title: "Earnings",
-    items: [
-      {
-        title: "My Earnings",
-        href: "/rider/dashboard/earnings",
-        icon: "DollarSign",
-      },
-      {
-        title: "Cash Handover",
-        href: "/rider/dashboard/cash-handover",
-        icon: "Wallet",
+        title: "Track Parcel",
+        href: "/track-parcel",
+        icon: "Search",
       },
     ],
   },

@@ -1,4 +1,4 @@
-import { Gender } from "@/types/enum-type";
+import { Gender, ParcelStatus } from "@/types/enum-type";
 import * as zod from "zod";
 
 export const createRiderZodSchema = zod.object({
@@ -84,4 +84,35 @@ export type UpdateRiderProfilePayload = zod.infer<
 export type UpdateRiderHubPayload = zod.infer<typeof updateRiderHubZodSchema>;
 export type GetSingleRiderByEmailPayload = zod.infer<
   typeof getSingleRiderByEmailZodSchema
+>;
+
+export const updateParcelStatusByRiderZodSchema = zod.object({
+  status: zod.enum(
+    [
+      ParcelStatus.PICKED_UP,
+      ParcelStatus.PICKUP_FAILED,
+      ParcelStatus.DELIVERY_FAILED,
+    ],
+    "Invalid parcel status selected",
+  ),
+  pickupFailedReason: zod
+    .string()
+    .min(1, "Pickup failed reason is required")
+    .optional(),
+  deliveryFailedReason: zod
+    .string()
+    .min(1, "Delivery failed reason is required")
+    .optional(),
+});
+
+export type UpdateParcelStatusByRiderPayload = zod.infer<
+  typeof updateParcelStatusByRiderZodSchema
+>;
+
+export const verifyAndDeliverParcelZodSchema = zod.object({
+  otp: zod.string().min(1, "OTP is required"),
+});
+
+export type VerifyAndDeliverParcelPayload = zod.infer<
+  typeof verifyAndDeliverParcelZodSchema
 >;

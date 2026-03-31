@@ -103,8 +103,20 @@ export const API = {
     GET_ALL_RIDERS: `${BASE_URL}/api/v1/riders`,
     UPDATE_PROFILE: `${BASE_URL}/api/v1/riders/profile`,
     SOFT_DELETE: (id: string) => `${BASE_URL}/api/v1/riders/${id}`,
-    GET_ALL_PARCELS_BY_RIDER: (riderId: string) =>
-      `${BASE_URL}/api/v1/riders/${riderId}/parcels`,
+    GET_MY_ASSIGNED_PARCELS: `${BASE_URL}/api/v1/riders/my-assigned-parcels`,
+    // method=GET
+    GET_MY_ASSIGNED_PICKUPS: `${BASE_URL}/api/v1/riders/my-assigned-pickup-parcels`,
+    // method=GET
+    GET_MY_ASSIGNED_DELIVERIES: `${BASE_URL}/api/v1/riders/my-assigned-delivery-parcels`,
+    // method=PATCH
+    UPDATE_PARCEL_STATUS_BY_RIDER: (parcelId: string) =>
+      `${BASE_URL}/api/v1/riders/rider-status/${parcelId}`,
+    // method=POST
+    SEND_DELIVERY_OTP: (parcelId: string) =>
+      `${BASE_URL}/api/v1/riders/delivery-otp/${parcelId}`,
+    // method=PATCH
+    VERIFY_DELIVERY_OTP: (parcelId: string) =>
+      `${BASE_URL}/api/v1/riders/verify-delivery/${parcelId}`,
   },
 
   MERCHANTS: {

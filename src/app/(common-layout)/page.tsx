@@ -1,3 +1,6 @@
+import { CredentialsSection } from "@/components/shared/landing/credential";
+import { FaqSection } from "@/components/shared/landing/faq-";
+import { Partnership } from "@/components/shared/landing/partnership";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,11 +9,9 @@ import {
   Building2,
   ClipboardCheck,
   Coins,
-  Handshake,
   Headset,
   Package,
   Search,
-  ShieldCheck,
   Truck,
   Wallet,
 } from "lucide-react";
@@ -89,7 +90,12 @@ const valueProps = [
   },
 ];
 
-const faqs = [
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+const faqs: FAQ[] = [
   {
     question: "Why choose ParcelKoy Courier?",
     answer:
@@ -170,21 +176,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-14">
-        <h2 className="text-center text-2xl font-semibold tracking-tight">
-          Brands Love To Work With Us
-        </h2>
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {partners.map((partner) => (
-            <div
-              key={partner}
-              className="flex h-14 items-center justify-center rounded-lg border bg-card px-2 text-sm font-semibold text-muted-foreground"
-            >
-              {partner}
-            </div>
-          ))}
-        </div>
-      </section>
+      <Partnership title="Brands Love To Work With Us" partners={partners} />
 
       <section className="container mx-auto px-4 py-8 md:py-14">
         <h2 className="text-center text-3xl font-semibold tracking-tight">
@@ -228,31 +220,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto max-w-4xl px-4 py-12 md:py-16">
-        <h2 className="text-center text-3xl font-semibold tracking-tight">
-          Frequently Asked Questions
-        </h2>
-        <div className="mt-8 space-y-3">
-          {faqs.map((faq) => (
-            <details
-              key={faq.question}
-              className="group rounded-lg border bg-card px-5 py-4"
-            >
-              <summary className="cursor-pointer list-none pr-6 text-base font-semibold marker:content-none">
-                <span className="inline-flex w-full items-center justify-between gap-4">
-                  {faq.question}
-                  <span className="text-primary transition-transform group-open:rotate-45">
-                    +
-                  </span>
-                </span>
-              </summary>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                {faq.answer}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <FaqSection title="Frequently Asked Questions" faqs={faqs} />
 
       <section className="container mx-auto px-4 pb-12 md:pb-16">
         <div className="rounded-2xl bg-primary px-6 py-12 text-center text-primary-foreground">
@@ -268,45 +236,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 pb-14 md:pb-20">
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card className="border py-0">
-            <CardContent className="flex items-start gap-3 p-6">
-              <ShieldCheck className="mt-1 h-5 w-5 text-primary" />
-              <div>
-                <p className="text-xs font-semibold tracking-wide text-primary uppercase">
-                  Licensed
-                </p>
-                <h3 className="mt-1 text-xl font-semibold">
-                  A Licensed Courier Service of GPO
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Officially recognized and operating under compliant logistics
-                  standards.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border py-0">
-            <CardContent className="flex items-start gap-3 p-6">
-              <Handshake className="mt-1 h-5 w-5 text-primary" />
-              <div>
-                <p className="text-xs font-semibold tracking-wide text-primary uppercase">
-                  Membership
-                </p>
-                <h3 className="mt-1 text-xl font-semibold">
-                  Member of National Delivery Associations
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Collaborating with industry partners to maintain trusted,
-                  scalable logistics services.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+      <CredentialsSection />
     </div>
   );
 };

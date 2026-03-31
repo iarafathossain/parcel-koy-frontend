@@ -45,6 +45,11 @@ export const updateParcelStatusByRiderAction = async (
   payload: UpdateParcelStatusByRiderPayload,
 ) => {
   try {
+    console.log(
+      "Calling updateParcelStatusByRiderAction with parcelId in action:",
+      parcelId,
+    );
+    console.log("Payload in action:", payload);
     return await riderServices.updateParcelStatusByRider(parcelId, payload);
   } catch (error) {
     throw new Error(catchError(error));

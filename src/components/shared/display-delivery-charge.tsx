@@ -77,7 +77,7 @@ const DeliveryChargeDisplay = ({
         deliveryMethodId: values.deliveryMethodId,
         pickupMethodId: pickupMethodId,
         weight: parsedWeight.value as number,
-        originAreaId: activeOriginAreaId,
+        originAreaId: activeOriginAreaId!,
       }),
     enabled: hasRequiredFields,
   });

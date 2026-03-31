@@ -142,10 +142,10 @@ const Footer = () => {
         <div className="container mx-auto flex flex-col gap-3 px-4 py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>Copyright {year} ParcelKoy Logistics. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <Link href="/about-us" className="hover:text-foreground">
+            <Link href="/privacy" className="hover:text-foreground">
               Privacy Policy
             </Link>
-            <Link href="/about-us" className="hover:text-foreground">
+            <Link href="/terms-condition" className="hover:text-foreground">
               Terms of Service
             </Link>
           </div>

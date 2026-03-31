@@ -111,7 +111,7 @@ export const riderServices = {
     payload: VerifyAndDeliverParcelPayload,
   ) => {
     try {
-      const response = await httpClient.post<IParcel>(
+      const response = await httpClient.patch<IParcel>(
         API.RIDERS.VERIFY_DELIVERY_OTP(parcelId),
         payload,
       );

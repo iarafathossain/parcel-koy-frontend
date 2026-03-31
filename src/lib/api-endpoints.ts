@@ -92,6 +92,8 @@ export const API = {
     GET_ALL_PARCELS: `${BASE_URL}/api/v1/parcels`,
     UPDATE_PARCEL_STATUS: (id: string) =>
       `${BASE_URL}/api/v1/parcels/status/${id}`,
+    GET_PARCEL_TRACKING: (trackingId: string) =>
+      `${BASE_URL}/api/v1/parcels/tracking/${trackingId}`,
   },
 
   NOTES: {
@@ -110,13 +112,13 @@ export const API = {
     GET_MY_ASSIGNED_DELIVERIES: `${BASE_URL}/api/v1/riders/my-assigned-delivery-parcels`,
     // method=PATCH
     UPDATE_PARCEL_STATUS_BY_RIDER: (parcelId: string) =>
-      `${BASE_URL}/api/v1/riders/rider-status/${parcelId}`,
+      `${BASE_URL}/api/v1/parcels/rider-status/${parcelId}`,
     // method=POST
     SEND_DELIVERY_OTP: (parcelId: string) =>
-      `${BASE_URL}/api/v1/riders/delivery-otp/${parcelId}`,
+      `${BASE_URL}/api/v1/parcels/delivery-otp/${parcelId}`,
     // method=PATCH
     VERIFY_DELIVERY_OTP: (parcelId: string) =>
-      `${BASE_URL}/api/v1/riders/verify-delivery/${parcelId}`,
+      `${BASE_URL}/api/v1/parcels/verify-delivery/${parcelId}`,
   },
 
   MERCHANTS: {

@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { API } from "@/lib/api-endpoints";
 import { IHub } from "@/types/hub-type";
 import { format } from "date-fns";
 import {
@@ -45,13 +46,9 @@ async function getTrackingData(
   trackingId: string,
 ): Promise<ApiResponse | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
-    const res = await fetch(
-      `${baseUrl}/api/v1/parcels/tracking/${trackingId}`,
-      {
-        cache: "no-store",
-      },
-    );
+    const res = await fetch(API.PARCELS.GET_PARCEL_TRACKING(trackingId), {
+      cache: "no-store",
+    });
 
     if (!res.ok) return null;
     return await res.json();

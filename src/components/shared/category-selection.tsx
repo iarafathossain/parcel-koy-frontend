@@ -9,10 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formattedQueryString } from "@/helpers/formatted-query-string";
 import { ICategory } from "@/types/category-type";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
 import { getAllCategoriesAction } from "../../actions/category-action";
 
 interface CategorySelectionProps {
@@ -32,18 +30,13 @@ const CategorySelection = ({
   id,
   hasError = false,
 }: CategorySelectionProps) => {
-  const searchObject = useSearchParams() as unknown as {
-    [key: string]: string | undefined | string[];
-  };
-
-  const queryString = formattedQueryString(searchObject);
-
-  const { data: categoriesResult } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => getAllCategoriesAction(queryString),
+  const { data: categoriesResult, isLoading } = useQuery({
+    queryKey: ["categories", "for-pricing"],
+    queryFn: () => getAllCategoriesAction(""),
   });
 
   const categories: ICategory[] = (categoriesResult?.data as ICategory[]) || [];
+  const isOptionsLoading = isLoading && categories.length === 0;
 
   return (
     <Select value={value} onValueChange={onChange}>
@@ -51,6 +44,7 @@ const CategorySelection = ({
         id={id}
         onBlur={onBlur}
         aria-invalid={hasError || undefined}
+        disabled={isOptionsLoading}
         className="w-full"
       >
         <SelectValue placeholder={placeholder} />
@@ -58,6 +52,11 @@ const CategorySelection = ({
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Category</SelectLabel>
+          {isOptionsLoading && (
+            <SelectItem value="__loading_categories" disabled>
+              Loading categories...
+            </SelectItem>
+          )}
           {categories.map((category) => (
             <SelectItem key={category.id} value={category.id}>
               {category.name}

@@ -1,10 +1,8 @@
 "use client";
 
 import { getAllAreasAction } from "@/actions/area-action";
-import { formattedQueryString } from "@/helpers/formatted-query-string";
 import { IArea } from "@/types/area-type";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -34,24 +32,21 @@ const AreaSelection = ({
   hasError = false,
   label = "Origin Area",
 }: AreaSelectionProps) => {
-  const searchObject = useSearchParams() as unknown as {
-    [key: string]: string | undefined | string[];
-  };
-
-  const queryString = formattedQueryString(searchObject);
-
-  const { data: areaResults } = useQuery({
-    queryKey: ["areas"],
-    queryFn: () => getAllAreasAction(queryString),
+  const { data: areaResults, isLoading } = useQuery({
+    queryKey: ["areas", "for-pricing"],
+    queryFn: () => getAllAreasAction(""),
   });
 
   const areas: IArea[] = (areaResults?.data as IArea[]) || [];
+  const isOptionsLoading = isLoading && areas.length === 0;
+
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger
         id={id}
         onBlur={onBlur}
         aria-invalid={hasError || undefined}
+        disabled={isOptionsLoading}
         className="w-full"
       >
         <SelectValue placeholder={placeholder} />
@@ -59,6 +54,11 @@ const AreaSelection = ({
       <SelectContent>
         <SelectGroup>
           <SelectLabel>{label}</SelectLabel>
+          {isOptionsLoading && (
+            <SelectItem value="__loading_areas" disabled>
+              Loading areas...
+            </SelectItem>
+          )}
           {areas.map((area) => (
             <SelectItem key={area.id} value={area.id}>
               {area.name}

@@ -1,12 +1,50 @@
 "use client";
 
+import { getAllAreasAction } from "@/actions/area-action";
+import { getAllCategoriesAction } from "@/actions/category-action";
+import {
+  getAllDeliveryMethodsAction,
+  getAllPickupMethodsAction,
+} from "@/actions/method-action";
+import { getAllSpeedsAction } from "@/actions/speed-action";
 import AppField from "@/components/shared/app-field";
 import DeliveryChargeDisplay from "@/components/shared/display-delivery-charge";
 import { parseNumber } from "@/helpers/parse-number";
 import { getDeliveryChargeZodSchema } from "@/validators/pricing-validator";
 import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const PricingPage = () => {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["areas", "for-pricing"],
+      queryFn: () => getAllAreasAction(""),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: ["categories", "for-pricing"],
+      queryFn: () => getAllCategoriesAction(""),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: ["speeds", "for-pricing"],
+      queryFn: () => getAllSpeedsAction(""),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: ["pickup-methods", "for-pricing"],
+      queryFn: () => getAllPickupMethodsAction(),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: ["delivery-methods", "for-pricing"],
+      queryFn: () => getAllDeliveryMethodsAction(),
+    });
+  }, [queryClient]);
+
   const form = useForm({
     defaultValues: {
       originAreaId: "",

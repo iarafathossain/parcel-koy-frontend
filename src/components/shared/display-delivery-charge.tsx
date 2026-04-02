@@ -48,6 +48,7 @@ const DeliveryChargeDisplay = ({
     values.destinationAreaId &&
     values.speedId &&
     values.deliveryMethodId &&
+    pickupMethodId &&
     hasValidOrigin &&
     parsedWeight.value !== null,
   );

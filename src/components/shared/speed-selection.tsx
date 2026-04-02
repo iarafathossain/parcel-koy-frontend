@@ -9,10 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formattedQueryString } from "@/helpers/formatted-query-string";
 import { ISpeed } from "@/types/speed-type";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
 import { getAllSpeedsAction } from "../../actions/speed-action";
 
 interface SpeedSelectionProps {
@@ -32,18 +30,13 @@ const SpeedSelection = ({
   id,
   hasError = false,
 }: SpeedSelectionProps) => {
-  const searchObject = useSearchParams() as unknown as {
-    [key: string]: string | undefined | string[];
-  };
-
-  const queryString = formattedQueryString(searchObject);
-
-  const { data: speedsResult } = useQuery({
-    queryKey: ["speeds"],
-    queryFn: () => getAllSpeedsAction(queryString),
+  const { data: speedsResult, isLoading } = useQuery({
+    queryKey: ["speeds", "for-pricing"],
+    queryFn: () => getAllSpeedsAction(""),
   });
 
   const speeds: ISpeed[] = (speedsResult?.data as ISpeed[]) || [];
+  const isOptionsLoading = isLoading && speeds.length === 0;
 
   return (
     <Select value={value} onValueChange={onChange}>
@@ -51,6 +44,7 @@ const SpeedSelection = ({
         id={id}
         onBlur={onBlur}
         aria-invalid={hasError || undefined}
+        disabled={isOptionsLoading}
         className="w-full"
       >
         <SelectValue placeholder={placeholder} />
@@ -58,6 +52,11 @@ const SpeedSelection = ({
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Speed</SelectLabel>
+          {isOptionsLoading && (
+            <SelectItem value="__loading_speeds" disabled>
+              Loading speeds...
+            </SelectItem>
+          )}
           {speeds.map((speed) => (
             <SelectItem key={speed.id} value={speed.id}>
               {speed.name}

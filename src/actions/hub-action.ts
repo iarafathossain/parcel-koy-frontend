@@ -8,7 +8,7 @@ export const getAllHubsAction = async (queryString: string) => {
   try {
     return await hubServices.getAllHubs(queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -16,7 +16,7 @@ export const createHubAction = async (payload: CreateHubPayload) => {
   try {
     return await hubServices.createHub(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -27,7 +27,7 @@ export const updateHubBySlugAction = async (
   try {
     return await hubServices.updateHubBySlug(slug, payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -35,6 +35,6 @@ export const deleteHubBySlugAction = async (slug: string) => {
   try {
     return await hubServices.deleteHubBySlug(slug);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

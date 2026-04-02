@@ -7,6 +7,6 @@ export const getDashboardStatsAction = async () => {
   try {
     return await dashboardService.getStats();
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

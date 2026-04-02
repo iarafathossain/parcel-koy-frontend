@@ -94,6 +94,9 @@ export const API = {
       `${BASE_URL}/api/v1/parcels/status/${id}`,
     GET_PARCEL_TRACKING: (trackingId: string) =>
       `${BASE_URL}/api/v1/parcels/tracking/${trackingId}`,
+    UPDATE_PARCEL_BY_ID: (id: string) => `${BASE_URL}/api/v1/parcels/${id}`,
+    CANCEL_PARCEL_BY_MERCHANT: (id: string) =>
+      `${BASE_URL}/api/v1/parcels/cancel/${id}`,
   },
 
   NOTES: {

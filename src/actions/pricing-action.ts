@@ -2,6 +2,8 @@
 
 import { catchError } from "@/helpers/catch-error";
 import { pricingServices } from "@/services/pricing-service";
+import { APIResponse } from "@/types/api-type";
+import { IDeliveryCharge } from "@/types/pricing-type";
 import {
   CreatePricingRulePayload,
   GetDeliveryChargePayload,
@@ -12,7 +14,7 @@ export const getAllPricingAction = async (queryString = "") => {
   try {
     return await pricingServices.getAllPricing(queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -22,7 +24,7 @@ export const createPricingRuleAction = async (
   try {
     return await pricingServices.createPricingRule(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -33,7 +35,7 @@ export const updatePricingByIdAction = async (
   try {
     return await pricingServices.updatePricingById(id, payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -41,16 +43,20 @@ export const deletePricingByIdAction = async (id: string) => {
   try {
     return await pricingServices.deletePricingById(id);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
 export const getDeliveryChargeAction = async (
   payload: GetDeliveryChargePayload,
-) => {
+): Promise<APIResponse<IDeliveryCharge>> => {
   try {
     return await pricingServices.getDeliveryCharge(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return {
+      success: false,
+      message: catchError(error),
+      data: undefined,
+    };
   }
 };

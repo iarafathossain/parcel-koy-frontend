@@ -40,6 +40,7 @@ interface DataTableActions<TData> {
   onDelete?: (data: TData) => void;
   onStatusAction?: (data: TData) => void;
   getStatusActionLabel?: (data: TData) => string | undefined;
+  getDeleteActionLabel?: (data: TData) => string | undefined;
   viewLabel?: string;
   editLabel?: string;
   deleteLabel?: string;
@@ -134,13 +135,24 @@ const DataTable = <TData,>({
                         </DropdownMenuItem>
                       );
                     })()}
-                  {actions.onDelete && (
-                    <DropdownMenuItem
-                      onClick={() => actions.onDelete?.(rowData)}
-                    >
-                      {actions.deleteLabel || "Delete"}
-                    </DropdownMenuItem>
-                  )}
+                  {actions.onDelete &&
+                    (() => {
+                      const deleteLabel = actions.getDeleteActionLabel
+                        ? actions.getDeleteActionLabel(rowData)
+                        : actions.deleteLabel || "Delete";
+
+                      if (!deleteLabel) {
+                        return null;
+                      }
+
+                      return (
+                        <DropdownMenuItem
+                          onClick={() => actions.onDelete?.(rowData)}
+                        >
+                          {deleteLabel}
+                        </DropdownMenuItem>
+                      );
+                    })()}
                 </DropdownMenuContent>
               </DropdownMenu>
             );

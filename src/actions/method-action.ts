@@ -11,7 +11,7 @@ export const getAllMethodsAction = async (queryString: string) => {
   try {
     return await methodServices.getAllMethods(queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -19,7 +19,7 @@ export const getAllPickupMethodsAction = async () => {
   try {
     return await methodServices.getAllPickupMethods();
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -27,7 +27,7 @@ export const getAllDeliveryMethodsAction = async () => {
   try {
     return await methodServices.getAllDeliveryMethods();
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -35,7 +35,7 @@ export const createMethodAction = async (payload: CreateMethodPayload) => {
   try {
     return await methodServices.createMethod(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -46,7 +46,7 @@ export const updateMethodBySlugAction = async (
   try {
     return await methodServices.updateMethodBySlug(slug, payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -54,6 +54,6 @@ export const deleteMethodBySlugAction = async (slug: string) => {
   try {
     return await methodServices.deleteMethodBySlug(slug);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

@@ -11,7 +11,7 @@ export const getAllZonesAction = async (queryString: string) => {
   try {
     return await zoneServices.getAllZones(queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -19,7 +19,7 @@ export const createZoneAction = async (payload: CreateZonePayload) => {
   try {
     return await zoneServices.createZone(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -30,7 +30,7 @@ export const updateZoneBySlugAction = async (
   try {
     return await zoneServices.updateZoneBySlug(slug, payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -38,6 +38,6 @@ export const deleteZoneBySlugAction = async (slug: string) => {
   try {
     return await zoneServices.deleteZoneBySlug(slug);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

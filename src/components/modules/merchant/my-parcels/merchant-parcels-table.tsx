@@ -1,6 +1,8 @@
 "use client";
 
 import { getAllMerchantParcelsAction } from "@/actions/merchant-action";
+import ViewParcel from "@/components/modules/admin/parcel-management/view-parcel";
+import CommonModal from "@/components/shared/modal/common-modal";
 import DataTable from "@/components/shared/table/data-table";
 import {
   DataTableFilterConfig,
@@ -11,6 +13,7 @@ import { constants } from "@/constants";
 import { parsePositiveInt } from "@/helpers/parse-positive-int";
 import { useUser } from "@/hooks/use-user";
 import { PaginationMeta } from "@/types/api-type";
+import { ModalType, ParcelStatus } from "@/types/enum-type";
 import { IParcel } from "@/types/parcel-type";
 import { useQuery } from "@tanstack/react-query";
 import { PaginationState, SortingState } from "@tanstack/react-table";
@@ -22,6 +25,8 @@ import {
   useState,
   useTransition,
 } from "react";
+import CancelParcel from "./cancel-parcel";
+import EditParcel from "./edit-parcel";
 import { parcelColumns } from "./parcel-columns";
 
 interface MerchantParcelsTableProps {
@@ -39,19 +44,27 @@ const MerchantParcelsTable = ({
   const searchParams = useSearchParams();
   const [, startSortingTransition] = useTransition();
 
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const [selectedParcel, setSelectedParcel] = useState<IParcel | null>(null);
+
   const handleView = (parcel: IParcel) => {
-    // Implement view logic here
-    console.log("View parcel:", parcel);
+    setSelectedParcel(parcel);
+    setActiveModal("view");
   };
 
   const handleEdit = (parcel: IParcel) => {
-    // Implement edit logic here
-    console.log("Edit parcel:", parcel);
+    setSelectedParcel(parcel);
+    setActiveModal("edit");
   };
 
   const handleDelete = (parcel: IParcel) => {
-    // Implement delete logic here
-    console.log("Delete parcel:", parcel);
+    setSelectedParcel(parcel);
+    setActiveModal("delete");
+  };
+
+  const closeModal = () => {
+    setActiveModal(null);
+    setTimeout(() => setSelectedParcel(null), 200);
   };
 
   const queryStringFromUrl = useMemo(
@@ -275,37 +288,68 @@ const MerchantParcelsTable = ({
   );
 
   return (
-    <DataTable<IParcel>
-      data={parcels}
-      columns={parcelColumns}
-      actions={{
-        onView: handleView,
-        onEdit: handleEdit,
-        onDelete: handleDelete,
-      }}
-      isLoading={isLoading || isFetching}
-      emptyMessage="No parcels found!"
-      sorting={{
-        state: optimisticSortingState,
-        onSortingChange: handleSortingChange,
-      }}
-      pagination={{
-        state: optimisticPaginationState,
-        onPaginationChange: handlePaginationChange,
-      }}
-      search={{
-        initialValue: searchTermFromUrl,
-        placeholder: "Search by tracking ID or receiver name...",
-        debounceMs: 700,
-        onDebouncedChange: handleDebouncedSearchChange,
-      }}
-      filters={{
-        configs: filterConfigs,
-        values: filterValues,
-        onFilterChange: handleFilterChange,
-      }}
-      meta={meta}
-    />
+    <>
+      <DataTable<IParcel>
+        data={parcels}
+        columns={parcelColumns}
+        actions={{
+          onView: handleView,
+          onEdit: handleEdit,
+          onDelete: handleDelete,
+          getDeleteActionLabel: (parcel) =>
+            parcel.status === ParcelStatus.REQUESTED
+              ? "Cancel Parcel"
+              : undefined,
+          editLabel: "Edit Parcel",
+        }}
+        isLoading={isLoading || isFetching}
+        emptyMessage="No parcels found!"
+        sorting={{
+          state: optimisticSortingState,
+          onSortingChange: handleSortingChange,
+        }}
+        pagination={{
+          state: optimisticPaginationState,
+          onPaginationChange: handlePaginationChange,
+        }}
+        search={{
+          initialValue: searchTermFromUrl,
+          placeholder: "Search by tracking ID or receiver name...",
+          debounceMs: 700,
+          onDebouncedChange: handleDebouncedSearchChange,
+        }}
+        filters={{
+          configs: filterConfigs,
+          values: filterValues,
+          onFilterChange: handleFilterChange,
+        }}
+        meta={meta}
+      />
+
+      <CommonModal
+        isOpen={activeModal !== null}
+        onClose={closeModal}
+        title={
+          activeModal === "view"
+            ? "Parcel Details"
+            : activeModal === "edit"
+              ? "Edit Parcel"
+              : "Cancel Parcel"
+        }
+      >
+        {activeModal === "view" && selectedParcel && (
+          <ViewParcel parcel={selectedParcel} />
+        )}
+
+        {activeModal === "edit" && selectedParcel && (
+          <EditParcel parcel={selectedParcel} onSuccess={closeModal} />
+        )}
+
+        {activeModal === "delete" && selectedParcel && (
+          <CancelParcel parcel={selectedParcel} onSuccess={closeModal} />
+        )}
+      </CommonModal>
+    </>
   );
 };
 

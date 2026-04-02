@@ -11,6 +11,6 @@ export const collectCashFromRiderAction = async (
   try {
     return await cashCollectionServices.collectCashFromRider(riderId, payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

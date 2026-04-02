@@ -7,7 +7,7 @@ export const getAllMerchantsAction = async (queryString: string) => {
   try {
     return await merchantServices.getAllMerchants(queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -15,7 +15,7 @@ export const softDeleteMerchantAction = async (merchantId: string) => {
   try {
     return await merchantServices.softDeleteMerchant(merchantId);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -26,6 +26,6 @@ export const getAllMerchantParcelsAction = async (
   try {
     return await merchantServices.getParcels(merchantId, queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

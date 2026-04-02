@@ -10,7 +10,7 @@ export const connectStripeOnboardAction = async (
   try {
     return await paymentAccountServices.connectStripeOnboard(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -18,7 +18,7 @@ export const verifyStripeConnectAction = async (accountId: string) => {
   try {
     return await paymentAccountServices.verifyStripeConnect(accountId);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -26,6 +26,6 @@ export const clearDueCheckoutAction = async () => {
   try {
     return await paymentAccountServices.clearDueCheckout();
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

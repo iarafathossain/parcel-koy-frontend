@@ -29,11 +29,14 @@ const DashboardStateGate = <TData extends DashboardData>({
   }
 
   if (isError || !response?.success || !response?.data) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : response?.message || "Failed to load dashboard";
+
     return (
       <div className="text-center py-12">
-        <p className="text-destructive">
-          {error instanceof Error ? error.message : "Failed to load dashboard"}
-        </p>
+        <p className="text-destructive">{errorMessage}</p>
       </div>
     );
   }

@@ -11,7 +11,7 @@ export const getAllAreasAction = async (queryString: string) => {
   try {
     return await areaServices.getAllAreas(queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -19,7 +19,7 @@ export const createAreaAction = async (payload: CreateAreaPayload) => {
   try {
     return await areaServices.createArea(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -30,7 +30,7 @@ export const updateAreaBySlugAction = async (
   try {
     return await areaServices.updateAreaBySlug(slug, payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -38,6 +38,6 @@ export const deleteAreaBySlugAction = async (slug: string) => {
   try {
     return await areaServices.deleteAreaBySlug(slug);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

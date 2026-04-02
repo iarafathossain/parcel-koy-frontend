@@ -12,7 +12,7 @@ export const updateAdminProfileAction = async (
   try {
     return await userServices.updateAdminProfile(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -22,7 +22,7 @@ export const updateMerchantProfileAction = async (
   try {
     return await userServices.updateMerchantProfile(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -32,6 +32,6 @@ export const updateRiderProfileAction = async (
   try {
     return await userServices.updateRiderProfile(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

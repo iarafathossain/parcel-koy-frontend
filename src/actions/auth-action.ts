@@ -171,7 +171,10 @@ export const registerMerchantAction = async (
   try {
     return await authServices.registerMerchant(payload);
   } catch (error) {
-    throw error;
+    return {
+      success: false,
+      message: catchError(error),
+    };
   }
 };
 
@@ -186,7 +189,10 @@ export const verifyEmailAction = async (payload: IVerifyEmailPayload) => {
 
     return response;
   } catch (error) {
-    throw error;
+    return {
+      success: false,
+      message: catchError(error),
+    };
   }
 };
 
@@ -194,7 +200,10 @@ export const forgotPasswordAction = async (payload: IForgotPasswordPayload) => {
   try {
     return await authServices.forgotPassword(payload);
   } catch (error) {
-    throw error;
+    return {
+      success: false,
+      message: catchError(error),
+    };
   }
 };
 
@@ -202,7 +211,10 @@ export const changePasswordAction = async (payload: IChangePasswordPayload) => {
   try {
     return await authServices.changePassword(payload);
   } catch (error) {
-    throw error;
+    return {
+      success: false,
+      message: catchError(error),
+    };
   }
 };
 
@@ -210,6 +222,9 @@ export const resetPasswordAction = async (payload: IResetPasswordPayload) => {
   try {
     return await authServices.resetPassword(payload);
   } catch (error) {
-    throw error;
+    return {
+      success: false,
+      message: catchError(error),
+    };
   }
 };

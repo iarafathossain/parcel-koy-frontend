@@ -84,3 +84,44 @@ export const updateParcelStatusByAdminZodSchema = zod.object({
 export type UpdateParcelStatusByAdminPayload = zod.infer<
   typeof updateParcelStatusByAdminZodSchema
 >;
+
+export const updateParcelZodSchema = zod.object({
+  categoryId: zod.string().uuid("Invalid Category ID").optional(),
+  destinationAreaId: zod.string().uuid("Invalid Area ID").optional(),
+  originAreaId: zod.string().uuid("Invalid Area ID").optional(),
+  speedId: zod.string().uuid("Invalid Speed ID").optional(),
+  pickupMethodId: zod.string().uuid("Invalid Pickup Method ID").optional(),
+  deliveryMethodId: zod.string().uuid("Invalid Delivery Method ID").optional(),
+  declaredWeight: zod
+    .number()
+    .positive("Declared weight must be a positive number")
+    .optional(),
+  isFragile: zod.boolean().optional(),
+  pickupAddress: zod.string().min(1, "Pickup address is required").optional(),
+  deliveryAddress: zod
+    .string()
+    .min(1, "Delivery address is required")
+    .optional(),
+  receiverName: zod.string().min(1, "Receiver name is required").optional(),
+  receiverContactNumber: zod
+    .string()
+    .min(1, "Receiver contact number is required")
+    .optional(),
+  deliveryCharge: zod
+    .number()
+    .nonnegative("Delivery charge must be non-negative")
+    .optional(),
+});
+
+export type UpdateParcelPayload = zod.infer<typeof updateParcelZodSchema>;
+
+export const cancelParcelByMerchantZodSchema = zod.object({
+  cancellationReason: zod
+    .string()
+    .min(1, "Cancellation reason is required")
+    .optional(),
+});
+
+export type CancelParcelByMerchantPayload = zod.infer<
+  typeof cancelParcelByMerchantZodSchema
+>;

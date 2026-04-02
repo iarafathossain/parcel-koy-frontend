@@ -82,6 +82,12 @@ const DeliveryChargeDisplay = ({
     enabled: hasRequiredFields,
   });
 
+  const actionErrorMessage =
+    chargeData && !chargeData.success ? chargeData.message : undefined;
+
+  const displayErrorMessage =
+    actionErrorMessage || (isError ? catchError(error) : undefined);
+
   // If we don't have all fields yet, just hide the component
   if (!hasRequiredFields) return null;
 
@@ -93,10 +99,10 @@ const DeliveryChargeDisplay = ({
           If Actual weight is different, the charge will be adjusted
           accordingly.
         </span>
-        {!isChargeLoading && isError && error && (
+        {!isChargeLoading && displayErrorMessage && (
           <div className="flex flex-col">
             <span className="text-sm text-amber-400 mt-1">
-              {catchError(error)}
+              {displayErrorMessage}
             </span>
             <Button variant="link" className="px-0 mt-1 w-full block" asChild>
               <Link
@@ -112,7 +118,7 @@ const DeliveryChargeDisplay = ({
       <div className="text-right">
         {isChargeLoading ? (
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-        ) : isError ? (
+        ) : displayErrorMessage ? (
           <span className="text-sm font-medium text-destructive">
             Unavailable
           </span>

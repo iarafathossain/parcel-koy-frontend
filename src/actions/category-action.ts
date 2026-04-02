@@ -11,7 +11,7 @@ export const getAllCategoriesAction = async (queryString: string) => {
   try {
     return await categoryServices.getAllCategories(queryString);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -19,7 +19,7 @@ export const createCategoryAction = async (payload: CreateCategoryPayload) => {
   try {
     return await categoryServices.createCategory(payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -30,7 +30,7 @@ export const updateCategoryBySlugAction = async (
   try {
     return await categoryServices.updateCategoryBySlug(slug, payload);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };
 
@@ -38,6 +38,6 @@ export const deleteCategoryBySlugAction = async (slug: string) => {
   try {
     return await categoryServices.deleteCategoryBySlug(slug);
   } catch (error) {
-    throw new Error(catchError(error));
+    return { success: false, message: catchError(error) };
   }
 };

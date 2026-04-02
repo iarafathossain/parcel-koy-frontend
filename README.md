@@ -1,24 +1,26 @@
 # ParcelKoy – Frontend
 
 ## Links
+
 - Frontend Repo: https://github.com/iarafathossain/parcel-koy-frontend
 - Frontend Live: https://parcel-koy-frontend.vercel.app/
 
 ## Demo Access (Super Admin)
+
 - Email: superadmin@parcelkoy.com
 - Password: SuperAdmin@123
 
 ## Delivery OTP Note
-- Use common OTP: `1234` for confirming delivery.
 
-## Ownership
-- All rights belongs to Arafat Hossain.
+- Use common OTP: `1234` for confirming delivery.
 
 ---
 
 ## Project Overview
+
 ParcelKoy Frontend is a role-based parcel delivery management UI built with Next.js App Router.
 It consumes the ParcelKoy backend REST API and provides separate workflows for:
+
 - Super Admin / Admin
 - Merchant
 - Rider
@@ -28,6 +30,7 @@ Core areas include authentication, dashboard analytics, parcel operations, prici
 ---
 
 ## Tech Stack
+
 - Next.js 16 (App Router)
 - React 19
 - TypeScript (strict)
@@ -45,6 +48,7 @@ Core areas include authentication, dashboard analytics, parcel operations, prici
 ---
 
 ## App Routing Structure
+
 Based on the current `src/app` structure.
 
 ```text
@@ -124,6 +128,7 @@ src/app/
 ---
 
 ## Environment Variables
+
 Create `.env.local` in project root:
 
 ```env
@@ -138,6 +143,7 @@ CLEAR_DUE_PAYMENT_CANCEL_URL=http://localhost:3000/payment-cancel
 ```
 
 Notes:
+
 - `NEXT_PUBLIC_API_BASE_URL` should be the backend server origin (do not append `/api/v1` because endpoint constants already include it).
 - `ACCESS_TOKEN_SECRET` and `REFRESH_TOKEN_SECRET` must match backend secrets used for token verification.
 
@@ -146,15 +152,18 @@ Notes:
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (LTS)
 - pnpm
 
 ### Install
+
 ```bash
 pnpm install
 ```
 
 ### Run Dev Server
+
 ```bash
 pnpm dev
 ```
@@ -164,6 +173,7 @@ Open: http://localhost:3000
 ---
 
 ## Scripts
+
 - `pnpm dev` — Start dev server
 - `pnpm build` — Build production app
 - `pnpm start` — Run production server
@@ -172,10 +182,13 @@ Open: http://localhost:3000
 ---
 
 ## Authentication & Route Protection
+
 Main auth/protection logic is handled in:
+
 - `src/proxy.ts`
 
 It handles:
+
 - Public vs protected route guarding
 - Redirect to login when unauthenticated
 - Redirect away from auth pages when already authenticated
@@ -183,6 +196,7 @@ It handles:
 - Token refresh flow and cookie synchronization
 
 Primary auth cookies:
+
 - `access_token`
 - `refresh_token`
 - `better-auth.session_token`
@@ -190,6 +204,7 @@ Primary auth cookies:
 ---
 
 ## API Layer Convention
+
 - `src/services/*` contains backend API calls
 - `src/actions/*` wraps service methods for server actions
 - Components call actions and manage UI state with React Query
@@ -199,14 +214,21 @@ Primary auth cookies:
 ## Troubleshooting
 
 ### Env validation issues
+
 Check `src/env.ts` and ensure all required env keys exist with correct format.
 
 ### Redirect loop or unauthorized access
+
 - Verify backend URL in `NEXT_PUBLIC_API_BASE_URL`
 - Confirm cookies are being set and sent correctly
 - Make sure frontend secrets match backend signing secrets
 
 ### Refresh flow issues
+
 - Confirm backend refresh endpoint works
 - Confirm session + refresh cookies are present
 - Check `src/proxy.ts` and `src/app/api/auth/me/route.ts` logic and response statuses
+
+## Ownership
+
+All right belongs to Arafat Hossain.

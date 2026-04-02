@@ -26,7 +26,12 @@ const CommonModal = ({
 }: CommonModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={cn("max-w-md md:max-w-xl min-w-sm", className)}>
+      <DialogContent
+        className={cn(
+          "max-w-md md:max-w-xl min-w-sm max-h-[90vh] overflow-auto",
+          className,
+        )}
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription className={description ? undefined : "sr-only"}>

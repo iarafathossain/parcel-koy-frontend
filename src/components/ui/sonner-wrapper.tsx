@@ -1,0 +1,7 @@
+"use client";
+
+import { Toaster } from "@/components/ui/sonner";
+
+export function SonnerWrapper() {
+  return <Toaster />;
+}

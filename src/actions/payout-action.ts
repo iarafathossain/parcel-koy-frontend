@@ -2,7 +2,27 @@
 
 import { catchError } from "@/helpers/catch-error";
 import { payoutServices } from "@/services/payout-service";
-import { RequestPayoutPayload } from "@/validators/payout-validator";
+import {
+  ProcessPayoutPayload,
+  RequestPayoutPayload,
+  processPayoutZodSchema,
+} from "@/validators/payout-validator";
+
+export const getAllPendingPayoutsAction = async (queryString = "") => {
+  try {
+    return await payoutServices.getAllPendingPayouts(queryString);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
+export const getAllTransactionsAction = async (queryString = "") => {
+  try {
+    return await payoutServices.getAllTransactions(queryString);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
 
 export const requestPayoutAction = async (payload: RequestPayoutPayload) => {
   try {
@@ -12,9 +32,10 @@ export const requestPayoutAction = async (payload: RequestPayoutPayload) => {
   }
 };
 
-export const processPayoutAction = async (payoutId: string) => {
+export const processPayoutAction = async (payload: ProcessPayoutPayload) => {
   try {
-    return await payoutServices.processPayout(payoutId);
+    const parsedPayload = processPayoutZodSchema.parse(payload);
+    return await payoutServices.processPayout(parsedPayload.payoutId);
   } catch (error) {
     throw new Error(catchError(error));
   }

@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/sonner";
+import { SonnerWrapper } from "@/components/ui/sonner-wrapper";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import QueryProvider from "@/providers/query-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -91,11 +91,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
           disableTransitionOnChange
         >
           <TooltipProvider>
@@ -104,7 +103,7 @@ export default function RootLayout({
             </QueryProvider>
           </TooltipProvider>
         </ThemeProvider>
-        <Toaster />
+        <SonnerWrapper />
       </body>
     </html>
   );

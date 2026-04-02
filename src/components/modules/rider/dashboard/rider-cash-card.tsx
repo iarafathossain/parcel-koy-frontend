@@ -1,9 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/helpers/format-price";
-import { TrendingUp, Wallet } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 interface RiderCashCardProps {
   cashInHand: number;
@@ -32,10 +31,10 @@ const RiderCashCard = ({ cashInHand }: RiderCashCardProps) => {
             Total cash collected from deliveries
           </p>
 
-          <Button className="w-full" variant="outline">
+          {/* <Button className="w-full" variant="outline">
             <Wallet className="w-4 h-4 mr-2" />
             Handover Cash
-          </Button>
+          </Button> */}
         </div>
       </CardContent>
     </Card>

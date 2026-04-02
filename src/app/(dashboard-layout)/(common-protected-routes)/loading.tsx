@@ -1,3 +1,5 @@
+import LoadingShell from "@/components/shared/loading/loading-shell";
+
 export default function CommonProtectedRoutesLoading() {
-  return <p>Loading protected route...</p>;
+  return <LoadingShell variant="protectedRoute" />;
 }

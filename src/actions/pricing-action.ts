@@ -8,7 +8,7 @@ import {
   UpdatePricingRulePayload,
 } from "@/validators/pricing-validator";
 
-export const getAllPricingAction = async (queryString: string) => {
+export const getAllPricingAction = async (queryString = "") => {
   try {
     return await pricingServices.getAllPricing(queryString);
   } catch (error) {

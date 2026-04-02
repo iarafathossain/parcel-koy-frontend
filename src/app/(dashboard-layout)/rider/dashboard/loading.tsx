@@ -1,3 +1,5 @@
+import LoadingShell from "@/components/shared/loading/loading-shell";
+
 export default function RiderDashboardLoading() {
-  return <p>Loading rider dashboard...</p>;
+  return <LoadingShell variant="riderDashboard" />;
 }

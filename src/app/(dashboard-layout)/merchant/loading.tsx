@@ -1,3 +1,5 @@
+import LoadingShell from "@/components/shared/loading/loading-shell";
+
 export default function MerchantDashboardLoading() {
-  return <p>Loading merchant dashboard...</p>;
+  return <LoadingShell variant="merchantDashboard" />;
 }

@@ -12,8 +12,8 @@ import { catchError } from "@/helpers/catch-error";
 import { parseNumber } from "@/helpers/parse-number";
 import { cn } from "@/lib/utils";
 import {
-    CreateParcelPayload,
-    createParcelZodSchema,
+  CreateParcelPayload,
+  createParcelZodSchema,
 } from "@/validators/parcel-validator";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
@@ -315,9 +315,7 @@ const CreateParcelRequestForm = ({
 
             <form.Field name="isFragile">
               {(field) => (
-                <div
-                  className={cn("flex items-center gap-2 rounded-md mt-4 p-3")}
-                >
+                <div className={cn("flex items-center gap-2 rounded-md p-3")}>
                   <Checkbox
                     id="isFragile"
                     checked={field.state.value}

@@ -1,207 +1,212 @@
 # ParcelKoy – Frontend
 
-## 🌐 Project Overview
+## Links
+- Frontend Repo: https://github.com/iarafathossain/parcel-koy-frontend
+- Frontend Live: https://parcel-koy-frontend.vercel.app/
 
-Frontend web application for **ParcelKoy**, a comprehensive Parcel Management and Delivery platform. This project consumes the REST API provided by the `parcel-koy-backend` to deliver a seamless UI for Admins, Merchants, and Riders.
+## Demo Access (Super Admin)
+- Email: superadmin@parcelkoy.com
+- Password: SuperAdmin@123
 
-## ✨ Features (High Level)
+## Delivery OTP Note
+- Use common OTP: `1234` for confirming delivery.
 
-The project includes robust infrastructure for the following capabilities:
-
-- **Authentication Flow:** Login, email verification, and password reset functionalities.
-- **Role-Based Dashboards:** Dedicated, isolated interfaces for Admin, Merchant, and Rider roles.
-- **Protected Routes:** Automatic redirect handling for unauthorized access.
-- **Token Management:** Built-in token refresh mechanism utilizing cookies.
-
----
-
-## 🛠 Tech Stack
-
-**Core Framework & Language**
-
-- **Next.js (App Router)** — `next@16.x`
-- **React** — `react@19.x`
-- **TypeScript** — Strict type checking
-
-**Styling & UI Components**
-
-- **Tailwind CSS (v4) + PostCSS** — Utility-first styling
-- **Radix UI / shadcn/ui** — Accessible UI primitives and components
-- **Recharts** — Data visualization and charts
-
-**State Management & Data Fetching**
-
-- **TanStack React Query** — Server state, caching, and synchronization
-- **Axios** — HTTP client for API communication
-
-**Forms & Tables**
-
-- **TanStack React Form** — Form state management
-- **TanStack React Table** — Advanced data grids
-- **Zod** — Schema-based form and payload validation
-
-**Utilities**
-
-- **@t3-oss/env-nextjs** — Type-safe environment variables
-- **jose** — JWT utilities for client/server token handling
+## Ownership
+- All rights belongs to Arafat Hossain.
 
 ---
 
-## 📂 Project Structure
+## Project Overview
+ParcelKoy Frontend is a role-based parcel delivery management UI built with Next.js App Router.
+It consumes the ParcelKoy backend REST API and provides separate workflows for:
+- Super Admin / Admin
+- Merchant
+- Rider
 
-Key directories inside the `src/` folder:
-
-- `src/app/` — Next.js App Router core (layouts, pages, routing).
-- `src/actions/` — Server actions and asynchronous operations.
-- `src/components/` — Shared UI components (primarily shadcn/radix-based).
-- `src/services/` — API service layer containing Axios calls to the backend.
-- `src/lib/` — General utilities (auth, JWT, token helpers).
-- `src/providers/` — Application providers (React Query, Theme, etc.).
-- `src/hooks/` — Custom React hooks.
-- `src/types/` — Shared TypeScript types and enums (e.g., Roles).
-- `src/validators/` — Zod schemas for validating forms and inputs.
-- `src/constants/` — Static constant values.
-- `src/helpers/` — General helper functions.
-
-**Important Configuration Files:**
-
-- `src/env.ts` — Environment validation and runtime mapping.
-- `src/proxy.ts` — Route protection and refresh-token middleware/proxy logic.
-- `components.json` — shadcn/ui configuration.
-- `next.config.ts` — Next.js framework configuration.
-- `eslint.config.mjs` — Linting rules.
+Core areas include authentication, dashboard analytics, parcel operations, pricing rules, payouts, transactions, and cash collections.
 
 ---
 
-## 🗺 App Routing Structure
+## Tech Stack
+- Next.js 16 (App Router)
+- React 19
+- TypeScript (strict)
+- Tailwind CSS v4
+- shadcn/ui + Radix UI
+- TanStack React Query
+- TanStack React Form
+- TanStack React Table
+- Zod
+- Recharts
+- Axios
+- jose
+- @t3-oss/env-nextjs
 
-Based on the Next.js App Router, the application is divided into common public layouts and protected dashboard layouts:
+---
+
+## App Routing Structure
+Based on the current `src/app` structure.
 
 ```text
 src/app/
-├── (common-layout)/              # Publicly accessible routes
-│   ├── (auth-route-group)/       # Authentication flows
-│   │   ├── forgot-password/
-│   │   ├── login/
-│   │   ├── register/
-│   │   ├── reset-password/
-│   │   └── verify-email/
-│   ├── about-us/                 # Static & informational pages
-│   ├── contact/
-│   ├── coverage/
-│   ├── pricing/
-│   ├── privacy/
-│   ├── services/
-│   ├── terms-condition/
-│   └── track-parcel/             # Public tracking interface
-├── (dashboard-layout)/           # Authenticated & protected routes
-│   ├── (common-protected-routes)/
-│   │   ├── change-password/
-│   │   └── my-profile/
-│   ├── admin/dashboard/          # Admin-specific dashboard and tools
-│   ├── merchant/                 # Merchant-specific interface
-│   └── rider/                    # Rider-specific interface
-├── api/                          # Next.js internal API routes
-└── error.tsx, layout.tsx, loading.tsx, not-found.tsx # Global UI handlers
+├── layout.tsx
+├── loading.tsx
+├── error.tsx
+├── not-found.tsx
+├── api/
+│   └── auth/
+│       └── me/route.ts
+├── (common-layout)/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── about-us/page.tsx
+│   ├── contact/page.tsx
+│   ├── coverage/page.tsx
+│   ├── pricing/page.tsx
+│   ├── privacy/page.tsx
+│   ├── services/page.tsx
+│   ├── terms-condition/page.tsx
+│   ├── track-parcel/page.tsx
+│   ├── track-parcel/[trackingId]/page.tsx
+│   └── (auth-route-group)/
+│       ├── login/page.tsx
+│       ├── register/page.tsx
+│       ├── forgot-password/page.tsx
+│       ├── reset-password/page.tsx
+│       └── verify-email/page.tsx
+└── (dashboard-layout)/
+    ├── layout.tsx
+    ├── (common-protected-routes)/
+    │   ├── loading.tsx
+    │   ├── my-profile/
+    │   │   ├── page.tsx
+    │   │   └── loading.tsx
+    │   └── change-password/
+    │       ├── page.tsx
+    │       └── loading.tsx
+    ├── admin/
+    │   └── dashboard/
+    │       ├── layout.tsx
+    │       ├── page.tsx
+    │       ├── loading.tsx
+    │       ├── admins-management/page.tsx
+    │       ├── merchants-management/page.tsx
+    │       ├── riders-management/page.tsx
+    │       ├── parcels-management/page.tsx
+    │       ├── categories-management/page.tsx
+    │       ├── methods-management/page.tsx
+    │       ├── speeds-management/page.tsx
+    │       ├── zones-management/page.tsx
+    │       ├── areas-management/page.tsx
+    │       ├── hubs-management/page.tsx
+    │       ├── pricing-management/page.tsx
+    │       ├── merchant-payouts/page.tsx
+    │       ├── transactions/page.tsx
+    │       ├── cash-collections/page.tsx
+    │       └── finance-management/page.tsx
+    ├── merchant/
+    │   ├── layout.tsx
+    │   ├── page.tsx
+    │   ├── loading.tsx
+    │   ├── create-parcel/page.tsx
+    │   ├── my-parcels/page.tsx
+    │   ├── my-payments/page.tsx
+    │   ├── my-payments/stripe-connect/verify/page.tsx
+    │   └── payment-cancel/page.tsx
+    └── rider/
+        └── dashboard/
+            ├── layout.tsx
+            ├── page.tsx
+            ├── loading.tsx
+            └── assigned-parcels/page.tsx
 ```
 
 ---
 
-## ⚙️ Environment Variables
-
-This project uses **type-safe environment validation** via `src/env.ts`. Create a `.env.local` file in the root directory:
+## Environment Variables
+Create `.env.local` in project root:
 
 ```env
-# Public: Backend API base URL
-NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api/v1
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 
-# Server-side secrets / configs (Used by middleware/proxy/auth utils)
-ACCESS_TOKEN_EXPIRES_IN=15m
 OTP_EXPIRES_IN=5m
 ACCESS_TOKEN_SECRET=your_access_token_secret
 REFRESH_TOKEN_SECRET=your_refresh_token_secret
 
-# Stripe / payments redirect URLs
-CLEAR_DUE_PAYMENT_SUCCESS_URL=http://localhost:3000/payments/success
-CLEAR_DUE_PAYMENT_CANCEL_URL=http://localhost:3000/payments/cancel
+CLEAR_DUE_PAYMENT_SUCCESS_URL=http://localhost:3000/payment-success
+CLEAR_DUE_PAYMENT_CANCEL_URL=http://localhost:3000/payment-cancel
 ```
 
-> **Note:**
->
-> - `NEXT_PUBLIC_API_BASE_URL` must be a valid, reachable URL.
-> - The `SECRET` variables must exactly match your backend settings, as they are used in the middleware/proxy JWT verification logic.
+Notes:
+- `NEXT_PUBLIC_API_BASE_URL` should be the backend server origin (do not append `/api/v1` because endpoint constants already include it).
+- `ACCESS_TOKEN_SECRET` and `REFRESH_TOKEN_SECRET` must match backend secrets used for token verification.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
+- Node.js (LTS)
+- pnpm
 
-- **Node.js** (LTS recommended)
-- **pnpm** (Required, as the repository uses a `pnpm-lock.yaml` file)
-
-### 1\. Install Dependencies
-
+### Install
 ```bash
 pnpm install
 ```
 
-### 2\. Run Development Server
-
+### Run Dev Server
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) in your browser.
+Open: http://localhost:3000
 
 ---
 
-## 📜 Available Scripts
-
-- `pnpm dev` — Start Next.js development server.
-- `pnpm build` — Build the production bundle.
-- `pnpm start` — Start the production server.
-- `pnpm lint` — Run ESLint to check for code issues.
+## Scripts
+- `pnpm dev` — Start dev server
+- `pnpm build` — Build production app
+- `pnpm start` — Run production server
+- `pnpm lint` — Run ESLint
 
 ---
 
-## 🛡 Authentication & Route Protection
+## Authentication & Route Protection
+Main auth/protection logic is handled in:
+- `src/proxy.ts`
 
-Route protection logic is heavily centralized in `src/proxy.ts`. It handles:
+It handles:
+- Public vs protected route guarding
+- Redirect to login when unauthenticated
+- Redirect away from auth pages when already authenticated
+- Mandatory flows (`/verify-email`, `/change-password`, etc.)
+- Token refresh flow and cookie synchronization
 
-- **Access Control:** Distinguishing between public and protected routes.
-- **Unauthenticated Redirects:** Sending logged-out users to `/login?redirectTo=...` when they attempt to access protected pages.
-- **Authenticated Redirects:** Sending logged-in users away from auth pages (like `/login`) to their respective default dashboards.
-- **Mandatory Actions:** Forcing users to complete required flows like `/verify-email` or `/reset-password`.
-- **Auto Refresh Tokens:** Automatically intercepting expiring access tokens and refreshing them using `refresh_token` or `better-auth.session_token`, then attaching updated cookies to the response.
-
-**Core Cookies Managed:**
-
+Primary auth cookies:
 - `access_token`
 - `refresh_token`
 - `better-auth.session_token`
 
 ---
 
-## 📡 API Communication
-
-- All backend API calls are managed within the `src/services/` layer.
-- The base endpoint URL is dynamically pulled from `NEXT_PUBLIC_API_BASE_URL`.
-- **Best Practice:** Keep all Axios instances and HTTP calls inside `src/services/*` and utilize TanStack React Query inside components to handle caching, loading, and error states.
+## API Layer Convention
+- `src/services/*` contains backend API calls
+- `src/actions/*` wraps service methods for server actions
+- Components call actions and manage UI state with React Query
 
 ---
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
-**1. App crashes on startup due to env validation**
-`src/env.ts` rigorously checks your environment variables. Ensure your `.env.local` file contains all required keys and correct formats.
+### Env validation issues
+Check `src/env.ts` and ensure all required env keys exist with correct format.
 
-**2. Login redirects loop / Unauthorized redirects**
+### Redirect loop or unauthorized access
+- Verify backend URL in `NEXT_PUBLIC_API_BASE_URL`
+- Confirm cookies are being set and sent correctly
+- Make sure frontend secrets match backend signing secrets
 
-- Verify the backend is running and accessible at the URL defined in `NEXT_PUBLIC_API_BASE_URL`.
-- Check your browser's cookie settings. Configurations like `secure: true` and `sameSite: "none"` require an active **HTTPS** connection in most modern browsers. For local development, adjust your cookie policies accordingly.
-
-**3. Token refresh not working**
-
-- Confirm the backend's refresh endpoint is active and functioning.
-- Ensure the frontend `ACCESS_TOKEN_SECRET` exactly matches the backend's signing secret.
+### Refresh flow issues
+- Confirm backend refresh endpoint works
+- Confirm session + refresh cookies are present
+- Check `src/proxy.ts` and `src/app/api/auth/me/route.ts` logic and response statuses

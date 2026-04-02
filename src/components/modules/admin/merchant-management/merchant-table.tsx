@@ -10,6 +10,7 @@ import {
   DataTableFilterValues,
 } from "@/components/shared/table/data-table-filters";
 import { constants } from "@/constants";
+import { catchError } from "@/helpers/catch-error";
 import { parsePositiveInt } from "@/helpers/parse-positive-int";
 import { useUser } from "@/hooks/use-user";
 import { PaginationMeta } from "@/types/api-type";
@@ -365,9 +366,7 @@ const MerchantTable = ({ initialQueryString }: MerchantTableProps) => {
             : "User activated successfully."),
       );
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Unexpected error";
-      toast.error(message);
+      toast.error(catchError(error, "Unexpected error"));
     } finally {
       toast.dismiss(toastId);
     }

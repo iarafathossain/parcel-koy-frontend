@@ -1,3 +1,5 @@
+import LoadingShell from "@/components/shared/loading/loading-shell";
+
 export default function AdminDashboardLoading() {
-  return <p>Loading admin dashboard...</p>;
+  return <LoadingShell variant="adminDashboard" />;
 }

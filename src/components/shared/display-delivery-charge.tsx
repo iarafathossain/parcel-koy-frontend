@@ -1,9 +1,12 @@
 import { getDeliveryChargeAction } from "@/actions/pricing-action";
+import { catchError } from "@/helpers/catch-error";
 import { formatPrice } from "@/helpers/format-price";
 import { parseNumber } from "@/helpers/parse-number";
 import { useUser } from "@/hooks/use-user";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 type DeliveryChargeDisplayProps = {
   values: {
@@ -53,6 +56,7 @@ const DeliveryChargeDisplay = ({
     data: chargeData,
     isLoading: isChargeLoading,
     isError,
+    error,
   } = useQuery({
     queryKey: [
       "delivery-charge",
@@ -88,6 +92,21 @@ const DeliveryChargeDisplay = ({
           If Actual weight is different, the charge will be adjusted
           accordingly.
         </span>
+        {!isChargeLoading && isError && error && (
+          <div className="flex flex-col">
+            <span className="text-sm text-amber-400 mt-1">
+              {catchError(error)}
+            </span>
+            <Button variant="link" className="px-0 mt-1 w-full block" asChild>
+              <Link
+                href="/contact"
+                className="text-sm text-amber-400 hover:underline"
+              >
+                Contact Support
+              </Link>
+            </Button>
+          </div>
+        )}
       </div>
       <div className="text-right">
         {isChargeLoading ? (

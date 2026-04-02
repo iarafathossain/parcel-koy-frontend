@@ -1,14 +1,14 @@
 "use client";
 
-import { ChartData } from "@/types/dashboard-stats-type";
 import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { ChartData } from "@/types/dashboard-stats-type";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 interface PieChartProps {
   data: ChartData["pie"]["data"];
@@ -33,6 +33,14 @@ const COLORS: Record<string, string> = {
   CANCELLED: "#991b1b",
 };
 
+const chartConfig = Object.keys(COLORS).reduce(
+  (config, status) => {
+    config[status] = { label: status.replace(/_/g, " ") };
+    return config;
+  },
+  {} as Record<string, { label: string }>,
+);
+
 const PieChartComponent = ({ data, total }: PieChartProps) => {
   if (!data || data.length === 0) {
     return (
@@ -43,43 +51,48 @@ const PieChartComponent = ({ data, total }: PieChartProps) => {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <PieChart>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          label={({ payload, value, percent }) =>
-            `${(payload as { status: string })?.status}: ${String(value)} (${((percent ?? 0) * 100).toFixed(0)}%)`
-          }
-          outerRadius={100}
-          fill="#8884d8"
-          dataKey="value"
-        >
-          {data.map((_, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={
-                COLORS[data[index]?.status as string] || "hsl(var(--primary))"
-              }
-            />
-          ))}
-        </Pie>
-        <Tooltip
-          formatter={(value) => `${value ?? 0}`}
-          contentStyle={{
-            backgroundColor: "hsl(var(--background))",
-            border: "1px solid hsl(var(--border))",
-            borderRadius: "8px",
-          }}
-        />
-        <Legend
-          wrapperStyle={{ fontSize: "12px" }}
-          formatter={(value) => `${String(value)} (${total})`}
-        />
-      </PieChart>
-    </ResponsiveContainer>
+    <ChartContainer config={chartConfig} className="h-full w-full">
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={({ payload, value, percent }) =>
+              `${(payload as { status: string })?.status}: ${String(value)} (${((percent ?? 0) * 100).toFixed(0)}%)`
+            }
+            outerRadius={100}
+            fill="#8884d8"
+            dataKey="value"
+          >
+            {data.map((_, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={
+                  COLORS[data[index]?.status as string] || "hsl(var(--primary))"
+                }
+              />
+            ))}
+          </Pie>
+          <ChartTooltip
+            content={
+              <ChartTooltipContent
+                formatter={(value, name) => [String(value ?? 0), String(name)]}
+                labelFormatter={(label) => `Status: ${String(label)}`}
+              />
+            }
+          />
+          <ChartLegend
+            content={
+              <ChartLegendContent
+                formatter={(value) => `${String(value)} (${total})`}
+              />
+            }
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   );
 };
 

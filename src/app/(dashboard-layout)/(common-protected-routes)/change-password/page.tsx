@@ -1,5 +1,11 @@
+import ChangePasswordForm from "@/components/modules/auth/change-password-form";
+
 const ChangePasswordPage = () => {
-  return <h3>Welcome to Change Password Page</h3>;
-}
+  return (
+    <div className="flex items-start justify-center mt-5">
+      <ChangePasswordForm />
+    </div>
+  );
+};
 
 export default ChangePasswordPage;

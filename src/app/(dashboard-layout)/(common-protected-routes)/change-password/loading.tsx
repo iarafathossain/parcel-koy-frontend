@@ -1,3 +1,5 @@
+import LoadingShell from "@/components/shared/loading/loading-shell";
+
 export default function ChangePasswordLoading() {
-  return <p>Loading change password...</p>;
+  return <LoadingShell variant="changePassword" />;
 }

@@ -19,7 +19,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const Navbar = () => {
-  const { user } = useUser();
+  const { user, isFetching, isLoading } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useIsMobile();
 
@@ -73,7 +73,13 @@ const Navbar = () => {
               </div>
 
               <div className="border-t p-4">
-                {user ? (
+                {isFetching || isLoading ? (
+                  <div className="animate-pulse space-y-2">
+                    <div className="h-4 w-3/4 rounded bg-muted" />
+                    <div className="h-4 w-1/2 rounded bg-muted" />
+                  </div>
+                ) : null}
+                {user && !isFetching && !isLoading ? (
                   <div className="grid grid-cols-2 gap-2">
                     <Button asChild variant="outline">
                       <Link

@@ -2,6 +2,7 @@ import { catchError } from "@/helpers/catch-error";
 import { API } from "@/lib/api-endpoints";
 import { httpClient } from "@/lib/axios/http-client";
 import { APIResponse } from "@/types/api-type";
+import { IPayout } from "@/types/payout-type";
 import { RequestPayoutPayload } from "@/validators/payout-validator";
 
 type PayoutRequestData = {
@@ -22,6 +23,42 @@ const getFallbackPayoutId = (response: unknown) => {
 };
 
 export const payoutServices = {
+  getAllPendingPayouts: async (queryString = "") => {
+    try {
+      const response = await httpClient.get<IPayout[]>(
+        queryString
+          ? `${API.PAYOUTS.GET_ALL_PENDING_PAYOUTS}?${queryString}`
+          : API.PAYOUTS.GET_ALL_PENDING_PAYOUTS,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to fetch pending payouts");
+      }
+
+      return response;
+    } catch (error) {
+      throw new Error(catchError(error));
+    }
+  },
+
+  getAllTransactions: async (queryString = "") => {
+    try {
+      const response = await httpClient.get<IPayout[]>(
+        queryString
+          ? `${API.PAYOUTS.GET_ALL_TRANSACTIONS}?${queryString}`
+          : API.PAYOUTS.GET_ALL_TRANSACTIONS,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to fetch transactions");
+      }
+
+      return response;
+    } catch (error) {
+      throw new Error(catchError(error));
+    }
+  },
+
   requestPayout: async (payload: RequestPayoutPayload) => {
     try {
       const response = await httpClient.post<PayoutRequestData>(

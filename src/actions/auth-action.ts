@@ -1,6 +1,5 @@
 "use server";
 
-import { env } from "@/env";
 import { getBackendAPIResponseError } from "@/helpers/backend-api-res";
 import { catchError } from "@/helpers/catch-error";
 import { API } from "@/lib/api-endpoints";
@@ -9,15 +8,12 @@ import {
   isValidRedirectPathForRole,
 } from "@/lib/auth-utils";
 import { httpClient } from "@/lib/axios/http-client";
-import {
-  getTokenSecondsRemaining,
-  parseDurationToSecond,
-  setTokenInCookie,
-} from "@/lib/token-utils";
+import { setTokenInCookie } from "@/lib/token-utils";
 import { APIErrorResponse } from "@/types/api-type";
 import { ILoginResponse } from "@/types/auth-type";
 import { RoleType } from "@/types/enum-type";
 import {
+  IChangePasswordPayload,
   IForgotPasswordPayload,
   ILoginUserPayload,
   IRegisterMerchantPayload,
@@ -50,16 +46,8 @@ const setLoginCookies = async (
   accessToken: string,
   refreshToken: string,
 ) => {
-  const refreshTokenMaxAgeInSeconds = getTokenSecondsRemaining(refreshToken);
-
   await Promise.all([
-    setTokenInCookie(
-      "better-auth.session_token",
-      sessionToken,
-      refreshTokenMaxAgeInSeconds > 0
-        ? refreshTokenMaxAgeInSeconds
-        : parseDurationToSecond(env.ACCESS_TOKEN_EXPIRES_IN),
-    ),
+    setTokenInCookie("better-auth.session_token", sessionToken),
     setTokenInCookie("access_token", accessToken),
     setTokenInCookie("refresh_token", refreshToken),
   ]);
@@ -205,6 +193,14 @@ export const verifyEmailAction = async (payload: IVerifyEmailPayload) => {
 export const forgotPasswordAction = async (payload: IForgotPasswordPayload) => {
   try {
     return await authServices.forgotPassword(payload);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const changePasswordAction = async (payload: IChangePasswordPayload) => {
+  try {
+    return await authServices.changePassword(payload);
   } catch (error) {
     throw error;
   }

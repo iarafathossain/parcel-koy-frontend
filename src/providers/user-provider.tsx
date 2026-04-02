@@ -1,16 +1,13 @@
-// src/providers/user-provider.tsx
 "use client";
 
 import { IUser } from "@/types/user-type";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, ReactNode } from "react";
 
-// ❌ Make sure this line is COMPLETELY DELETED:
-// import { userServices } from "@/services/user-service";
-
 interface UserContextType {
   user: IUser | null;
   isLoading: boolean;
+  isFetching: boolean;
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
 }
 
@@ -38,11 +35,19 @@ const fetchUserClientSide = async (): Promise<IUser | null> => {
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
 
-  const { data: fetchedUser, isLoading } = useQuery({
+  const {
+    data: fetchedUser,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ["user", "me"],
-    queryFn: fetchUserClientSide, // Using the local function!
-    staleTime: 5 * 60 * 1000,
-    retry: false,
+    queryFn: fetchUserClientSide,
+    staleTime: 30 * 1000,
+    retry: 2,
+    retryDelay: 1000,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    refetchInterval: (query) => (query.state.data ? false : 3000),
   });
 
   const user = fetchedUser ?? null;
@@ -54,7 +59,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <userContext.Provider value={{ user, isLoading, setUser }}>
+    <userContext.Provider value={{ user, isLoading, isFetching, setUser }}>
       {children}
     </userContext.Provider>
   );

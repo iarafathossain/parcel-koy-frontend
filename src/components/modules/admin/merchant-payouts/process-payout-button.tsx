@@ -34,7 +34,7 @@ const ProcessPayoutButton = ({
     const toastId = toast.loading("Processing payout...");
 
     try {
-      const result = await mutateAsync(normalizedPayoutId);
+      const result = await mutateAsync({ payoutId: normalizedPayoutId });
 
       if (!result.success) {
         toast.error(result.message || "Failed to process payout");

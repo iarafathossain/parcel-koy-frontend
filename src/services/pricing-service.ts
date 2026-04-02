@@ -9,7 +9,7 @@ import {
 } from "@/validators/pricing-validator";
 
 export const pricingServices = {
-  getAllPricing: async (queryString: string) => {
+  getAllPricing: async (queryString = "") => {
     try {
       const response = await httpClient.get<IPricingRule[]>(
         queryString

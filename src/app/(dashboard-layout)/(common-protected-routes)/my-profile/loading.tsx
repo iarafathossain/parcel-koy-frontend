@@ -1,3 +1,5 @@
+import LoadingShell from "@/components/shared/loading/loading-shell";
+
 export default function MyProfileLoading() {
-  return <p>Loading profile...</p>;
+  return <LoadingShell variant="myProfile" />;
 }

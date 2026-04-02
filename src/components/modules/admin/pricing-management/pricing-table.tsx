@@ -28,7 +28,7 @@ import {
 import CreatePricingRule from "./create-pricing-rule";
 import DeletePricingRule from "./delete-pricing-rule";
 import EditPricingRule from "./edit-pricing-rule";
-import { pricingColumns } from "./pricing-columns";
+import { getPricingColumns } from "./pricing-columns";
 import ViewPricingRule from "./view-pricing-rule";
 
 interface PricingTableProps {
@@ -262,20 +262,25 @@ const PricingTable = ({ initialQueryString }: PricingTableProps) => {
     updateUrlAndRefresh(params);
   }, [updateUrlAndRefresh]);
 
-  const handleView = (rule: IPricingRule) => {
+  const handleView = useCallback((rule: IPricingRule) => {
     setSelectedRule(rule);
     setActiveModal("view");
-  };
+  }, []);
 
-  const handleEdit = (rule: IPricingRule) => {
+  const handleEdit = useCallback((rule: IPricingRule) => {
     setSelectedRule(rule);
     setActiveModal("edit");
-  };
+  }, []);
 
-  const handleDelete = (rule: IPricingRule) => {
+  const handleDelete = useCallback((rule: IPricingRule) => {
     setSelectedRule(rule);
     setActiveModal("delete");
-  };
+  }, []);
+
+  const pricingColumns = useMemo(
+    () => getPricingColumns(handleView),
+    [handleView],
+  );
 
   const closeModal = () => {
     setActiveModal(null);

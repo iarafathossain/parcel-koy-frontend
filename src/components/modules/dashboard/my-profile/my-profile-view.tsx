@@ -24,7 +24,7 @@ const getRoleLabel = (role: RoleType): string => {
 };
 
 const MyProfileView = () => {
-  const { user } = useUser();
+  const { user, isLoading, isFetching } = useUser();
   const router = useRouter();
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
@@ -48,6 +48,21 @@ const MyProfileView = () => {
     setIsEditModalOpen(false);
     router.refresh();
   };
+
+  if (!user && (isLoading || isFetching)) {
+    return (
+      <div className="w-full max-w-3xl mx-auto px-4 py-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>My Profile</CardTitle>
+            <CardDescription>
+              Loading your profile information...
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -127,17 +142,14 @@ const MyProfileView = () => {
       user.adminProfile
     ) {
       return (
-        <UpdateAdminProfileForm
-          adminProfile={user.adminProfile}
-          onSuccess={handleUpdateSuccess}
-        />
+        <UpdateAdminProfileForm admin={user} onSuccess={handleUpdateSuccess} />
       );
     }
 
     if (user.role === Role.MERCHANT && user.merchantProfile) {
       return (
         <UpdateMerchantProfileForm
-          merchantProfile={user.merchantProfile}
+          merchant={user}
           onSuccess={handleUpdateSuccess}
         />
       );

@@ -1,7 +1,6 @@
 "use client";
 
 import { getDashboardStatsAction } from "@/actions/dashboard-action";
-import RiderCashCard from "@/components/modules/rider/dashboard/rider-cash-card";
 import RiderDashboardCharts from "@/components/modules/rider/dashboard/rider-dashboard-charts";
 import RiderFinancialsOverview from "@/components/modules/rider/dashboard/rider-financials-overview";
 import RiderParcelOverview from "@/components/modules/rider/dashboard/rider-parcel-overview";
@@ -9,6 +8,7 @@ import RiderStatsCards from "@/components/modules/rider/dashboard/rider-stats-ca
 import DashboardStateGate from "@/components/shared/dashboard-state-gate";
 import { isRiderDashboardData } from "@/types/dashboard-stats-type";
 import { useQuery } from "@tanstack/react-query";
+import RiderCashCard from "./rider-cash-card";
 
 const RiderDashboard = () => {
   const {

@@ -36,7 +36,7 @@ import DataTableSearch from "./data-table-search";
 
 interface DataTableActions<TData> {
   onView: (data: TData) => void;
-  onEdit: (data: TData) => void;
+  onEdit?: (data: TData) => void;
   onDelete?: (data: TData) => void;
   onStatusAction?: (data: TData) => void;
   getStatusActionLabel?: (data: TData) => string | undefined;
@@ -112,9 +112,11 @@ const DataTable = <TData,>({
                   <DropdownMenuItem onClick={() => actions.onView(rowData)}>
                     {actions.viewLabel || "View"}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => actions.onEdit(rowData)}>
-                    {actions.editLabel || "Edit"}
-                  </DropdownMenuItem>
+                  {actions.onEdit && (
+                    <DropdownMenuItem onClick={() => actions.onEdit?.(rowData)}>
+                      {actions.editLabel || "Edit"}
+                    </DropdownMenuItem>
+                  )}
                   {actions.onStatusAction &&
                     actions.getStatusActionLabel &&
                     (() => {

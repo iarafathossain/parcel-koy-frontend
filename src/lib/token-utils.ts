@@ -1,6 +1,7 @@
-import { env } from "@/env";
 import { catchError } from "@/helpers/catch-error";
 import { setCookie } from "./cookie-utils";
+
+const DEFAULT_COOKIE_MAX_AGE_SECONDS = 60 * 15;
 
 export const parseDurationToSecond = (duration: string): number => {
   const parsedDuration = duration.trim().toLowerCase();
@@ -59,9 +60,7 @@ export const getTokenSecondsRemaining = (token: string): number => {
 export const setTokenInCookie = async (
   name: string,
   token: string,
-  fallbackMaxAgeInSeconds: number = parseDurationToSecond(
-    String(env.ACCESS_TOKEN_EXPIRES_IN),
-  ),
+  fallbackMaxAgeInSeconds: number = DEFAULT_COOKIE_MAX_AGE_SECONDS,
 ) => {
   const secondsRemaining = getTokenSecondsRemaining(token);
   const maxAgeInSeconds =
@@ -72,7 +71,7 @@ export const setTokenInCookie = async (
 
 export const isTokenExpiringSoon = (
   token: string,
-  thresholdInSeconds: number = parseDurationToSecond("5m"),
+  thresholdInSeconds: number = parseDurationToSecond("1m"),
 ) => {
   const secondsRemaining = getTokenSecondsRemaining(token);
   return secondsRemaining > 0 && secondsRemaining <= thresholdInSeconds;

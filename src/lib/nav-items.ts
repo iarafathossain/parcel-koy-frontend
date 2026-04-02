@@ -165,19 +165,24 @@ export const adminNavItems: NavSection[] = [
     title: "Finance",
     items: [
       {
-        title: "Merchant Payouts",
+        title: "Merchant Pending Payouts",
         href: "/admin/dashboard/merchant-payouts",
         icon: "CreditCard",
       },
       {
-        title: "Cash Collections",
+        title: "All Payouts List",
+        href: "/admin/dashboard/transactions",
+        icon: "ListChecks",
+      },
+      {
+        title: "Collect Cash from Riders",
         href: "/admin/dashboard/cash-collections",
         icon: "Banknote",
       },
       {
-        title: "Hub Collections",
-        href: "/admin/dashboard/hub-cash-collections",
-        icon: "Wallet",
+        title: "Cash Collection Ledger",
+        href: "/admin/dashboard/ledgers",
+        icon: "BookOpen",
       },
     ],
   },

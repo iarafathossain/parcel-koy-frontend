@@ -4,6 +4,7 @@ import { catchError } from "@/helpers/catch-error";
 import { riderServices } from "@/services/rider-service";
 import {
   CreateRiderPayload,
+  GetSingleRiderByEmailPayload,
   UpdateParcelStatusByRiderPayload,
   VerifyAndDeliverParcelPayload,
 } from "@/validators/rider-validator";
@@ -19,6 +20,16 @@ export const createRiderAction = async (payload: CreateRiderPayload) => {
 export const getAllRidersAction = async (queryString: string) => {
   try {
     return await riderServices.getAllRiders(queryString);
+  } catch (error) {
+    throw new Error(catchError(error));
+  }
+};
+
+export const getSingleRiderByEmailAction = async (
+  payload: GetSingleRiderByEmailPayload,
+) => {
+  try {
+    return await riderServices.getSingleRiderByEmail(payload);
   } catch (error) {
     throw new Error(catchError(error));
   }

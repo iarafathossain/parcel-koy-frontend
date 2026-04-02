@@ -1,9 +1,7 @@
+import LoadingShell from "@/components/shared/loading/loading-shell";
+
 const GlobalLoading = () => {
-  return (
-    <div>
-      <h1>Loading...</h1>
-    </div>
-  );
+  return <LoadingShell variant="global" />;
 };
 
 export default GlobalLoading;

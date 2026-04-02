@@ -6,7 +6,7 @@ import SubmitBtn from "@/components/shared/submit-btn";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FieldSet } from "@/components/ui/field";
 import { catchError } from "@/helpers/catch-error";
-import { IMerchant } from "@/types/user-type";
+import { IUser } from "@/types/user-type";
 import {
   UpdateMerchantProfilePayload,
   updateMerchantProfileZodSchema,
@@ -16,12 +16,12 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface UpdateMerchantProfileFormProps {
-  merchantProfile: IMerchant;
+  merchant: IUser;
   onSuccess?: () => void;
 }
 
 const UpdateMerchantProfileForm = ({
-  merchantProfile,
+  merchant,
   onSuccess,
 }: UpdateMerchantProfileFormProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -32,16 +32,16 @@ const UpdateMerchantProfileForm = ({
       updateMerchantProfileAction(payload),
   });
 
-  console.log("merchant profile in form:", merchantProfile);
+  console.log("merchant profile in form:", merchant.merchantProfile);
 
   const form = useForm({
     defaultValues: {
-      name: merchantProfile.user.name,
-      gender: merchantProfile.user.gender,
-      contactNumber: merchantProfile.user.contactNumber,
-      businessName: merchantProfile.businessName,
-      pickupAddress: merchantProfile.pickupAddress,
-      originAreaId: merchantProfile.originArea.id,
+      name: merchant.name,
+      gender: merchant.gender,
+      contactNumber: merchant.contactNumber,
+      businessName: merchant.merchantProfile?.businessName,
+      pickupAddress: merchant.merchantProfile?.pickupAddress,
+      originAreaId: merchant.merchantProfile?.originArea.id,
     },
     onSubmit: async ({ value }) => {
       setServerError(null);

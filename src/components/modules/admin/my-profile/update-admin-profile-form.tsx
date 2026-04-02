@@ -6,7 +6,7 @@ import SubmitBtn from "@/components/shared/submit-btn";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FieldSet } from "@/components/ui/field";
 import { catchError } from "@/helpers/catch-error";
-import { IAdmin } from "@/types/user-type";
+import { IUser } from "@/types/user-type";
 import {
   UpdateAdminProfilePayload,
   updateAdminProfileZodSchema,
@@ -16,12 +16,12 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface UpdateAdminProfileFormProps {
-  adminProfile: IAdmin;
+  admin: IUser;
   onSuccess?: () => void;
 }
 
 const UpdateAdminProfileForm = ({
-  adminProfile,
+  admin,
   onSuccess,
 }: UpdateAdminProfileFormProps) => {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -32,14 +32,12 @@ const UpdateAdminProfileForm = ({
       updateAdminProfileAction(payload),
   });
 
-  console.log("Admin profile in form:", adminProfile);
-
   const form = useForm({
     defaultValues: {
-      name: adminProfile.user.name,
-      contactNumber: adminProfile.user.contactNumber,
-      presentAddress: adminProfile.presentAddress || "",
-      permanentAddress: adminProfile.permanentAddress || "",
+      name: admin.name,
+      contactNumber: admin.contactNumber,
+      presentAddress: admin.adminProfile?.presentAddress || "",
+      permanentAddress: admin.adminProfile?.permanentAddress || "",
     },
     onSubmit: async ({ value }) => {
       setServerError(null);
@@ -47,7 +45,7 @@ const UpdateAdminProfileForm = ({
 
       try {
         const payload: UpdateAdminProfilePayload = {
-          adminId: adminProfile.id,
+          adminId: admin.adminProfile?.id,
           name: value.name,
           contactNumber: value.contactNumber,
           presentAddress: value.presentAddress,

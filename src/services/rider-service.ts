@@ -5,6 +5,7 @@ import { IParcel } from "@/types/parcel-type";
 import { IRider } from "@/types/user-type";
 import {
   CreateRiderPayload,
+  GetSingleRiderByEmailPayload,
   UpdateParcelStatusByRiderPayload,
   VerifyAndDeliverParcelPayload,
 } from "@/validators/rider-validator";
@@ -34,6 +35,26 @@ export const riderServices = {
 
       if (!response.success) {
         throw new Error(response.message || "Failed to fetch riders");
+      }
+
+      return response;
+    } catch (error) {
+      throw new Error(catchError(error));
+    }
+  },
+  getSingleRiderByEmail: async (payload: GetSingleRiderByEmailPayload) => {
+    console.log(
+      "Calling getSingleRiderByEmail with payload in service:",
+      payload,
+    );
+    try {
+      const response = await httpClient.post<IRider>(
+        API.RIDERS.GET_RIDER_BY_EMAIL,
+        payload,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to fetch rider");
       }
 
       return response;

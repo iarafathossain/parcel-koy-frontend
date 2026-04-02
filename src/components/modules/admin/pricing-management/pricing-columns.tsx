@@ -5,14 +5,22 @@ import { getCapitalized } from "@/helpers/get-capitalized";
 import { IPricingRule } from "@/types/pricing-type";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const pricingColumns: ColumnDef<IPricingRule>[] = [
+export const getPricingColumns = (
+  onOpenDetails: (rule: IPricingRule) => void,
+): ColumnDef<IPricingRule>[] => [
   {
     id: "id",
     accessorKey: "id",
     header: "Rule ID",
     enableSorting: false,
     cell: ({ row }) => (
-      <span className="text-xs text-muted-foreground">{row.original.id}</span>
+      <button
+        type="button"
+        className="font-medium text-sm text-primary hover:underline"
+        onClick={() => onOpenDetails(row.original)}
+      >
+        {row.original.id}
+      </button>
     ),
   },
   {

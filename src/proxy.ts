@@ -6,9 +6,18 @@ import {
   isAuthRoute,
 } from "./lib/auth-utils";
 import { jwtUtils } from "./lib/jwt-utils";
-import { isTokenExpiringSoon, parseDurationToSecond } from "./lib/token-utils";
+import {
+  getTokenSecondsRemaining,
+  isTokenExpiringSoon,
+} from "./lib/token-utils";
 import { authServices } from "./services/auth-service";
 import { Role, RoleType } from "./types/enum-type";
+
+type RefreshedCookieSet = {
+  accessToken?: string;
+  refreshToken?: string;
+  sessionToken?: string;
+};
 
 export async function proxy(request: NextRequest) {
   try {
@@ -19,7 +28,6 @@ export async function proxy(request: NextRequest) {
     let refreshToken = request.cookies.get("refresh_token")?.value;
     let sessionToken = request.cookies.get("better-auth.session_token")?.value;
 
-    // ADD AWAIT HERE
     let decodedAccessToken = accessToken
       ? (
           await jwtUtils.verifyToken(
@@ -29,7 +37,6 @@ export async function proxy(request: NextRequest) {
         ).data
       : null;
 
-    // ADD AWAIT HERE
     let isValidAccessToken = accessToken
       ? (
           await jwtUtils.verifyToken(
@@ -40,15 +47,13 @@ export async function proxy(request: NextRequest) {
       : false;
 
     // --- NEW REFRESH TOKEN LOGIC ---
-    // Trigger refresh if access token is invalid/missing OR expiring soon, BUT we still have refresh & session tokens
     const needsRefresh =
       (!isValidAccessToken ||
         (accessToken && isTokenExpiringSoon(accessToken))) &&
       refreshToken &&
       sessionToken;
 
-    // Array to hold new cookies so we can attach them to the final response
-    const cookiesToSet: { name: string; value: string; maxAge: number }[] = [];
+    let refreshedCookieSet: RefreshedCookieSet | null = null;
 
     if (needsRefresh) {
       const newTokens = await authServices.refreshTokens(
@@ -62,41 +67,24 @@ export async function proxy(request: NextRequest) {
         refreshToken = newTokens.newRefreshToken || refreshToken;
         sessionToken = newTokens.newSessionToken || sessionToken;
 
-        isValidAccessToken = true;
-        decodedAccessToken = (
-          await jwtUtils.verifyToken(
-            accessToken!,
-            env.ACCESS_TOKEN_SECRET as string,
-          )
-        ).data;
+        refreshedCookieSet = {
+          accessToken: newTokens.newAccessToken,
+          refreshToken: newTokens.newRefreshToken,
+          sessionToken: newTokens.newSessionToken,
+        };
 
-        requestHeaders.set("x-token-refreshed", "1");
+        const verifiedRefreshedAccessToken = accessToken
+          ? await jwtUtils.verifyToken(
+              accessToken,
+              env.ACCESS_TOKEN_SECRET as string,
+            )
+          : { success: false as const, data: null };
 
-        // Prepare cookies to be set on the NextResponse later
-        const defaultMaxAge = parseDurationToSecond(
-          String(env.ACCESS_TOKEN_EXPIRES_IN),
-        );
+        isValidAccessToken = verifiedRefreshedAccessToken.success;
+        decodedAccessToken = verifiedRefreshedAccessToken.data;
 
-        if (newTokens.newAccessToken) {
-          cookiesToSet.push({
-            name: "access_token",
-            value: newTokens.newAccessToken,
-            maxAge: defaultMaxAge,
-          });
-        }
-        if (newTokens.newRefreshToken) {
-          cookiesToSet.push({
-            name: "refresh_token",
-            value: newTokens.newRefreshToken,
-            maxAge: defaultMaxAge * 24,
-          }); // Adjust fallback maxAge as needed
-        }
-        if (newTokens.newSessionToken) {
-          cookiesToSet.push({
-            name: "better-auth.session_token",
-            value: newTokens.newSessionToken,
-            maxAge: defaultMaxAge * 24,
-          });
+        if (verifiedRefreshedAccessToken.success) {
+          requestHeaders.set("x-token-refreshed", "1");
         }
       } else {
         // If refresh fails, ensure we treat the user as unauthenticated
@@ -180,18 +168,47 @@ export async function proxy(request: NextRequest) {
       response = NextResponse.next({ request: { headers: requestHeaders } });
     }
 
-    // --- APPLY NEW COOKIES TO THE RESPONSE ---
-    // Next.js strictly requires cookies to be set on the outgoing response object in middleware/proxy
-    if (cookiesToSet.length > 0) {
-      cookiesToSet.forEach((cookie) => {
-        response.cookies.set(cookie.name, cookie.value, {
+    if (refreshedCookieSet?.accessToken) {
+      const accessMaxAge = getTokenSecondsRemaining(
+        refreshedCookieSet.accessToken,
+      );
+      response.cookies.set("access_token", refreshedCookieSet.accessToken, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        ...(accessMaxAge > 0 ? { maxAge: accessMaxAge } : {}),
+      });
+    }
+
+    if (refreshedCookieSet?.refreshToken) {
+      const refreshMaxAge = getTokenSecondsRemaining(
+        refreshedCookieSet.refreshToken,
+      );
+      response.cookies.set("refresh_token", refreshedCookieSet.refreshToken, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        ...(refreshMaxAge > 0 ? { maxAge: refreshMaxAge } : {}),
+      });
+    }
+
+    if (refreshedCookieSet?.sessionToken) {
+      const refreshMaxAge = refreshedCookieSet.refreshToken
+        ? getTokenSecondsRemaining(refreshedCookieSet.refreshToken)
+        : 0;
+      response.cookies.set(
+        "better-auth.session_token",
+        refreshedCookieSet.sessionToken,
+        {
           secure: true,
           httpOnly: true,
           sameSite: "none",
           path: "/",
-          maxAge: cookie.maxAge,
-        });
-      });
+          ...(refreshMaxAge > 0 ? { maxAge: refreshMaxAge } : {}),
+        },
+      );
     }
 
     return response;

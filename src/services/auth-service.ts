@@ -1,13 +1,21 @@
 import { API } from "@/lib/api-endpoints";
 import { httpClient } from "@/lib/axios/http-client";
+import { APIResponse } from "@/types/api-type";
 import { ILoginResponse } from "@/types/auth-type";
 import { IUser } from "@/types/user-type";
 import {
+  IChangePasswordPayload,
   IForgotPasswordPayload,
   IRegisterMerchantPayload,
   IResetPasswordPayload,
   IVerifyEmailPayload,
 } from "@/validators/auth-validators";
+
+type RefreshedTokenPayload = {
+  newAccessToken?: string;
+  newRefreshToken?: string;
+  newSessionToken?: string;
+};
 
 export const authServices = {
   refreshTokens: async (refreshToken: string, sessionToken: string) => {
@@ -16,7 +24,6 @@ export const authServices = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          // Pass BOTH tokens so the backend can validate the session and the refresh token
           Cookie: `refresh_token=${refreshToken}; better-auth.session_token=${sessionToken}`,
         },
       });
@@ -25,8 +32,14 @@ export const authServices = {
         return null;
       }
 
-      // Return the payload so proxy.ts can set the cookies on the NextResponse
-      return await response.json();
+      const payload = await response.json();
+
+      if (!payload || typeof payload !== "object") {
+        return null;
+      }
+
+      const wrapped = payload as APIResponse<RefreshedTokenPayload>;
+      return wrapped.data ?? null;
     } catch (error) {
       console.error("Error refreshing token:", error);
       return null;
@@ -89,6 +102,22 @@ export const authServices = {
 
       if (!response.success) {
         throw new Error(response.message || "Failed to reset password");
+      }
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  changePassword: async (payload: IChangePasswordPayload) => {
+    try {
+      const response = await httpClient.post<null>(
+        API.AUTH.CHANGE_PASSWORD,
+        payload,
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to change password");
       }
 
       return response;

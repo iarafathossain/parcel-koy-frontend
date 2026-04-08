@@ -2,6 +2,18 @@ import { IJwtPayload } from "@/types/auth-type";
 import { cookies } from "next/headers";
 import { jwtUtils } from "./jwt-utils";
 
+const isDynamicServerUsageError = (
+  error: unknown,
+): error is { digest: string } => {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "digest" in error &&
+    typeof error.digest === "string" &&
+    error.digest === "DYNAMIC_SERVER_USAGE"
+  );
+};
+
 export const getCurrentUserFromToken = async () => {
   try {
     const cookieStore = await cookies();
@@ -20,6 +32,10 @@ export const getCurrentUserFromToken = async () => {
 
     return null;
   } catch (error) {
+    if (isDynamicServerUsageError(error)) {
+      return null;
+    }
+
     console.error("Failed to get current user:", error);
     return null;
   }

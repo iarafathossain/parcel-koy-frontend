@@ -27,8 +27,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://parcel-koy-frontend.vercel.app/"),
 
   title: {
-    default: "B6A5 Logistics | Next-Gen Parcel & Delivery Management",
-    template: "%s | B6A5 Logistics",
+    default: "Logistics | Next-Gen Parcel & Delivery Management",
+    template: "%s | Logistics",
   },
   description:
     "End-to-end supply chain visibility, automated parcel tracking, and seamless last-mile delivery solutions for modern e-commerce and B2B merchants.",
@@ -53,15 +53,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    title: "B6A5 Logistics | Next-Gen Parcel & Delivery Management",
+    title: "Logistics | Next-Gen Parcel & Delivery Management",
     description:
       "End-to-end supply chain visibility, automated parcel tracking, and seamless last-mile delivery solutions for modern e-commerce and B2B merchants.",
-    siteName: "B6A5 Logistics",
+    siteName: "Logistics",
   },
 
   twitter: {
     card: "summary",
-    title: "B6A5 Logistics | Next-Gen Parcel & Delivery Management",
+    title: "Logistics | Next-Gen Parcel & Delivery Management",
     description:
       "End-to-end supply chain visibility, automated parcel tracking, and seamless last-mile delivery solutions for modern e-commerce and B2B merchants.",
     creator: "@b6a5logistics",

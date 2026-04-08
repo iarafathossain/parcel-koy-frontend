@@ -286,11 +286,11 @@ const heroArtwork = String.raw`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xli
 const LandingPage = () => {
   return (
     <div className="bg-background">
-      <section className="relative overflow-hidden border-b bg-[linear-gradient(90deg,rgba(242,247,255,1)_0%,rgba(248,252,255,1)_36%,rgba(255,247,235,1)_72%,rgba(255,251,245,1)_100%)]">
+      <section className="relative overflow-hidden border-b bg-[linear-gradient(90deg,rgba(242,247,255,1)_0%,rgba(248,252,255,1)_36%,rgba(255,247,235,1)_72%,rgba(255,251,245,1)_100%)] dark:bg-[linear-gradient(120deg,oklch(0.2_0.03_253)_0%,oklch(0.23_0.04_253)_45%,oklch(0.26_0.05_253)_100%)]">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-0 h-full w-full bg-[radial-gradient(circle_at_18%_18%,rgba(59,130,246,0.08),transparent_28%),radial-gradient(circle_at_72%_18%,rgba(245,158,11,0.08),transparent_24%)]" />
-          <div className="absolute top-[8%] left-[42%] h-10 w-20 rounded-full bg-white/70 blur-sm" />
-          <div className="absolute top-[5%] right-[23%] h-12 w-28 rounded-full bg-white/70 blur-sm" />
+          <div className="absolute top-0 left-0 h-full w-full bg-[radial-gradient(circle_at_18%_18%,rgba(59,130,246,0.08),transparent_28%),radial-gradient(circle_at_72%_18%,rgba(245,158,11,0.08),transparent_24%)] dark:bg-[radial-gradient(circle_at_18%_18%,oklch(0.5_0.12_253/0.2),transparent_30%),radial-gradient(circle_at_72%_18%,oklch(0.672_0.175_48/0.16),transparent_26%)]" />
+          <div className="absolute top-[8%] left-[42%] h-10 w-20 rounded-full bg-white/70 blur-sm dark:bg-primary/25" />
+          <div className="absolute top-[5%] right-[23%] h-12 w-28 rounded-full bg-white/70 blur-sm dark:bg-secondary/20" />
         </div>
         <div className="container relative mx-auto grid gap-8 px-4 py-16 md:min-h-180 md:grid-cols-[0.88fr_1.12fr] md:items-center md:py-24 lg:px-10">
           <div className="space-y-8 md:pl-6 lg:pl-12">
@@ -320,8 +320,8 @@ const LandingPage = () => {
           <div className="relative flex items-center justify-center pt-4 md:pt-0">
             <div className="absolute right-3 top-16 z-10 space-y-7 md:right-4 lg:right-10">
               <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-sm border border-white/80 bg-white/75 shadow-sm backdrop-blur">
-                  <span className="text-[#00b795]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-sm border border-border/70 bg-white/75 shadow-sm backdrop-blur dark:bg-card/70">
+                  <span className="text-secondary">
                     <svg
                       viewBox="0 0 24 24"
                       className="h-7 w-7"
@@ -342,12 +342,14 @@ const LandingPage = () => {
                   <p className="text-3xl font-bold tracking-tight text-foreground">
                     300k+
                   </p>
-                  <p className="text-sm text-[#9aa0aa]">Registered Merchant</p>
+                  <p className="text-sm text-muted-foreground">
+                    Registered Merchant
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-sm border border-white/80 bg-white/75 shadow-sm backdrop-blur">
-                  <span className="text-[#00b795]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-sm border border-border/70 bg-white/75 shadow-sm backdrop-blur dark:bg-card/70">
+                  <span className="text-secondary">
                     <svg
                       viewBox="0 0 24 24"
                       className="h-7 w-7"
@@ -370,13 +372,13 @@ const LandingPage = () => {
                   <p className="text-3xl font-bold tracking-tight text-foreground">
                     5k+
                   </p>
-                  <p className="text-sm text-[#9aa0aa]">Delivery Man</p>
+                  <p className="text-sm text-muted-foreground">Delivery Man</p>
                 </div>
               </div>
             </div>
 
             <div className="relative w-full max-w-190 translate-x-2 md:translate-x-8 lg:translate-x-10">
-              <div className="absolute inset-x-[14%] bottom-8 h-0.5 rounded-full bg-black/10 blur-[0.5px]" />
+              <div className="absolute inset-x-[14%] bottom-8 h-0.5 rounded-full bg-black/10 blur-[0.5px] dark:bg-white/15" />
               <div
                 className="relative w-full drop-shadow-[0_16px_28px_rgba(0,0,0,0.08)]"
                 dangerouslySetInnerHTML={{ __html: heroArtwork }}

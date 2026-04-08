@@ -11,6 +11,7 @@ export const env = createEnv({
     REFRESH_TOKEN_SECRET: z.string(),
     CLEAR_DUE_PAYMENT_SUCCESS_URL: z.url(),
     CLEAR_DUE_PAYMENT_CANCEL_URL: z.url(),
+    GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -19,5 +20,6 @@ export const env = createEnv({
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
     CLEAR_DUE_PAYMENT_SUCCESS_URL: process.env.CLEAR_DUE_PAYMENT_SUCCESS_URL,
     CLEAR_DUE_PAYMENT_CANCEL_URL: process.env.CLEAR_DUE_PAYMENT_CANCEL_URL,
+    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
   },
 });

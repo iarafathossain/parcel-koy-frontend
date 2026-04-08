@@ -1,3 +1,4 @@
+import CustomerChatWidget from "@/components/ai/customer-chat-widget";
 import Footer from "@/components/modules/common-layout/footer";
 import Navbar from "@/components/modules/common-layout/navbar";
 import { ReactNode } from "react";
@@ -12,6 +13,7 @@ export default function CommonLayout({ children }: { children: ReactNode }) {
       <footer>
         <Footer />
       </footer>
+      <CustomerChatWidget />
     </div>
   );
 }

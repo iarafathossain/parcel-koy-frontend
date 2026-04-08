@@ -3,6 +3,7 @@
 import { registerMerchantAction } from "@/actions/auth-action";
 import AppField from "@/components/shared/app-field";
 import SubmitBtn from "@/components/shared/submit-btn";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldSet } from "@/components/ui/field";
@@ -67,6 +68,14 @@ const RegisterForm = () => {
   return (
     <Card className="w-full max-w-md mx-auto shadow-md">
       <CardHeader>
+        <div className="w-full flex items-center justify-center">
+          <Avatar className="size-8 shrink-0 ring-1 ring-border/70">
+            <AvatarImage src="/logo-mini.png" alt="parcelKoy support" />
+            <AvatarFallback className="bg-primary text-primary-foreground">
+              PK
+            </AvatarFallback>
+          </Avatar>
+        </div>
         <CardTitle className="text-center">Become a Merchant</CardTitle>
       </CardHeader>
       <CardContent>

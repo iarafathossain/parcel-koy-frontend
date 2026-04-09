@@ -14,6 +14,7 @@ import {
 
 export default function CustomerChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(true);
 
   return (
     <div className="fixed bottom-4 right-4 z-70 sm:bottom-5 sm:right-5">
@@ -64,7 +65,7 @@ export default function CustomerChatWidget() {
         ) : null}
 
         {!isOpen ? (
-          <Tooltip>
+          <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
             <TooltipTrigger asChild>
               <Button
                 variant="default"
@@ -82,15 +83,22 @@ export default function CustomerChatWidget() {
               </Button>
             </TooltipTrigger>
             <TooltipContent
-              side="left"
+              side="top"
               sideOffset={12}
               className="max-w-[16rem] px-3 py-2"
             >
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium">
-                <span>Hi</span>
-                <Hand className="size-3.5 animate-bounce" />
-                <span>How can we help you?</span>
-              </span>
+              <div className="flex items-center justify-between gap-3">
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium">
+                  <Hand className="size-3.5 animate-bounce" />
+                  <span>How can we help you?</span>
+                </span>
+
+                <X
+                  onClick={() => setIsTooltipOpen(false)}
+                  aria-label="Close tooltip"
+                  className="size-3.5"
+                />
+              </div>
             </TooltipContent>
           </Tooltip>
         ) : null}

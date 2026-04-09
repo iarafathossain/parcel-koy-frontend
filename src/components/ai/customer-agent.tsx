@@ -180,18 +180,18 @@ const CustomerAgent = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="rounded-2xl border border-border/70 bg-card p-2 shadow-sm"
+        className="rounded-2xl  bg-card p-2 shadow-sm"
       >
-        <div className="flex flex-col gap-2">
+        <div className="max-w-85 flex flex-col items-end gap-2 relative">
           <Textarea
             value={message}
             onChange={(event) => setMessage(event.target.value)}
             placeholder="Ask about delivery, tracking, cash on delivery..."
             aria-label="Type your message"
             disabled={isLoading}
-            className="min-h-20 rounded-xl bg-background/95 px-4 text-sm placeholder:text-muted-foreground resize-none"
+            className="min-h-20 rounded-xl bg-background/95 px-4 text-sm placeholder:text-muted-foreground resize-none text-wrap overflow-y-auto"
           />
-          <div className="flex justify-end">
+          <div className="flex items-center gap-2">
             <Button
               type="submit"
               disabled={isLoading || !message.trim()}
@@ -202,7 +202,7 @@ const CustomerAgent = () => {
               ) : (
                 <SendHorizonal className="size-4" />
               )}
-              <span className="hidden sm:inline">Send</span>
+              <span>Send</span>
             </Button>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import CustomerChatWidget from "@/components/ai/customer-chat-widget";
 import { SonnerWrapper } from "@/components/ui/sonner-wrapper";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import QueryProvider from "@/providers/query-provider";
@@ -99,7 +100,10 @@ export default function RootLayout({
         >
           <TooltipProvider>
             <QueryProvider>
-              <UserProvider>{children}</UserProvider>
+              <UserProvider>
+                {children}
+                <CustomerChatWidget />
+              </UserProvider>
             </QueryProvider>
           </TooltipProvider>
         </ThemeProvider>

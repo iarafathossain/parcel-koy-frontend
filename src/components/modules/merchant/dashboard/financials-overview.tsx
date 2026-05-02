@@ -1,5 +1,6 @@
 "use client";
 
+import { semanticTones } from "@/components/shared/semantic-tones";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/helpers/format-price";
 import { MerchantFinancials } from "@/types/dashboard-stats-type";
@@ -15,32 +16,28 @@ const FinancialsOverview = ({ financials }: FinancialsOverviewProps) => {
       title: "Total COD Amount",
       value: financials.totalCodAmount,
       icon: CreditCard,
-      bgColor: "bg-blue-500/10",
-      iconColor: "text-blue-600",
+      tone: semanticTones.info.soft,
       description: "Total cash on delivery",
     },
     {
       title: "Delivered COD Amount",
       value: financials.deliveredCodAmount,
       icon: CheckCircle,
-      bgColor: "bg-green-500/10",
-      iconColor: "text-green-600",
+      tone: semanticTones.success.soft,
       description: "Successfully delivered COD",
     },
     {
       title: "Pending Payout",
       value: financials.pendingPayoutAmount,
       icon: Clock,
-      bgColor: "bg-orange-500/10",
-      iconColor: "text-orange-600",
+      tone: semanticTones.warning.soft,
       description: "Awaiting payout",
     },
     {
       title: "Completed Payout",
       value: financials.completedPayoutAmount,
       icon: BarChart3,
-      bgColor: "bg-purple-500/10",
-      iconColor: "text-purple-600",
+      tone: semanticTones.secondary.soft,
       description: "Successfully paid out",
     },
   ];
@@ -63,8 +60,8 @@ const FinancialsOverview = ({ financials }: FinancialsOverviewProps) => {
                   <span className="text-xs font-medium text-muted-foreground">
                     {item.title}
                   </span>
-                  <div className={`${item.bgColor} p-2 rounded-lg`}>
-                    <Icon className={`${item.iconColor} w-4 h-4`} />
+                  <div className={`${item.tone} p-2 rounded-lg`}>
+                    <Icon className="w-4 h-4" />
                   </div>
                 </div>
                 <div>

@@ -1,3 +1,4 @@
+import { semanticTones } from "@/components/shared/semantic-tones";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/helpers/format-price";
 import { getCapitalized } from "@/helpers/get-capitalized";
@@ -6,7 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 const getStatusClasses = (status: string) => {
   if (status === "DELIVERED") {
-    return "bg-emerald-100 text-emerald-800 border-emerald-200";
+    return `${semanticTones.success.soft} border-success/20`;
   }
 
   if (
@@ -14,7 +15,7 @@ const getStatusClasses = (status: string) => {
     status === "OUT_FOR_DELIVERY" ||
     status === "PICKED_UP"
   ) {
-    return "bg-amber-100 text-amber-800 border-amber-200";
+    return `${semanticTones.warning.soft} border-warning/20`;
   }
 
   if (
@@ -23,10 +24,10 @@ const getStatusClasses = (status: string) => {
     status === "PICKUP_FAILED" ||
     status === "CANCELLED"
   ) {
-    return "bg-red-100 text-red-800 border-red-200";
+    return `${semanticTones.danger.soft} border-destructive/20`;
   }
 
-  return "bg-slate-100 text-slate-700 border-slate-200";
+  return `${semanticTones.muted.soft} border-border`;
 };
 
 export const getParcelColumns = (

@@ -103,7 +103,7 @@ export default async function CoveragePage() {
                     </CardTitle>
                     {hub.isActive ? (
                       <CheckCircle2
-                        className="h-5 w-5 text-green-500 shrink-0"
+                        className="h-5 w-5 text-success shrink-0"
                         aria-label="Active Hub"
                       />
                     ) : (

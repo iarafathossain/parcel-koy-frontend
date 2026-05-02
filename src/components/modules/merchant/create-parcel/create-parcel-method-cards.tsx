@@ -46,16 +46,16 @@ const CreateParcelMethodCards = () => {
               className={cn(
                 "h-80 flex flex-col items-center justify-center transition-colors shadow-2xl hover:shadow-2xl/50 cursor-pointer",
                 method.slug === "regular-pickup"
-                  ? "border-lime-600/60 bg-lime-300/45 hover:bg-lime-300/60 dark:border-lime-500/70 dark:bg-lime-900/35 dark:hover:bg-lime-900/50"
-                  : "border-amber-600/60 bg-amber-300/45 hover:bg-amber-300/60 dark:border-amber-500/70 dark:bg-amber-900/35 dark:hover:bg-amber-900/50",
+                  ? "border-success/60 bg-success/10 hover:bg-success/15 dark:border-success/70 dark:bg-success/15 dark:hover:bg-success/20"
+                  : "border-warning/60 bg-warning/10 hover:bg-warning/15 dark:border-warning/70 dark:bg-warning/15 dark:hover:bg-warning/20",
               )}
             >
               <CardHeader className="items-center justify-center text-center">
                 <div className="flex w-full justify-center">
                   {method.slug === "regular-pickup" ? (
-                    <Package className="h-14 w-14 text-lime-700 dark:text-lime-300" />
+                    <Package className="h-14 w-14 text-success" />
                   ) : (
-                    <Truck className="h-14 w-14 text-lime-700 dark:text-lime-300" />
+                    <Truck className="h-14 w-14 text-warning" />
                   )}
                 </div>
                 <CardTitle className="whitespace-nowrap text-3xl font-bold leading-none">

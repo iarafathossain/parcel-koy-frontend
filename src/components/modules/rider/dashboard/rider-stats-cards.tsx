@@ -1,5 +1,6 @@
 "use client";
 
+import { semanticTones } from "@/components/shared/semantic-tones";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RiderParcelStats } from "@/types/dashboard-stats-type";
 import { CheckCircle, Clock, Package, TrendingUp } from "lucide-react";
@@ -14,29 +15,25 @@ const RiderStatsCards = ({ parcels }: RiderStatsCardsProps) => {
       title: "Total Parcels",
       value: parcels.total,
       icon: Package,
-      bgColor: "bg-blue-500/10",
-      iconColor: "text-blue-600",
+      tone: semanticTones.info.soft,
     },
     {
       title: "Pickups",
       value: parcels.pickups,
       icon: TrendingUp,
-      bgColor: "bg-purple-500/10",
-      iconColor: "text-purple-600",
+      tone: semanticTones.secondary.soft,
     },
     {
       title: "Deliveries",
       value: parcels.deliveries,
       icon: Clock,
-      bgColor: "bg-orange-500/10",
-      iconColor: "text-orange-600",
+      tone: semanticTones.warning.soft,
     },
     {
       title: "Delivered",
       value: parcels.delivered,
       icon: CheckCircle,
-      bgColor: "bg-green-500/10",
-      iconColor: "text-green-600",
+      tone: semanticTones.success.soft,
     },
   ];
 
@@ -50,8 +47,8 @@ const RiderStatsCards = ({ parcels }: RiderStatsCardsProps) => {
               <CardTitle className="text-sm font-medium">
                 {stat.title}
               </CardTitle>
-              <div className={`${stat.bgColor} p-2 rounded-lg`}>
-                <Icon className={`${stat.iconColor} w-4 h-4`} />
+              <div className={`${stat.tone} p-2 rounded-lg`}>
+                <Icon className="w-4 h-4" />
               </div>
             </CardHeader>
             <CardContent>

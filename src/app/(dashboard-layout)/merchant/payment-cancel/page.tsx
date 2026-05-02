@@ -57,7 +57,7 @@ const PaymentCancelPage = () => {
     <div className="mx-auto w-full max-w-2xl py-10">
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-rose-600">
+          <CardTitle className="flex items-center gap-2 text-destructive">
             <XCircle className="h-5 w-5" />
             Payment Cancelled
           </CardTitle>

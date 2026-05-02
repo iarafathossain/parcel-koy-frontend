@@ -1,3 +1,4 @@
+import { semanticTones } from "@/components/shared/semantic-tones";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { API } from "@/lib/api-endpoints";
@@ -62,40 +63,40 @@ const getStatusConfig = (status: string) => {
   switch (status) {
     case "REQUESTED":
       return {
-        icon: <Package className="w-5 h-5 text-blue-500" />,
-        color: "bg-blue-100",
+        icon: <Package className="w-5 h-5" />,
+        color: semanticTones.info.soft,
       };
     case "PICKUP_RIDER_ASSIGNED":
     case "OUT_FOR_DELIVERY":
       return {
-        icon: <Bike className="w-5 h-5 text-orange-500" />,
-        color: "bg-orange-100",
+        icon: <Bike className="w-5 h-5" />,
+        color: semanticTones.warning.soft,
       };
     case "PICKED_UP":
       return {
-        icon: <CheckCircle2 className="w-5 h-5 text-green-500" />,
-        color: "bg-green-100",
+        icon: <CheckCircle2 className="w-5 h-5" />,
+        color: semanticTones.success.soft,
       };
     case "RECEIVED_AT_ORIGIN_HUB":
     case "RECEIVED_AT_DESTINATION_HUB":
       return {
-        icon: <MapPinHouse className="w-5 h-5 text-purple-500" />,
-        color: "bg-purple-100",
+        icon: <MapPinHouse className="w-5 h-5" />,
+        color: semanticTones.secondary.soft,
       };
     case "IN_TRANSIT":
       return {
-        icon: <Truck className="w-5 h-5 text-indigo-500" />,
-        color: "bg-indigo-100",
+        icon: <Truck className="w-5 h-5" />,
+        color: semanticTones.info.soft,
       };
     case "DELIVERED":
       return {
-        icon: <PackageCheck className="w-5 h-5 text-emerald-600" />,
-        color: "bg-emerald-100",
+        icon: <PackageCheck className="w-5 h-5" />,
+        color: semanticTones.success.soft,
       };
     default:
       return {
-        icon: <MapPin className="w-5 h-5 text-gray-500" />,
-        color: "bg-gray-100",
+        icon: <MapPin className="w-5 h-5" />,
+        color: semanticTones.muted.soft,
       };
   }
 };

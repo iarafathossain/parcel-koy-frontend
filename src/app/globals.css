@@ -35,6 +35,12 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-info-foreground: var(--info-foreground);
+  --color-info: var(--info);
+  --color-success-foreground: var(--success-foreground);
+  --color-success: var(--success);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning: var(--warning);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -78,6 +84,14 @@
 
   /* Orange focus ring */
   --ring: oklch(0.672 0.175 48);
+
+  /* Semantic feedback colors */
+  --info: oklch(0.435 0.106 253);
+  --info-foreground: oklch(0.985 0 0);
+  --success: oklch(0.62 0.16 145);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.72 0.17 75);
+  --warning-foreground: oklch(0.2 0.03 253);
 
   /* Charts adapted to brand */
   --chart-1: oklch(0.435 0.106 253); /* Blue */
@@ -128,6 +142,14 @@
 
   /* Orange focus ring */
   --ring: oklch(0.672 0.175 48);
+
+  /* Semantic feedback colors */
+  --info: oklch(0.5 0.12 253);
+  --info-foreground: oklch(0.985 0 0);
+  --success: oklch(0.7 0.15 145);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.76 0.15 75);
+  --warning-foreground: oklch(0.18 0.02 253);
 
   --chart-1: oklch(0.5 0.12 253);
   --chart-2: oklch(0.672 0.175 48);

@@ -66,15 +66,15 @@ const MOCK_NOTIFICATIONS: Notification[] = [
 const getNotificationIcon = (type: Notification["type"]) => {
   switch (type) {
     case "appointment":
-      return <Calendar className="h-4 w-4 text-blue-500" />;
+      return <Calendar className="h-4 w-4 text-info" />;
     case "schedule":
-      return <Clock className="h-4 w-4 text-green-500" />;
+      return <Clock className="h-4 w-4 text-success" />;
     case "system":
-      return <CheckCircle className="h-4 w-4 text-red-500" />;
+      return <CheckCircle className="h-4 w-4 text-destructive" />;
     case "user":
-      return <UserPlus className="h-4 w-4 text-yellow-500" />;
+      return <UserPlus className="h-4 w-4 text-warning" />;
     default:
-      return <Bell className="h-4 w-4 text-gray-500" />;
+      return <Bell className="h-4 w-4 text-muted-foreground" />;
   }
 };
 
@@ -128,7 +128,7 @@ const NotificationDropdown = () => {
                       {notification.title}
                     </p>
                     {!notification.read && (
-                      <div className="h-2 w-2 rounded-full bg-blue-600" />
+                      <div className="h-2 w-2 rounded-full bg-info" />
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground line-clamp-2">

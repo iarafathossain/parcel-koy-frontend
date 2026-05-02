@@ -1,4 +1,5 @@
 import DateCell from "@/components/shared/cell/date-cell";
+import { semanticTones } from "@/components/shared/semantic-tones";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/helpers/format-price";
 import { getCapitalized } from "@/helpers/get-capitalized";
@@ -8,14 +9,14 @@ import { ColumnDef } from "@tanstack/react-table";
 
 const getStatusClasses = (status: string) => {
   if (status === PayoutStatus.COMPLETED) {
-    return "bg-emerald-100 text-emerald-800 border-emerald-200";
+    return `${semanticTones.success.soft} border-success/20`;
   }
 
   if (status === PayoutStatus.REJECTED) {
-    return "bg-red-100 text-red-800 border-red-200";
+    return `${semanticTones.danger.soft} border-destructive/20`;
   }
 
-  return "bg-amber-100 text-amber-800 border-amber-200";
+  return `${semanticTones.warning.soft} border-warning/20`;
 };
 
 export const getPayoutColumns = (

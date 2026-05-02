@@ -1,5 +1,6 @@
 "use client";
 
+import { semanticTones } from "@/components/shared/semantic-tones";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/helpers/format-price";
 import { RiderFinancials } from "@/types/dashboard-stats-type";
@@ -17,32 +18,28 @@ const RiderFinancialsOverview = ({
       title: "Total COD Amount",
       value: financials.totalCodAmount,
       icon: CreditCard,
-      bgColor: "bg-blue-500/10",
-      iconColor: "text-blue-600",
+      tone: semanticTones.info.soft,
       description: "Cash collected",
     },
     {
       title: "Delivered COD",
       value: financials.deliveredCodAmount,
       icon: CheckCircle,
-      bgColor: "bg-green-500/10",
-      iconColor: "text-green-600",
+      tone: semanticTones.success.soft,
       description: "Delivered orders",
     },
     {
       title: "Delivery Charges",
       value: financials.totalDeliveryCharge,
       icon: TrendingUp,
-      bgColor: "bg-purple-500/10",
-      iconColor: "text-purple-600",
+      tone: semanticTones.secondary.soft,
       description: "Earned from deliveries",
     },
     {
       title: "Total Collected",
       value: financials.totalCollectedCash,
       icon: Wallet,
-      bgColor: "bg-orange-500/10",
-      iconColor: "text-orange-600",
+      tone: semanticTones.warning.soft,
       description: "Cash in hand",
     },
   ];
@@ -65,8 +62,8 @@ const RiderFinancialsOverview = ({
                   <span className="text-xs font-medium text-muted-foreground">
                     {item.title}
                   </span>
-                  <div className={`${item.bgColor} p-2 rounded-lg`}>
-                    <Icon className={`${item.iconColor} w-4 h-4`} />
+                  <div className={`${item.tone} p-2 rounded-lg`}>
+                    <Icon className="w-4 h-4" />
                   </div>
                 </div>
                 <div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { semanticTones } from "@/components/shared/semantic-tones";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/helpers/format-price";
 import { MerchantFinancials, ParcelStats } from "@/types/dashboard-stats-type";
@@ -19,29 +20,25 @@ const MerchantStatsCards = ({
       title: "Total Parcels",
       value: parcels.total,
       icon: Package,
-      bgColor: "bg-blue-500/10",
-      iconColor: "text-blue-600",
+      tone: semanticTones.info.soft,
     },
     {
       title: "Total Delivery Charge",
       value: formatPrice(financials.totalDeliveryCharge),
       icon: DollarSign,
-      bgColor: "bg-green-500/10",
-      iconColor: "text-green-600",
+      tone: semanticTones.success.soft,
     },
     {
       title: "Total COD Amount",
       value: formatPrice(financials.totalCodAmount),
       icon: TrendingUp,
-      bgColor: "bg-purple-500/10",
-      iconColor: "text-purple-600",
+      tone: semanticTones.secondary.soft,
     },
     {
       title: "Delivered COD",
       value: formatPrice(financials.deliveredCodAmount),
       icon: Clock,
-      bgColor: "bg-orange-500/10",
-      iconColor: "text-orange-600",
+      tone: semanticTones.warning.soft,
     },
   ];
 
@@ -55,8 +52,8 @@ const MerchantStatsCards = ({
               <CardTitle className="text-sm font-medium">
                 {stat.title}
               </CardTitle>
-              <div className={`${stat.bgColor} p-2 rounded-lg`}>
-                <Icon className={`${stat.iconColor} w-4 h-4`} />
+              <div className={`${stat.tone} p-2 rounded-lg`}>
+                <Icon className="w-4 h-4" />
               </div>
             </CardHeader>
             <CardContent>

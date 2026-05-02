@@ -101,13 +101,13 @@ const DeliveryChargeDisplay = ({
         </span>
         {!isChargeLoading && displayErrorMessage && (
           <div className="flex flex-col">
-            <span className="text-sm text-amber-400 mt-1">
+            <span className="mt-1 text-sm text-warning">
               {displayErrorMessage}
             </span>
             <Button variant="link" className="px-0 mt-1 w-full block" asChild>
               <Link
                 href="/contact"
-                className="text-sm text-amber-400 hover:underline"
+                className="text-sm text-warning hover:underline"
               >
                 Contact Support
               </Link>

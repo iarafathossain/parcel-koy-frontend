@@ -27,7 +27,7 @@ const Navbar = () => {
 
   return (
     <div className="h-16 shrink-0 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
-      <div className="relative container mx-auto flex h-full items-center gap-3 px-4">
+      <div className="relative container mx-auto flex h-full items-center justify-between gap-3 px-4">
         <Sheet open={isOpen && isMobile} onOpenChange={setIsOpen}>
           <SheetTrigger asChild className="md:hidden">
             <Button variant="outline" size="icon" aria-label="Open navigation">

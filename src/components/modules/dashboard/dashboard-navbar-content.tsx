@@ -11,6 +11,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { IJwtPayload } from "@/types/auth-type";
 import { NavSection } from "@/types/dashboard-type";
 import { Menu } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import NavItems from "./nav-items";
@@ -39,11 +40,15 @@ const DashboardNavbarContent = ({
       <SheetContent side="left">
         <div className="h-full flex flex-col overflow-y-auto">
           {/* Logo / Brand */}
-          <div className="flex h-16 items-center border-b px-6">
-            <Link href={dashboardHome}>
-              <span className="text-xl font-bold text-primary">
-                PH Healthcare
-              </span>
+          <div className="flex h-16 items-center border-b px-4">
+            <Link href={dashboardHome} onClick={() => setIsOpen(false)}>
+              <Image
+                src="/logo.png"
+                alt="ParcelKoy Courier"
+                width={220}
+                height={44}
+                priority
+              />
             </Link>
           </div>
 

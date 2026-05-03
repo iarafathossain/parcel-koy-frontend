@@ -43,7 +43,7 @@ const Navbar = () => {
                 <Link href="/" onClick={() => setIsOpen(false)}>
                   <Image
                     src="/logo.png"
-                    alt="SteadFast Courier"
+                    alt="ParcelKoy Courier"
                     width={220}
                     height={44}
                     priority
@@ -121,7 +121,7 @@ const Navbar = () => {
         <Link href="/" className="flex items-center">
           <Image
             src="/logo.png"
-            alt="SteadFast Courier"
+            alt="ParcelKoy Courier"
             width={230}
             height={46}
             priority

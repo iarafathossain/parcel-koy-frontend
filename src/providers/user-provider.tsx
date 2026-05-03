@@ -43,11 +43,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     queryKey: ["user", "me"],
     queryFn: fetchUserClientSide,
     staleTime: 30 * 1000,
-    // retry: 2,
-    // retryDelay: 1000,
+    retry: 2,
+    retryDelay: 1000,
     refetchOnMount: "always",
     refetchOnWindowFocus: true,
-    // refetchInterval: (query) => (query.state.data ? false : 3000),
+    refetchInterval: (query) => (query.state.data ? false : 3000),
   });
 
   const user = fetchedUser ?? null;

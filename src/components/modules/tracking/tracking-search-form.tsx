@@ -88,6 +88,15 @@ export const TrackingSearchForm = ({
             Search
           </Button>
         </form>
+        <div className="mt-8 text-center">
+          <p>A valid tracking ID for quick checking</p>
+          <p className="text-sm text-muted-foreground">
+            Example:{" "}
+            <span className="font-mono bg-muted/50 px-1 rounded">
+              PKY-2603-ZFZA4P
+            </span>
+          </p>
+        </div>
       </div>
     </section>
   );

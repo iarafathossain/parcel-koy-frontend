@@ -248,7 +248,9 @@ const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
       </CardFooter>
 
       <div className="px-6 pb-6 pt-2">
-        <p className="text-sm font-medium pb-2">Get quick Demo Access</p>
+        <p className="text-sm font-medium pb-2 text-secondary">
+          Get quick Demo Access
+        </p>
         <Select value={selectedDemoAccount} onValueChange={applyDemoAccount}>
           <SelectTrigger className="w-full" aria-label="Select demo account">
             <SelectValue placeholder="Select demo account" />

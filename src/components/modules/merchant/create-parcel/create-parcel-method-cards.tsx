@@ -44,10 +44,10 @@ const CreateParcelMethodCards = () => {
               key={method.id}
               onClick={() => setSelectedPickupMethod(method)}
               className={cn(
-                "h-80 flex flex-col items-center justify-center transition-colors shadow-2xl hover:shadow-2xl/50 cursor-pointer",
+                "h-80 flex flex-col items-center justify-center transition-colors shadow hover:shadow-xl cursor-pointer",
                 method.slug === "regular-pickup"
-                  ? "border-success/60 bg-success/10 hover:bg-success/15 dark:border-success/70 dark:bg-success/15 dark:hover:bg-success/20"
-                  : "border-warning/60 bg-warning/10 hover:bg-warning/15 dark:border-warning/70 dark:bg-warning/15 dark:hover:bg-warning/20",
+                  ? "border-primary/60 bg-primary/20 hover:bg-primary/25 dark:border-primary/70 dark:bg-primary/25 dark:hover:bg-primary/20"
+                  : "border-secondary/60 bg-secondary/10 hover:bg-secondary/15 dark:border-secondary/70 dark:bg-secondary/15 dark:hover:bg-secondary/20",
               )}
             >
               <CardHeader className="items-center justify-center text-center">

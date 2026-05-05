@@ -1,64 +1,53 @@
-"use client";
-
 import { getDashboardStatsAction } from "@/actions/dashboard-action";
 import RiderDashboardCharts from "@/components/modules/rider/dashboard/rider-dashboard-charts";
 import RiderFinancialsOverview from "@/components/modules/rider/dashboard/rider-financials-overview";
 import RiderParcelOverview from "@/components/modules/rider/dashboard/rider-parcel-overview";
 import RiderStatsCards from "@/components/modules/rider/dashboard/rider-stats-cards";
-import DashboardStateGate from "@/components/shared/dashboard-state-gate";
 import { isRiderDashboardData } from "@/types/dashboard-stats-type";
-import { useQuery } from "@tanstack/react-query";
 import RiderCashCard from "./rider-cash-card";
 
-const RiderDashboard = () => {
-  const {
-    data: response,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["dashboard-stats", "rider"],
-    queryFn: () => getDashboardStatsAction(),
-  });
+const RiderDashboard = async () => {
+  const response = await getDashboardStatsAction();
+
+  if (!response.success || !response.data) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-destructive">
+          {response.message || "Failed to load dashboard"}
+        </p>
+      </div>
+    );
+  }
+
+  if (!isRiderDashboardData(response.data)) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-destructive">Invalid dashboard data for rider.</p>
+      </div>
+    );
+  }
+
+  const data = response.data;
 
   return (
-    <DashboardStateGate
-      isLoading={isLoading}
-      isError={isError}
-      error={error}
-      response={response}
-      roleLabel="rider"
-      isExpectedData={isRiderDashboardData}
-    >
-      {(data) => (
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight">
-              Welcome, Rider
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Track your deliveries and earnings
-            </p>
-          </div>
+    <div className="space-y-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">Welcome, Rider</h1>
+        <p className="text-muted-foreground mt-1">
+          Track your deliveries and earnings
+        </p>
+      </div>
 
-          {/* Cash in Hand Card */}
-          <RiderCashCard cashInHand={data.rider.cashInHand} />
+      <RiderCashCard cashInHand={data.rider.cashInHand} />
 
-          {/* Stats Cards */}
-          <RiderStatsCards parcels={data.parcels} />
+      <RiderStatsCards parcels={data.parcels} />
 
-          {/* Parcel Overview */}
-          <RiderParcelOverview parcels={data.parcels} />
+      <RiderParcelOverview parcels={data.parcels} />
 
-          {/* Financials Overview */}
-          <RiderFinancialsOverview financials={data.financials} />
+      <RiderFinancialsOverview financials={data.financials} />
 
-          {/* Charts */}
-          <RiderDashboardCharts charts={data.charts} />
-        </div>
-      )}
-    </DashboardStateGate>
+      <RiderDashboardCharts charts={data.charts} />
+    </div>
   );
 };
 

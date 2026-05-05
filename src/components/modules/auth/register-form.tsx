@@ -66,7 +66,7 @@ const RegisterForm = () => {
   });
 
   return (
-    <Card className="w-full max-w-md mx-auto shadow-md">
+    <Card className="w-full max-w-lg mx-auto shadow-md">
       <CardHeader>
         <div className="w-full flex items-center justify-center">
           <Avatar className="size-8 shrink-0 ring-1 ring-border/70">

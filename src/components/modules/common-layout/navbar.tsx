@@ -16,12 +16,14 @@ import { publicNavbarItems } from "@/lib/nav-items";
 import { LocateFixed, LogOut, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Navbar = () => {
   const { user, isFetching, isLoading } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useIsMobile();
+  const router = useRouter();
 
   const dashboardHref = user ? getDefaultDashboardRoute(user.role) : "/login";
 
@@ -93,6 +95,10 @@ const Navbar = () => {
                       variant="destructive"
                       onClick={async () => {
                         await logoutAction();
+                        router.replace("/login");
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 0);
                       }}
                     >
                       <LogOut className="mr-1 h-4 w-4" />
@@ -160,6 +166,10 @@ const Navbar = () => {
                 className="h-11 px-5 text-base"
                 onClick={async () => {
                   await logoutAction();
+                  router.replace("/login");
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 0);
                 }}
               >
                 <LogOut className="mr-2 h-4 w-4" />

@@ -160,9 +160,6 @@ export const logoutAction = async () => {
     cookieStore.delete("refresh_token");
     cookieStore.delete("better-auth.session_token");
   }
-
-  // 3. Redirect the user to the login page
-  redirect("/login");
 };
 
 export const registerMerchantAction = async (

@@ -15,6 +15,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldSet } from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { catchError } from "@/helpers/catch-error";
 import {
   ILoginUserPayload,
@@ -28,9 +35,33 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+const demoAccounts = [
+  {
+    label: "Demo account: Merchant",
+    email: "md489288@gmail.com",
+    password: "@StrongPass123",
+  },
+  {
+    label: "Demo account: Rider",
+    email: "sabbir.rider1@example.com",
+    password: "Rider@123",
+  },
+  {
+    label: "Demo account: Super Admin",
+    email: "superadmin@parcelkoy.com",
+    password: "SuperAdmin@123",
+  },
+  {
+    label: "Demo account: Admin",
+    email: "johncena@gmail.com",
+    password: "@Admin123",
+  },
+] as const;
+
 const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [selectedDemoAccount, setSelectedDemoAccount] = useState<string>("");
 
   const router = useRouter();
 
@@ -75,6 +106,30 @@ const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
       }
     },
   });
+
+  const applyDemoAccount = (selectedValue: string) => {
+    if (selectedValue === "__select_demo_account__") {
+      setSelectedDemoAccount("");
+      form.setFieldValue("email", "");
+      form.setFieldValue("password", "");
+      setServerError(null);
+      return;
+    }
+
+    const selectedAccount = demoAccounts.find(
+      (account) => account.email === selectedValue,
+    );
+
+    if (!selectedAccount) {
+      return;
+    }
+
+    setSelectedDemoAccount(selectedValue);
+    form.setFieldValue("email", selectedAccount.email);
+    form.setFieldValue("password", selectedAccount.password);
+    setServerError(null);
+  };
+
   return (
     <Card className="w-full max-w-md mx-auto shadow-md mt-5">
       <CardHeader className="text-center">
@@ -191,6 +246,25 @@ const LoginForm = ({ redirectTo }: { redirectTo?: string }) => {
           </Link>
         </p>
       </CardFooter>
+
+      <div className="px-6 pb-6 pt-2">
+        <p className="text-sm font-medium pb-2">Get quick Demo Access</p>
+        <Select value={selectedDemoAccount} onValueChange={applyDemoAccount}>
+          <SelectTrigger className="w-full" aria-label="Select demo account">
+            <SelectValue placeholder="Select demo account" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="__select_demo_account__">
+              Select demo account
+            </SelectItem>
+            {demoAccounts.map((account) => (
+              <SelectItem key={account.email} value={account.email}>
+                {account.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </Card>
   );
 };

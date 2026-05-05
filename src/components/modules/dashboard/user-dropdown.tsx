@@ -13,12 +13,15 @@ import {
 import { IJwtPayload } from "@/types/auth-type";
 import { Key, LogOut, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface UserDropdownProps {
   userInfo: IJwtPayload;
 }
 
 const UserDropdown = ({ userInfo }: UserDropdownProps) => {
+  const router = useRouter();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -60,6 +63,10 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
         <DropdownMenuItem
           onClick={async () => {
             await logoutAction();
+            router.replace("/login");
+            setTimeout(() => {
+              window.location.reload();
+            }, 0);
           }}
           className="cursor-pointer text-red-600 flex items-center"
         >

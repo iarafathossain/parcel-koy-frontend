@@ -21,16 +21,6 @@ export const adminColumns: ColumnDef<IAdmin>[] = [
     ),
   },
   {
-    id: "user.email",
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {row.original.user.email}
-      </span>
-    ),
-  },
-  {
     id: "presentAddress",
     accessorKey: "presentAddress",
     enableSorting: false,

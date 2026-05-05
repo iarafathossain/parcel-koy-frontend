@@ -20,9 +20,14 @@ interface AdminOverviewCardsProps {
     active: number;
     blocked: number;
   };
+  isSuperAdmin?: boolean;
 }
 
-const AdminOverviewCards = ({ overview, users }: AdminOverviewCardsProps) => {
+const AdminOverviewCards = ({
+  overview,
+  users,
+  isSuperAdmin,
+}: AdminOverviewCardsProps) => {
   const mainMetrics = [
     {
       title: "Merchants",
@@ -66,13 +71,22 @@ const AdminOverviewCards = ({ overview, users }: AdminOverviewCardsProps) => {
       icon: Grid3X3,
       tone: semanticTones.info.soft,
     },
-    {
+  ];
+
+  if (isSuperAdmin) {
+    mainMetrics.push({
       title: "Active Users",
       value: users.active,
       icon: CheckCircle,
       tone: semanticTones.success.soft,
-    },
-  ];
+    });
+    mainMetrics.push({
+      title: "Blocked Users",
+      value: users.blocked,
+      icon: AlertCircle,
+      tone: semanticTones.warning.soft,
+    });
+  }
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

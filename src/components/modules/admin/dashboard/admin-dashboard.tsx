@@ -38,7 +38,6 @@ const AdminDashboard = async () => {
   }
 
   const data = response.data;
-  console.log("Admin Dashboard Data:", data);
 
   // Define a permissive admin-like type to cover both system and managed-hubs scopes
   type AdminLikeData = {
@@ -95,7 +94,11 @@ const AdminDashboard = async () => {
         </p>
       </div>
 
-      <AdminOverviewCards overview={adminData.overview} users={users} />
+      <AdminOverviewCards
+        overview={adminData.overview}
+        users={users}
+        isSuperAdmin={isSuperAdmin}
+      />
 
       {/* Show system-level metrics only for system-scoped dashboards */}
       {scope === "system" && <AdminSystemMetrics parcels={adminData.parcels} />}

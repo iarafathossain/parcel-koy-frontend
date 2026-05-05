@@ -36,6 +36,11 @@ export const getCommonNavItems = (role: RoleType): NavSection[] => {
           href: "/my-profile",
           icon: "User",
         },
+        {
+          title: "Track Parcel",
+          href: "/track-parcel-dashboard",
+          icon: "Search",
+        },
       ],
     },
     {
@@ -67,11 +72,6 @@ export const merchantNavItems: NavSection[] = [
         title: "My Parcels",
         href: "/merchant/my-parcels",
         icon: "Package",
-      },
-      {
-        title: "Track Parcel",
-        href: "/track-parcel",
-        icon: "Search",
       },
     ],
   },
@@ -199,11 +199,6 @@ export const riderNavItems: NavSection[] = [
         title: "My Assigned Parcels",
         href: "/rider/dashboard/assigned-parcels",
         icon: "Package",
-      },
-      {
-        title: "Track Parcel",
-        href: "/track-parcel",
-        icon: "Search",
       },
     ],
   },

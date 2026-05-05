@@ -4,6 +4,7 @@ type LoadingShellVariant =
   | "merchantDashboard"
   | "riderDashboard"
   | "protectedRoute"
+  | "trackingRoute"
   | "myProfile"
   | "changePassword";
 
@@ -93,6 +94,34 @@ const shells: Record<LoadingShellVariant, React.ReactNode> = {
         <div className="h-4 w-full rounded-md bg-muted" />
         <div className="h-4 w-5/6 rounded-md bg-muted" />
         <div className="h-4 w-3/4 rounded-md bg-muted" />
+      </div>
+    </div>
+  ),
+  trackingRoute: (
+    <div className="space-y-6 animate-pulse">
+      <div className="space-y-2">
+        <div className="h-7 w-64 rounded-md bg-muted" />
+        <div className="h-4 w-80 rounded-md bg-muted" />
+      </div>
+
+      <div className="rounded-xl border bg-card p-4 md:p-6 space-y-4">
+        <div className="flex items-stretch gap-2 rounded-md border bg-background p-2">
+          <div className="h-10 w-10 rounded-md bg-muted" />
+          <div className="h-10 flex-1 rounded-md bg-muted" />
+          <div className="h-10 w-28 rounded-md bg-muted" />
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="h-64 rounded-lg border bg-muted/40" />
+          <div className="space-y-4 rounded-lg border bg-muted/25 p-4">
+            <div className="h-5 w-40 rounded-md bg-muted" />
+            <div className="space-y-3">
+              <div className="h-16 rounded-md bg-muted" />
+              <div className="h-16 rounded-md bg-muted" />
+              <div className="h-16 rounded-md bg-muted" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   ),

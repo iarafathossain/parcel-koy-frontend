@@ -21,7 +21,7 @@ async function getTrackingData(
   }
 }
 
-const TrackParcelByIdPage = async ({
+const MerchantTrackParcelByIdPage = async ({
   params,
 }: {
   params: Promise<{ trackingId: string }>;
@@ -38,7 +38,7 @@ const TrackParcelByIdPage = async ({
           We couldn&apos;t find any tracking information for ID:{" "}
           <span className="font-semibold">{trackingId}</span>
         </p>
-        <Link href="/track-parcel">
+        <Link href="/track-parcel-dashboard">
           <Button variant="outline">Try Another Tracking ID</Button>
         </Link>
       </div>
@@ -49,7 +49,7 @@ const TrackParcelByIdPage = async ({
     <div className="space-y-4 pb-8">
       <div className="flex items-center justify-between px-4 md:px-8 pt-6">
         <h2 className="text-lg font-semibold">Tracking Results</h2>
-        <Link href="/track-parcel">
+        <Link href="/track-parcel-dashboard">
           <Button variant="outline" size="sm">
             New Search
           </Button>
@@ -60,4 +60,4 @@ const TrackParcelByIdPage = async ({
   );
 };
 
-export default TrackParcelByIdPage;
+export default MerchantTrackParcelByIdPage;

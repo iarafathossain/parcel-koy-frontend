@@ -94,11 +94,7 @@ const AdminDashboard = async () => {
         </p>
       </div>
 
-      <AdminOverviewCards
-        overview={adminData.overview}
-        users={users}
-        isSuperAdmin={isSuperAdmin}
-      />
+      <AdminOverviewCards overview={adminData.overview} />
 
       {/* Show system-level metrics only for system-scoped dashboards */}
       {scope === "system" && <AdminSystemMetrics parcels={adminData.parcels} />}

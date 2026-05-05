@@ -35,28 +35,26 @@ const ContactUsPage = () => {
   return (
     <div className="bg-background">
       {/* Header */}
-      <section className="container mx-auto px-4 py-14 md:py-20 text-center">
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
-          Contact Our Support Team
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
+      <section className="container mx-auto pad-horizontal section-default text-center">
+        <h1 className="heading-h2 md:heading-h1">Contact Our Support Team</h1>
+        <p className="mt-standard text-lg text-muted-foreground">
           Whether you need help with a dispatch or want to discuss enterprise
           solutions, we&apos;re here for you.
         </p>
       </section>
 
       {/* Contact Grid */}
-      <section className="container mx-auto px-4 pb-16">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+      <section className="container mx-auto pad-horizontal pad-vertical">
+        <div className="grid gap-generous md:grid-cols-2 lg:grid-cols-3">
           {/* Contact Info Cards */}
-          <div className="space-y-4 lg:col-span-1">
+          <div className="space-y-standard lg:col-span-1">
             <Card>
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="rounded-full bg-primary/10 p-3 text-primary">
                   <PhoneCall className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">Call Us (24/7)</p>
+                  <p className="label-default font-semibold">Call Us (24/7)</p>
                   <p className="text-muted-foreground">+880 1234 567 890</p>
                 </div>
               </CardContent>
@@ -89,10 +87,10 @@ const ContactUsPage = () => {
 
           {/* Contact Form */}
           <Card className="lg:col-span-2">
-            <CardContent className="p-6 md:p-8">
-              <h3 className="text-2xl font-semibold mb-6">Send us a message</h3>
-              <form className="space-y-4">
-                <div className="grid gap-4 md:grid-cols-2">
+            <CardContent className="pad-expanded md:pad-loose">
+              <h3 className="heading-h4 mb-generous">Send us a message</h3>
+              <form className="space-y-standard">
+                <div className="grid gap-standard md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
                     <Input id="name" placeholder="John Doe" />

@@ -46,13 +46,13 @@ const ParcelStatusOverview = ({ statuses }: ParcelStatusOverviewProps) => {
         {statusEntries.length === 0 ? (
           <p className="text-muted-foreground text-sm">No parcels yet</p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-default">
             {statusEntries.map(([status, count]) => (
               <div
                 key={status}
-                className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
+                className="flex items-center justify-between pad-compact radius-md bg-muted/50"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-standard">
                   <Badge
                     className={
                       statusColorMap[status] || semanticTones.muted.soft
@@ -60,7 +60,7 @@ const ParcelStatusOverview = ({ statuses }: ParcelStatusOverviewProps) => {
                   >
                     {count}
                   </Badge>
-                  <span className="text-sm font-medium">
+                  <span className="label-default">
                     {formatStatusText(status)}
                   </span>
                 </div>

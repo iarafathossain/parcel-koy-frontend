@@ -64,18 +64,18 @@ export const HeroSection = () => {
         />
       </div>
 
-      <div className="container relative mx-auto grid gap-8 px-4 py-16 md:min-h-176 md:grid-cols-[0.88fr_1.12fr] md:items-center md:py-24 lg:px-10">
+      <div className="container relative mx-auto grid gap-generous px-4 py-16 md:min-h-176 md:grid-cols-[0.88fr_1.12fr] md:items-center md:py-24 lg:pad-horizontal">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={stagger}
           style={{ opacity: heroOpacity }}
-          className="space-y-8 md:pl-6 lg:pl-12"
+          className="space-y-generous md:pl-6 lg:pl-12"
         >
           <motion.div variants={fadeInUp}>
             <Badge
               variant="outline"
-              className="mb-4 gap-1.5 border-secondary/30 bg-secondary/5 px-3 py-1 text-secondary"
+              className="mb-standard gap-standard border-secondary/30 bg-secondary/5 px-3 py-1 text-secondary"
             >
               <Zap className="h-3 w-3" />
               Bangladesh&apos;s Fastest Growing Courier
@@ -83,7 +83,7 @@ export const HeroSection = () => {
           </motion.div>
           <motion.h1
             variants={fadeInUp}
-            className="max-w-xl text-4xl font-black leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[4.2rem]"
+            className="max-w-xl heading-h1 leading-[1.08] tracking-tight text-foreground sm:heading-h1 lg:text-[4.2rem]"
           >
             <span className="relative inline-block">We Deliver</span>
             <span className="block">Parcel on Time with</span>
@@ -91,17 +91,20 @@ export const HeroSection = () => {
           </motion.h1>
           <motion.p
             variants={fadeInUp}
-            className="max-w-lg text-[1.05rem] leading-7 text-foreground/80"
+            className="max-w-lg body-default leading-7 text-foreground/80"
           >
             Easy Tracking, fast Payment, and safe Delivery across the country.
             Join <span className="font-semibold text-foreground">300,000+</span>{" "}
             merchants growing with ParcelKoy.
           </motion.p>
-          <motion.div variants={fadeInUp} className="flex flex-wrap gap-3">
+          <motion.div
+            variants={fadeInUp}
+            className="flex flex-wrap gap-default"
+          >
             <Button
               asChild
               variant="secondary"
-              className="h-12 rounded-lg px-6 text-base font-semibold shadow-none transition-all hover:scale-[1.02]"
+              className="h-12 radius-md px-6 text-base font-semibold shadow-none transition-all hover:scale-[1.02]"
             >
               <Link href="/register">
                 Become a Merchant
@@ -111,18 +114,18 @@ export const HeroSection = () => {
             <Button
               asChild
               variant="outline"
-              className="h-12 rounded-lg px-6 text-base font-medium"
+              className="h-12 radius-md px-6 text-base font-medium"
             >
               <Link href="/track-parcel">Track Your Parcel</Link>
             </Button>
           </motion.div>
           <motion.div
             variants={fadeInUp}
-            className="flex flex-wrap items-center gap-4 pt-2 text-sm text-muted-foreground"
+            className="flex flex-wrap items-center gap-standard pt-2 text-sm text-muted-foreground"
           >
             {["Free Registration", "COD Support", "24/7 Pickup"].map(
               (label) => (
-                <span key={label} className="flex items-center gap-1.5">
+                <span key={label} className="flex items-center gap-default">
                   <CheckCircle2 className="h-4 w-4 text-secondary" />
                   {label}
                 </span>
@@ -143,7 +146,7 @@ export const HeroSection = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
-              className="flex items-center gap-3 rounded-xl border border-border/70 bg-white/80 px-4 py-3 shadow-sm backdrop-blur dark:bg-card/80"
+              className="flex items-center gap-default radius-lg border border-border/70 bg-white/80 px-4 py-default shadow-sm backdrop-blur dark:bg-card/80"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10">
                 <Users className="h-5 w-5 text-secondary" />

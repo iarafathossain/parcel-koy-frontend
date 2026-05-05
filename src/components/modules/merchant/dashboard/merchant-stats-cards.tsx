@@ -43,22 +43,22 @@ const MerchantStatsCards = ({
   ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-standard md:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
           <Card key={index} className="border-0">
             <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
-              <div className={`${stat.tone} p-2 rounded-lg`}>
+              <CardTitle className="label-default">{stat.title}</CardTitle>
+              <div className={`${stat.tone} p-2 radius-md`}>
                 <Icon className="w-4 h-4" />
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{stat.value}</p>
-              <p className="text-xs text-muted-foreground mt-1">as of today</p>
+              <p className="stat-value">{stat.value}</p>
+              <p className="body-small text-muted-foreground mt-1">
+                as of today
+              </p>
             </CardContent>
           </Card>
         );

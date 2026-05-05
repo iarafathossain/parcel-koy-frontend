@@ -20,23 +20,23 @@ export const TrackingDisplay = ({ data }: TrackingDisplayProps) => {
   );
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-6">
+    <div className="max-w-4xl mx-auto pad-responsive-section space-y-generous">
       {/* Header Info Card */}
       <Card className="border-none shadow-md bg-card">
-        <CardContent className="p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 sm:gap-4">
+        <CardContent className="pad-expanded sm:pad-loose flex flex-col sm:flex-row justify-between items-start sm:items-center gap-generous sm:gap-standard">
           <div className="space-y-1">
             <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
               Tracking ID
             </p>
-            <h1 className="text-3xl font-bold tracking-tight text-primary">
+            <h1 className="heading-h2 tracking-tight text-primary">
               {data.trackingId}
             </h1>
 
             {/* Origin -> Destination Route Overview */}
             {(data.originHub || data.destinationHub) && (
-              <div className="flex items-center gap-3 mt-4 text-sm bg-muted/40 p-2.5 rounded-md w-fit border border-border/50">
+              <div className="flex items-center gap-default mt-standard text-sm bg-muted/40 pad-compact radius-sm w-fit border border-border/50">
                 {data.originHub && (
-                  <div className="flex items-center gap-1.5 font-medium text-foreground">
+                  <div className="flex items-center gap-standard font-medium text-foreground">
                     <MapPinHouse className="w-4 h-4 text-muted-foreground" />
                     {data.originHub.name}
                   </div>
@@ -45,7 +45,7 @@ export const TrackingDisplay = ({ data }: TrackingDisplayProps) => {
                   <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
                 )}
                 {data.destinationHub && (
-                  <div className="flex items-center gap-1.5 font-medium text-foreground">
+                  <div className="flex items-center gap-standard font-medium text-foreground">
                     <MapPinHouse className="w-4 h-4 text-muted-foreground" />
                     {data.destinationHub.name}
                   </div>
@@ -54,8 +54,8 @@ export const TrackingDisplay = ({ data }: TrackingDisplayProps) => {
             )}
           </div>
 
-          <div className="text-left sm:text-right space-y-1">
-            <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+          <div className="text-left sm:text-right space-y-default">
+            <p className="body-secondary font-medium text-muted-foreground uppercase tracking-wider">
               Current Status
             </p>
             <Badge
@@ -70,14 +70,14 @@ export const TrackingDisplay = ({ data }: TrackingDisplayProps) => {
 
       {/* Timeline Card */}
       <Card className="border-none shadow-md">
-        <CardHeader className="border-b bg-muted/20 pb-4">
-          <CardTitle className="flex items-center gap-2 text-xl">
+        <CardHeader className="border-b bg-muted/20 pad-responsive-content">
+          <CardTitle className="flex items-center gap-standard heading-h5">
             <Clock className="w-5 h-5 text-primary" />
             Tracking History
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-6 sm:p-8">
-          <div className="relative border-l-2 border-muted-foreground/20 ml-3 space-y-8">
+        <CardContent className="pad-expanded sm:pad-loose">
+          <div className="relative border-l-2 border-muted-foreground/20 ml-3 space-y-generous">
             {sortedTimeline.map((event, index) => {
               const { icon: IconComponent, color } = getStatusConfig(
                 event.status,
@@ -105,7 +105,7 @@ export const TrackingDisplay = ({ data }: TrackingDisplayProps) => {
 
                       {/* Hub Details Box (Renders only if event.hub is not null) */}
                       {event.hub && (
-                        <div className="mt-3 flex flex-col gap-1 text-sm bg-muted/30 p-3 rounded-md border border-border/50 max-w-md">
+                        <div className="flex flex-col gap-default text-sm bg-muted/30 pad-compact radius-sm border border-border/50 max-w-md">
                           <div className="flex items-center gap-2 font-medium text-foreground">
                             <MapPinHouse className="w-4 h-4 text-primary" />
                             {event.hub.name}

@@ -48,25 +48,25 @@ const FinancialsOverview = ({ financials }: FinancialsOverviewProps) => {
         <CardTitle>Financials Overview</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-standard md:grid-cols-2 lg:grid-cols-4">
           {financialItems.map((item, index) => {
             const Icon = item.icon;
             return (
               <div
                 key={index}
-                className="p-4 rounded-lg border border-muted bg-muted/30"
+                className="pad-default radius-md border border-muted bg-muted/30"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-xs font-medium text-muted-foreground">
+                <div className="flex items-start justify-between mb-default">
+                  <span className="label-small text-muted-foreground">
                     {item.title}
                   </span>
-                  <div className={`${item.tone} p-2 rounded-lg`}>
+                  <div className={`${item.tone} pad-compact radius-md`}>
                     <Icon className="w-4 h-4" />
                   </div>
                 </div>
                 <div>
                   <p className="text-lg font-bold">{formatPrice(item.value)}</p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="body-small text-muted-foreground mt-default">
                     {item.description}
                   </p>
                 </div>

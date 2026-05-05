@@ -88,15 +88,15 @@ function StatCard({
 
 export const HowItWorksSection = () => {
   return (
-    <section className="container mx-auto px-4 py-14 md:py-20">
+    <section className="container mx-auto pad-horizontal section-default">
       <AnimatedSection className="text-center">
         <Badge
           variant="outline"
-          className="mb-3 border-secondary/30 bg-secondary/5 text-secondary"
+          className="mb-default border-secondary/30 bg-secondary/5 text-secondary"
         >
           Simple Process
         </Badge>
-        <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+        <h2 className="heading-h3 tracking-tight md:heading-h2">
           How ParcelKoy Works
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
@@ -110,7 +110,7 @@ export const HowItWorksSection = () => {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={stagger}
-        className="relative mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+        className="relative mt-generous grid gap-generous sm:grid-cols-2 lg:grid-cols-4"
       >
         <div className="absolute top-10 left-[12.5%] right-[12.5%] hidden h-px border-t-2 border-dashed border-border lg:block" />
         {steps.map((step, index) => (
@@ -123,13 +123,13 @@ export const HowItWorksSection = () => {
               <step.icon className="h-8 w-8 text-secondary" />
             </div>
             <div className="absolute -top-2 left-1/2 z-20 -translate-x-1/2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-secondary text-xs font-bold text-secondary-foreground shadow">
+              <span className="flex h-6 w-6 items-center justify-center radius-full bg-secondary text-xs font-bold text-secondary-foreground shadow">
                 {index + 1}
               </span>
             </div>
             <div>
-              <h3 className="text-lg font-semibold">{step.title}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+              <h3 className="heading-h5">{step.title}</h3>
+              <p className="mt-default body-small leading-relaxed text-muted-foreground">
                 {step.description}
               </p>
             </div>

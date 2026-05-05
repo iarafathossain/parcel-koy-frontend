@@ -8,11 +8,11 @@ export const CtaSection = ({
   buttonLink = "/register",
 }) => {
   return (
-    <section className="container mx-auto px-4 pb-12 md:pb-16">
-      <div className="rounded-2xl bg-primary px-6 py-12 text-center text-primary-foreground">
-        <h2 className="text-3xl font-semibold tracking-tight">{title}</h2>
-        <p className="mt-2 text-primary-foreground/85">{description}</p>
-        <Button asChild variant="secondary" className="mt-6">
+    <section className="container mx-auto pad-horizontal section-default">
+      <div className="radius-xl bg-primary pad-horizontal py-generous text-center text-primary-foreground py-4">
+        <h2 className="heading-h3 tracking-tight">{title}</h2>
+        <p className="mt-default text-primary-foreground/85">{description}</p>
+        <Button asChild variant="secondary" className="mt-generous">
           <Link href={buttonLink}>{buttonText}</Link>
         </Button>
       </div>

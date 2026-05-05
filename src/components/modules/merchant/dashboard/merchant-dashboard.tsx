@@ -30,22 +30,19 @@ const MerchantDashboard = async () => {
   const data = response.data;
 
   return (
-    <div className="space-y-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
+    <div className="space-y-generous">
+      <div className="mb-standard">
+        <h1 className="dashboard-heading">
           Welcome, {data.merchant.businessName}
         </h1>
-        <p className="text-muted-foreground mt-1">
+        <p className="dashboard-heading-description">
           Here&apos;s your business overview and performance metrics
         </p>
       </div>
 
       <MerchantBalanceCard balance={data.merchant.balance} />
 
-      <MerchantStatsCards
-        parcels={data.parcels}
-        financials={data.financials}
-      />
+      <MerchantStatsCards parcels={data.parcels} financials={data.financials} />
 
       <ParcelStatusOverview statuses={data.parcels.byStatus} />
 

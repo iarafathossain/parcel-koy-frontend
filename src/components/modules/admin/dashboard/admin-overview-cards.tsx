@@ -64,22 +64,20 @@ const AdminOverviewCards = ({ overview }: AdminOverviewCardsProps) => {
   ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-standard md:grid-cols-2 lg:grid-cols-4">
       {mainMetrics.map((metric, index) => {
         const Icon = metric.icon;
         return (
           <Card key={index} className="border-0">
             <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-sm font-medium">
-                {metric.title}
-              </CardTitle>
-              <div className={`${metric.tone} p-2 rounded-lg`}>
+              <CardTitle className="label-default">{metric.title}</CardTitle>
+              <div className={`${metric.tone} p-2 radius-md`}>
                 <Icon className="w-4 h-4" />
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{metric.value}</p>
-              <p className="text-xs text-muted-foreground mt-1">in system</p>
+              <p className="stat-value">{metric.value}</p>
+              <p className="body-small text-muted-foreground mt-1">in system</p>
             </CardContent>
           </Card>
         );

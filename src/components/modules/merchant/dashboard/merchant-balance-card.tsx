@@ -62,10 +62,10 @@ const MerchantBalanceCard = ({ balance }: MerchantBalanceCardProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-standard">
           <div className="flex items-center justify-between">
-            <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-bold">
+            <div className="flex items-baseline gap-standard">
+              <span className="stat-value-large">
                 {isNegative ? "-" : "+"}
                 {formatPrice(absoluteBalance)}
               </span>

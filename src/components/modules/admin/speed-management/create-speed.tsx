@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { catchError } from "@/helpers/catch-error";
+import { parseSingleNumber } from "@/helpers/parse-single-number";
 import { createSpeedZodSchema } from "@/validators/speed-validator";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

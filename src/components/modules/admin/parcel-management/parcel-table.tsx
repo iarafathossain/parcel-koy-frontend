@@ -258,11 +258,6 @@ const ParcelTable = ({ initialQueryString }: ParcelTableProps) => {
     setActiveModal("view");
   };
 
-  const handleAssignRider = (parcel: IParcel) => {
-    setSelectedParcel(parcel);
-    setActiveModal("edit");
-  };
-
   const handleUpdateStatus = (parcel: IParcel) => {
     setSelectedParcel(parcel);
     setActiveModal("delete");
@@ -282,11 +277,9 @@ const ParcelTable = ({ initialQueryString }: ParcelTableProps) => {
         columns={columns}
         actions={{
           onView: handleView,
-          onEdit: handleAssignRider,
           onStatusAction: handleUpdateStatus,
           getStatusActionLabel: () => "Update Status",
           viewLabel: "View Details",
-          editLabel: "Assign Rider",
         }}
         isLoading={isLoading || isFetching || isSortingTransitionPending}
         emptyMessage="No parcels found!"

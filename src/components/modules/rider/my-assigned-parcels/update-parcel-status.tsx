@@ -81,6 +81,7 @@ const UpdateParcelStatus = ({
 
         setTimeout(() => onClose(), 1500);
       } catch (error: unknown) {
+        console.error("Error updating parcel status:", error);
         setServerError(catchError(error, "An unexpected error occurred."));
       }
     },

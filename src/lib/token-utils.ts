@@ -1,7 +1,7 @@
 import { catchError } from "@/helpers/catch-error";
 import { setCookie } from "./cookie-utils";
 
-const DEFAULT_COOKIE_MAX_AGE_SECONDS = 60 * 15;
+const DEFAULT_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24; // 1 day in seconds
 
 export const parseDurationToSecond = (duration: string): number => {
   const parsedDuration = duration.trim().toLowerCase();

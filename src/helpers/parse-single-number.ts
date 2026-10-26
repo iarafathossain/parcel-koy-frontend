@@ -1,4 +1,4 @@
-const parseSingleNumber = (value: string) => {
+export const parseSingleNumber = (value: string) => {
   if (!value || value.trim().length === 0) {
     return null;
   }

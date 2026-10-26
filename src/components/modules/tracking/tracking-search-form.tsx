@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { FormEvent, useState } from "react";
 
 interface TrackingSearchFormProps {
@@ -69,23 +69,19 @@ export const TrackingSearchForm = ({
 
         <form
           onSubmit={handleSubmit}
-          className="mt-generous flex w-full max-w-3xl items-stretch overflow-hidden radius-md border bg-background"
+          className="mt-generous flex w-full max-w-3xl items-stretch overflow-hidden radius-md border bg-background mt-4"
         >
-          <div className="flex items-center border-r pad-horizontal text-muted-foreground">
-            <Search className="h-6 w-6" />
-          </div>
-
           <Input
             type="text"
             value={trackingId}
             onChange={(e) => setTrackingId(e.target.value)}
             placeholder="Search Tracking Code here..."
-            className="h-14 radius-none border-0 pad-horizontal text-base focus-visible:ring-0"
+            className="h-14 rounded-br-none rounded-tr-none border-0 pad-horizontal text-base focus-visible:ring-0"
           />
 
           <Button
             type="submit"
-            className="h-14 radius-none pad-horizontal text-xl font-semibold"
+            className="h-14 rounded-bl-none rounded-tl-none pad-horizontal text-xl font-semibold"
           >
             <Search className="mr-2 h-5 w-5" />
             Search
@@ -96,7 +92,7 @@ export const TrackingSearchForm = ({
           <p className="body-secondary text-muted-foreground">
             Example:{" "}
             <span className="font-mono bg-muted/50 p-1 radius-sm">
-              PKY-2603-ZFZA4P
+              PKY-2610-XA4KFU
             </span>
           </p>
         </div>

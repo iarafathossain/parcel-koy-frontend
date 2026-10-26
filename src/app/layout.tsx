@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { UserProvider } from "@/providers/user-provider";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -93,6 +94,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <NextTopLoader showSpinner={false} color="oklch(0.672 0.175 48)" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

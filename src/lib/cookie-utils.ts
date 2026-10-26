@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { authCookieOptions } from "./auth-cookie-options";
 
 export const setCookie = async (
   name: string,
@@ -8,11 +9,8 @@ export const setCookie = async (
   const cookieStore = await cookies();
 
   cookieStore.set(name, value, {
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
+    ...authCookieOptions,
     maxAge: maxAgeInSecond,
-    path: "/",
   });
 };
 

@@ -1,4 +1,5 @@
 import { API } from "@/lib/api-endpoints";
+import { authCookieOptions } from "@/lib/auth-cookie-options";
 import { getTokenSecondsRemaining } from "@/lib/token-utils";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -137,10 +138,7 @@ export async function GET() {
         latestRefreshedTokens.accessToken,
       );
       success.cookies.set("access_token", latestRefreshedTokens.accessToken, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "none",
-        path: "/",
+        ...authCookieOptions,
         ...(accessMaxAge > 0 ? { maxAge: accessMaxAge } : {}),
       });
     }
@@ -150,10 +148,7 @@ export async function GET() {
         latestRefreshedTokens.refreshToken,
       );
       success.cookies.set("refresh_token", latestRefreshedTokens.refreshToken, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "none",
-        path: "/",
+        ...authCookieOptions,
         ...(refreshMaxAge > 0 ? { maxAge: refreshMaxAge } : {}),
       });
     }
@@ -166,10 +161,7 @@ export async function GET() {
         "better-auth.session_token",
         latestRefreshedTokens.sessionToken,
         {
-          secure: true,
-          httpOnly: true,
-          sameSite: "none",
-          path: "/",
+          ...authCookieOptions,
           ...(refreshMaxAge > 0 ? { maxAge: refreshMaxAge } : {}),
         },
       );

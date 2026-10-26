@@ -10,6 +10,7 @@ import {
   getTokenSecondsRemaining,
   isTokenExpiringSoon,
 } from "./lib/token-utils";
+import { authCookieOptions } from "./lib/auth-cookie-options";
 import { authServices } from "./services/auth-service";
 import { Role, RoleType } from "./types/enum-type";
 
@@ -173,10 +174,7 @@ export async function proxy(request: NextRequest) {
         refreshedCookieSet.accessToken,
       );
       response.cookies.set("access_token", refreshedCookieSet.accessToken, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "none",
-        path: "/",
+        ...authCookieOptions,
         ...(accessMaxAge > 0 ? { maxAge: accessMaxAge } : {}),
       });
     }
@@ -186,10 +184,7 @@ export async function proxy(request: NextRequest) {
         refreshedCookieSet.refreshToken,
       );
       response.cookies.set("refresh_token", refreshedCookieSet.refreshToken, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "none",
-        path: "/",
+        ...authCookieOptions,
         ...(refreshMaxAge > 0 ? { maxAge: refreshMaxAge } : {}),
       });
     }
@@ -202,10 +197,7 @@ export async function proxy(request: NextRequest) {
         "better-auth.session_token",
         refreshedCookieSet.sessionToken,
         {
-          secure: true,
-          httpOnly: true,
-          sameSite: "none",
-          path: "/",
+          ...authCookieOptions,
           ...(refreshMaxAge > 0 ? { maxAge: refreshMaxAge } : {}),
         },
       );

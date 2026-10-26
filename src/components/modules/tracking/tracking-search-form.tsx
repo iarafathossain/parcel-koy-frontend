@@ -92,7 +92,7 @@ export const TrackingSearchForm = ({
           <p className="body-secondary text-muted-foreground">
             Example:{" "}
             <span className="font-mono bg-muted/50 p-1 radius-sm">
-              PKY-2610-KSAK9H
+              PKY-2610-XA4KFU
             </span>
           </p>
         </div>

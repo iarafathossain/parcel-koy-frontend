@@ -37,24 +37,24 @@ import { toast } from "sonner";
 
 const demoAccounts = [
   {
+    label: "Demo account: Admin",
+    email: "aminul.admin@parcelkoy.com",
+    password: "@Admin123",
+  },
+  {
     label: "Demo account: Merchant",
     email: "md489288@gmail.com",
     password: "@StrongPass123",
   },
   {
     label: "Demo account: Rider",
-    email: "sabbir.rider1@example.com",
-    password: "Rider@123",
+    email: "nadia.rider@parcelkoy.com",
+    password: "@Rider123",
   },
   {
     label: "Demo account: Super Admin",
     email: "superadmin@parcelkoy.com",
     password: "SuperAdmin@123",
-  },
-  {
-    label: "Demo account: Admin",
-    email: "johncena@gmail.com",
-    password: "@Admin123",
   },
 ] as const;
 

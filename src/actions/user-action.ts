@@ -16,6 +16,16 @@ export const updateAdminProfileAction = async (
   }
 };
 
+export const updateAvatarAction = async (file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", file);
+    return await userServices.updateAvatar(formData);
+  } catch (error) {
+    return { success: false, message: catchError(error) };
+  }
+};
+
 export const updateMerchantProfileAction = async (
   payload: UpdateMerchantProfilePayload,
 ) => {

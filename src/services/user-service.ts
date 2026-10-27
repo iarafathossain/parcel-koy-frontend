@@ -6,6 +6,23 @@ import { UpdateMerchantProfilePayload } from "@/validators/merchant-validator";
 import { UpdateRiderProfilePayload } from "@/validators/rider-validator";
 
 export const userServices = {
+  updateAvatar: async (payload: FormData) => {
+    try {
+      const response = await httpClient.patch<{ image: string }>(
+        API.AUTH.UPDATE_AVATAR,
+        payload,
+        { multipart: true },
+      );
+
+      if (!response.success) {
+        throw new Error(response.message || "Failed to update avatar");
+      }
+
+      return response;
+    } catch (error) {
+      throw new Error(catchError(error));
+    }
+  },
   updateAdminProfile: async (payload: UpdateAdminProfilePayload) => {
     try {
       const response = await httpClient.patch(

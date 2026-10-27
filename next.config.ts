@@ -6,11 +6,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/auth/:path*",
-        destination: `${env.NEXT_PUBLIC_API_BASE_URL}/api/auth/:path*`,
+        destination: `${env.API_URL_INTERNAL}/api/auth/:path*`,
       },
       {
         source: "/api/v1/:path*",
-        destination: `${env.NEXT_PUBLIC_API_BASE_URL}/api/v1/:path*`,
+        destination: `${env.API_URL_INTERNAL}/api/v1/:path*`,
       },
     ];
   },

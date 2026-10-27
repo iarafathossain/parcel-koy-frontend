@@ -1,6 +1,9 @@
 import { env } from "@/env";
 
-const BASE_URL = env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL =
+  typeof window === "undefined"
+    ? env.API_URL_INTERNAL
+    : env.NEXT_PUBLIC_API_BASE_URL;
 
 export const API = {
   AUTH: {
@@ -8,6 +11,7 @@ export const API = {
     LOGIN: `${BASE_URL}/api/v1/auth/login/`,
     VERIFY_EMAIL: `${BASE_URL}/api/v1/auth/verify-email/`,
     ME: `${BASE_URL}/api/v1/auth/me/`,
+    UPDATE_AVATAR: `${BASE_URL}/api/v1/auth/avatar/`,
     LOGOUT: `${BASE_URL}/api/v1/auth/logout/`,
     FORGOT_PASSWORD: `${BASE_URL}/api/v1/auth/forget-password/`,
     RESET_PASSWORD: `${BASE_URL}/api/v1/auth/reset-password/`,

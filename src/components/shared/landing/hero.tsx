@@ -78,7 +78,7 @@ export const HeroSection = () => {
               className="mb-standard gap-standard border-secondary/30 bg-secondary/5 px-3 py-1 text-secondary"
             >
               <Zap className="h-3 w-3" />
-              Bangladesh&apos;s Fastest Growing Courier
+              Bangladesh&apos;s Fastest Growing Courier (B2B) Platform
             </Badge>
           </motion.div>
           <motion.h1

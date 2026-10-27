@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "packageManager": "pnpm@10.28.0",
   "dependencies": {
     "@ai-sdk/google": "^3.0.60",
     "@ai-sdk/react": "^3.0.155",
@@ -50,7 +51,9 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "msw"
+      "msw",
+      "sharp",
+      "unrs-resolver"
     ]
   }
 }

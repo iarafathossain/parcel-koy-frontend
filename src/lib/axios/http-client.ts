@@ -15,7 +15,7 @@ const axiosInstance = async (multipart = false) => {
     .join("; ");
 
   return axios.create({
-    baseURL: env.NEXT_PUBLIC_API_BASE_URL,
+    baseURL: env.API_URL_INTERNAL,
     timeout: 30000,
     headers: {
       ...(multipart ? {} : { "Content-Type": "application/json" }),

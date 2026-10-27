@@ -1,6 +1,9 @@
 import { env } from "@/env";
 
-const BASE_URL = env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL =
+  typeof window === "undefined"
+    ? env.API_URL_INTERNAL
+    : env.NEXT_PUBLIC_API_BASE_URL;
 
 export const API = {
   AUTH: {

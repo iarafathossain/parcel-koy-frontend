@@ -1,9 +1,11 @@
 "use client";
 
+import { updateAvatarAction } from "@/actions/user-action";
 import UpdateAdminProfileForm from "@/components/modules/admin/my-profile/update-admin-profile-form";
 import UpdateMerchantProfileForm from "@/components/modules/merchant/my-profile/update-merchant-profile-form";
 import UpdateRiderProfileForm from "@/components/modules/rider/my-profile/update-rider-profile-form";
 import CommonModal from "@/components/shared/modal/common-modal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +16,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { catchError } from "@/helpers/catch-error";
 import { useUser } from "@/hooks/use-user";
 import { Role, RoleType } from "@/types/enum-type";
+import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -24,9 +28,11 @@ const getRoleLabel = (role: RoleType): string => {
 };
 
 const MyProfileView = () => {
-  const { user, isLoading, isFetching } = useUser();
+  const { user, isLoading, isFetching, setUser } = useUser();
   const router = useRouter();
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [isAvatarUploading, setIsAvatarUploading] = useState(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
 
   const profileMetaItems = useMemo(() => {
     if (!user) return [];
@@ -47,6 +53,40 @@ const MyProfileView = () => {
   const handleUpdateSuccess = () => {
     setIsEditModalOpen(false);
     router.refresh();
+  };
+
+  const handleAvatarChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setAvatarError("Please select a JPG, PNG, or WebP image.");
+      return;
+    }
+
+    setAvatarError(null);
+    setIsAvatarUploading(true);
+    try {
+      const result = await updateAvatarAction(file);
+      if (!result.success) {
+        setAvatarError(result.message || "Failed to update avatar.");
+        return;
+      }
+
+      const image = result.data?.image;
+      if (image) {
+        setUser((currentUser) =>
+          currentUser ? { ...currentUser, image } : currentUser,
+        );
+      }
+    } catch (error) {
+      setAvatarError(catchError(error, "Failed to update avatar."));
+    } finally {
+      setIsAvatarUploading(false);
+    }
   };
 
   if (!user && (isLoading || isFetching)) {
@@ -196,13 +236,45 @@ const MyProfileView = () => {
 
         <CardContent className="space-y-6">
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center text-lg font-semibold uppercase">
-              {user.name.charAt(0)}
+            <div className="relative">
+              <Avatar className="h-12 w-12">
+                <AvatarImage
+                  src={user.image || undefined}
+                  alt={`${user.name}'s avatar`}
+                />
+                <AvatarFallback className="bg-muted text-lg font-semibold uppercase">
+                  {user.name.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+              <label
+                htmlFor="profile-avatar"
+                className="absolute -right-1 -top-1 cursor-pointer rounded-full border bg-background p-1 shadow-sm transition-colors hover:bg-muted"
+                aria-label="Update profile avatar"
+              >
+                <Pencil className="h-3 w-3" />
+                <input
+                  id="profile-avatar"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="sr-only"
+                  onChange={handleAvatarChange}
+                  disabled={isAvatarUploading}
+                />
+              </label>
+              {/* pulse animation while uploading */}
+              {isAvatarUploading && (
+                <div className="absolute inset-0 rounded-full bg-muted opacity-50 animate-pulse" />
+              )}
             </div>
             <div>
               <h3 className="text-lg font-semibold">{user.name}</h3>
               <p className="text-sm text-muted-foreground">{user.email}</p>
             </div>
+            {avatarError && (
+              <p className="text-sm text-destructive" role="alert">
+                {avatarError}
+              </p>
+            )}
             <Badge className="ml-auto capitalize">
               {getRoleLabel(user.role)}
             </Badge>

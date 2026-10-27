@@ -5,7 +5,7 @@ import { APIResponse } from "@/types/api-type";
 import axios from "axios";
 import { cookies } from "next/headers";
 
-const axiosInstance = async () => {
+const axiosInstance = async (multipart = false) => {
   const cookieStore = await cookies();
 
   // Format all Next.js server cookies into a standard Cookie header string
@@ -18,7 +18,7 @@ const axiosInstance = async () => {
     baseURL: env.NEXT_PUBLIC_API_BASE_URL,
     timeout: 30000,
     headers: {
-      "Content-Type": "application/json",
+      ...(multipart ? {} : { "Content-Type": "application/json" }),
       Cookie: cookieHeader, // Automatically attaches to every request
     },
   });
@@ -27,13 +27,14 @@ const axiosInstance = async () => {
 export interface APIRequestOptions {
   params?: Record<string, unknown>;
   headers?: Record<string, string>;
+  multipart?: boolean;
 }
 
 const httpGet = async <TData>(
   endPoint: string,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  const instance = await axiosInstance();
+  const instance = await axiosInstance(options?.multipart);
   const response = await instance.get<APIResponse<TData>>(endPoint, {
     params: options?.params,
     headers: options?.headers,
@@ -46,7 +47,7 @@ const httpPost = async <TData>(
   data: unknown,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  const instance = await axiosInstance();
+  const instance = await axiosInstance(options?.multipart);
   const response = await instance.post<APIResponse<TData>>(endPoint, data, {
     params: options?.params,
     headers: options?.headers,
@@ -59,7 +60,7 @@ const httpPut = async <TData>(
   data: unknown,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  const instance = await axiosInstance();
+  const instance = await axiosInstance(options?.multipart);
   const response = await instance.put<APIResponse<TData>>(endPoint, data, {
     params: options?.params,
     headers: options?.headers,
@@ -72,7 +73,7 @@ const httpPatch = async <TData>(
   data: unknown,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  const instance = await axiosInstance();
+  const instance = await axiosInstance(options?.multipart);
   const response = await instance.patch<APIResponse<TData>>(endPoint, data, {
     params: options?.params,
     headers: options?.headers,
@@ -84,7 +85,7 @@ const httpDelete = async <TData>(
   endPoint: string,
   options?: APIRequestOptions,
 ): Promise<APIResponse<TData>> => {
-  const instance = await axiosInstance();
+  const instance = await axiosInstance(options?.multipart);
   const response = await instance.delete<APIResponse<TData>>(endPoint, {
     params: options?.params,
     headers: options?.headers,

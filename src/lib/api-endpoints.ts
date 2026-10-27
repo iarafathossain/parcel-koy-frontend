@@ -8,6 +8,7 @@ export const API = {
     LOGIN: `${BASE_URL}/api/v1/auth/login/`,
     VERIFY_EMAIL: `${BASE_URL}/api/v1/auth/verify-email/`,
     ME: `${BASE_URL}/api/v1/auth/me/`,
+    UPDATE_AVATAR: `${BASE_URL}/api/v1/auth/avatar/`,
     LOGOUT: `${BASE_URL}/api/v1/auth/logout/`,
     FORGOT_PASSWORD: `${BASE_URL}/api/v1/auth/forget-password/`,
     RESET_PASSWORD: `${BASE_URL}/api/v1/auth/reset-password/`,

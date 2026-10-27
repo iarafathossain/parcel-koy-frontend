@@ -1,6 +1,7 @@
 "use client";
 
 import { logoutAction } from "@/actions/auth-action";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,13 +23,21 @@ interface UserDropdownProps {
 const UserDropdown = ({ userInfo }: UserDropdownProps) => {
   const router = useRouter();
 
+  console.log("User Info in UserDropdown:", userInfo); // Debugging line to check the userInfo prop
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant={"outline"} size={"icon"} className="rounded-full">
-          <span className="h-4 w-4 flex items-center justify-center rounded-full bg-muted text-muted-foreground text-sm font-semibold">
-            {userInfo.name.charAt(0).toUpperCase()}
-          </span>
+          <Avatar className="h-8 w-8">
+            <AvatarImage
+              src={userInfo.image || undefined}
+              alt={`${userInfo.name}'s avatar`}
+            />
+            <AvatarFallback className="text-sm font-semibold">
+              {userInfo.name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">

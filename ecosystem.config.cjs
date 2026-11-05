@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "parcelkoy - frontend",
+      name: "parcelkoy-frontend",
       script: "node_modules/next/dist/bin/next",
       args: "start",
       cwd: __dirname,

@@ -3,7 +3,7 @@
 ## Links
 
 - Frontend Repo: https://github.com/iarafathossain/parcel-koy-frontend
-- Frontend Live: https://parcel-koy-frontend.vercel.app/
+- Frontend Live: https://parcelkoy.live/
 
 ## Demo Access (Super Admin)
 
